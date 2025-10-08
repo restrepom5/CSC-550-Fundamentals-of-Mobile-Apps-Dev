@@ -1,8 +1,16 @@
 ## 🛵💨 How to run (Dev Build — not Expo Go)
+
+- First-time:
 ```
 cd Giugno_Maria/HelloWorld && npm i && npx expo prebuild -p ios && npm run ios:inject-module && (cd ios && pod install) && npx expo run:ios
          
 ```
+- Following runs:
+```
+cd Giugno_Maria/HelloWorld && npm run ios:inject-module && (cd ios && pod install) && npx expo run:ios
+
+         
+```  
 
 ###  ✅ Verify
 
