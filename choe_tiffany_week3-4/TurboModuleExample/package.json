@@ -15,7 +15,12 @@
     "jsSrcsDir": "specs",
     "android": {
       "javaPackageName": "com.nativelocalstorage"
-    }
+    },
+    "ios": {
+        "modulesProvider": {
+          "NativeLocalStorage": "RCTNativeLocalStorage"
+        }
+     }
   },
   "dependencies": {
     "@react-native/new-app-screen": "0.82.0",
