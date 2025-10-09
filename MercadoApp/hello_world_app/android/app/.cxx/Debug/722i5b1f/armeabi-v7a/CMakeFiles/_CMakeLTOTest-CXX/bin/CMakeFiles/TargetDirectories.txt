@@ -1,0 +1,4 @@
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/armeabi-v7a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/foo.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/armeabi-v7a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/boo.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/armeabi-v7a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/edit_cache.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/armeabi-v7a/CMakeFiles/_CMakeLTOTest-CXX/bin/CMakeFiles/rebuild_cache.dir

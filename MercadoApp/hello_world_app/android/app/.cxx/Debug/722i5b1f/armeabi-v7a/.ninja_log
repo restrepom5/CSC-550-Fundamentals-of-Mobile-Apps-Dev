@@ -1,0 +1,27 @@
+# ninja log v5
+1	24	0	C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/armeabi-v7a/CMakeFiles/cmake.verify_globs	e367de40dda21a3a
+51	5971	7816610560083291	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/594cfcce6673920bff2d87481592a4b7/source/codegen/jni/react/renderer/components/safeareacontext/ShadowNodes.cpp.o	7dc5533d27dea0d5
+39	3948	7816610539628329	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/594cfcce6673920bff2d87481592a4b7/source/codegen/jni/react/renderer/components/safeareacontext/States.cpp.o	96b0ab6fd4320cf1
+11	5650	7816610556869121	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/fa261800365cfd0c29af93ef8c7a04aa/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewState.cpp.o	537c1a6ff8d91344
+34	3145	7816715198746460	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/States.cpp.o	fa1289d68d656907
+7331	7428	7816610574721940	C:/mercadoapp/android/app/build/intermediates/cxx/Debug/722i5b1f/obj/armeabi-v7a/libappmodules.so	97b002bea0359d75
+27	4529	7816610545501621	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/09574bcb139dae76b99eb4b629a768b0/codegen/jni/react/renderer/components/safeareacontext/EventEmitters.cpp.o	350c0c8fc750dae7
+57	5196	7816610552201354	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/fa261800365cfd0c29af93ef8c7a04aa/android/build/generated/source/codegen/jni/safeareacontext-generated.cpp.o	e68b908dcfd06c6d
+1	5836	7816610558674702	CMakeFiles/appmodules.dir/OnLoad.cpp.o	5ff3981d8ab8c080
+45	5206	7816610552181339	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/0d3564006df33ce3d992a546ef4f3623/react/renderer/components/safeareacontext/safeareacontextJSI-generated.cpp.o	dd2548254d46e77b
+22	6199	7816610562261460	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/594cfcce6673920bff2d87481592a4b7/source/codegen/jni/react/renderer/components/safeareacontext/Props.cpp.o	94f5540e8b7d2020
+6	6605	7816610566388738	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/f186df9e8a84d78a5df4a989f940561a/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o	75a06754b641db37
+16	6639	7816610566674817	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/ce0cef1b25321cb4d2011b93690e3c4b/jni/react/renderer/components/safeareacontext/ComponentDescriptors.cpp.o	857068994d4228c8
+6639	6801	7816610568395479	C:/mercadoapp/android/app/build/intermediates/cxx/Debug/722i5b1f/obj/armeabi-v7a/libreact_codegen_safeareacontext.so	94f34a3c1083a580
+33	7331	7816610573546782	CMakeFiles/appmodules.dir/C_/mercadoapp/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o	f826e0f0e39b7b78
+30	684	7816715994532102	build.ninja	b91e71e2afb74ee6
+13	3411	7816715201522925	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/EventEmitters.cpp.o	d1975be61bd1d87c
+1	16	0	C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/armeabi-v7a/CMakeFiles/cmake.verify_globs	e367de40dda21a3a
+16	3624	7816716036260082	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/NativeLocalStorageSpecJSI-generated.cpp.o	77c05a7b87c2ed9a
+29	3725	7816716037328055	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/Props.cpp.o	d9393c352952ca47
+20	3741	7816716037438252	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/NativeLocalStorageSpec-generated.cpp.o	fb3096c48fef6a3e
+35	4032	7816716040408359	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/ShadowNodes.cpp.o	2c75201f84ceacc1
+25	4170	7816716041778545	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/ComponentDescriptors.cpp.o	9bf0dfaa4ac5be53
+12	4698	7816716047069079	CMakeFiles/appmodules.dir/OnLoad.cpp.o	6ed0493aabd4dc3
+8	5744	7816716057409218	CMakeFiles/appmodules.dir/C_/mercadoapp/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o	234405a5e14cf50c
+5744	7331	7816716073410901	C:/mercadoapp/android/app/build/intermediates/cxx/Debug/722i5b1f/obj/armeabi-v7a/libappmodules.so	f7dccb3f702ace50

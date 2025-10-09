@@ -1,0 +1,7 @@
+C:\mercadoapp\android\app\.cxx\Debug\722i5b1f\arm64-v8a\codegen_app_build\CMakeFiles\react_codegen_NativeLocalStorageSpec.dir\NativeLocalStorageSpec-generated.cpp.o
+C:\mercadoapp\android\app\.cxx\Debug\722i5b1f\arm64-v8a\codegen_app_build\CMakeFiles\react_codegen_NativeLocalStorageSpec.dir\react\renderer\components\NativeLocalStorageSpec\ComponentDescriptors.cpp.o
+C:\mercadoapp\android\app\.cxx\Debug\722i5b1f\arm64-v8a\codegen_app_build\CMakeFiles\react_codegen_NativeLocalStorageSpec.dir\react\renderer\components\NativeLocalStorageSpec\EventEmitters.cpp.o
+C:\mercadoapp\android\app\.cxx\Debug\722i5b1f\arm64-v8a\codegen_app_build\CMakeFiles\react_codegen_NativeLocalStorageSpec.dir\react\renderer\components\NativeLocalStorageSpec\NativeLocalStorageSpecJSI-generated.cpp.o
+C:\mercadoapp\android\app\.cxx\Debug\722i5b1f\arm64-v8a\codegen_app_build\CMakeFiles\react_codegen_NativeLocalStorageSpec.dir\react\renderer\components\NativeLocalStorageSpec\Props.cpp.o
+C:\mercadoapp\android\app\.cxx\Debug\722i5b1f\arm64-v8a\codegen_app_build\CMakeFiles\react_codegen_NativeLocalStorageSpec.dir\react\renderer\components\NativeLocalStorageSpec\ShadowNodes.cpp.o
+C:\mercadoapp\android\app\.cxx\Debug\722i5b1f\arm64-v8a\codegen_app_build\CMakeFiles\react_codegen_NativeLocalStorageSpec.dir\react\renderer\components\NativeLocalStorageSpec\States.cpp.o

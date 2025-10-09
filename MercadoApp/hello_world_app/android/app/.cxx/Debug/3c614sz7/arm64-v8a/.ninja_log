@@ -1,0 +1,7 @@
+# ninja log v5
+1	20	7816739221507246	Z:/CSC-550/CSC-550-Fundamentals-of-Mobile-Apps-Dev/MercadoApp/hello_world_app/android/app/.cxx/Debug/3c614sz7/arm64-v8a/CMakeFiles/cmake.verify_globs	5358f1664bf7fac5
+49	712	7816739225649114	build.ninja	59123f53c0353d1f
+0	5	0	clean	8592a77e6db600ed
+21	494	7816739225649114	build.ninja	59123f53c0353d1f
+0	25	0	Z:/CSC-550/CSC-550-Fundamentals-of-Mobile-Apps-Dev/MercadoApp/hello_world_app/android/app/.cxx/Debug/3c614sz7/arm64-v8a/CMakeFiles/cmake.verify_globs	5358f1664bf7fac5
+0	4	0	clean	8592a77e6db600ed

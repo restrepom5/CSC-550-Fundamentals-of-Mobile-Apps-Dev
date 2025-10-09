@@ -1,0 +1,26 @@
+# ninja log v5
+1	26	0	C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/arm64-v8a/CMakeFiles/cmake.verify_globs	152379f1bebc57fe
+18	7737	7816610411552981	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/594cfcce6673920bff2d87481592a4b7/source/codegen/jni/react/renderer/components/safeareacontext/EventEmitters.cpp.o	7815061487d71c57
+44	7189	7816610405854199	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/594cfcce6673920bff2d87481592a4b7/source/codegen/jni/react/renderer/components/safeareacontext/States.cpp.o	44f6da1d5df441c
+7	8651	7816610420575597	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/fa261800365cfd0c29af93ef8c7a04aa/common/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewState.cpp.o	4c081f0fb1b3b0f9
+34	7978	7816610413874700	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/ce0cef1b25321cb4d2011b93690e3c4b/jni/react/renderer/components/safeareacontext/safeareacontextJSI-generated.cpp.o	b9b17db5b3f0b1ca
+60	7995	7816610414149988	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/fa261800365cfd0c29af93ef8c7a04aa/android/build/generated/source/codegen/jni/safeareacontext-generated.cpp.o	5a808b89125e4612
+40	8674	7816712561258317	CMakeFiles/appmodules.dir/OnLoad.cpp.o	b008c4bf14336dc9
+39	8888	7816610423125495	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/594cfcce6673920bff2d87481592a4b7/source/codegen/jni/react/renderer/components/safeareacontext/ShadowNodes.cpp.o	e5cd5fba1e17f1d5
+28	9157	7816610425746407	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/594cfcce6673920bff2d87481592a4b7/source/codegen/jni/react/renderer/components/safeareacontext/Props.cpp.o	7e9d035c433d2a38
+23	9651	7816610430688368	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/09574bcb139dae76b99eb4b629a768b0/codegen/jni/react/renderer/components/safeareacontext/ComponentDescriptors.cpp.o	eb9fa2fc2385c4ed
+12	9888	7816610433100059	safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir/f186df9e8a84d78a5df4a989f940561a/cpp/react/renderer/components/safeareacontext/RNCSafeAreaViewShadowNode.cpp.o	e0f2705717be5c26
+27	6954	7816712544096644	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/EventEmitters.cpp.o	c3f92cb7bdd9285e
+9889	10085	7816610435138931	C:/mercadoapp/android/app/build/intermediates/cxx/Debug/722i5b1f/obj/arm64-v8a/libreact_codegen_safeareacontext.so	3a0026371a9a9e50
+35	9903	7816712573464963	CMakeFiles/appmodules.dir/C_/mercadoapp/android/app/build/generated/autolinking/src/main/jni/autolinking.cpp.o	78bed1306ee0844d
+20	6784	7816712542351214	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/States.cpp.o	66de02101d4d6a96
+9903	10198	7816712576573653	C:/mercadoapp/android/app/build/intermediates/cxx/Debug/722i5b1f/obj/arm64-v8a/libappmodules.so	27404f6879026ae4
+27	559	7816713257010913	build.ninja	fe39400579c3c5c2
+45	7360	7816712548127445	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/NativeLocalStorageSpec-generated.cpp.o	929c72b88844c98
+16	7463	7816712549122023	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/NativeLocalStorageSpecJSI-generated.cpp.o	a40c294513ba3493
+31	7734	7816712551902718	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/Props.cpp.o	9f290c9eca3a0edc
+23	8256	7816712557133321	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/ShadowNodes.cpp.o	66e64ea6e4a364df
+50	8395	7816712558501174	codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir/react/renderer/components/NativeLocalStorageSpec/ComponentDescriptors.cpp.o	cd465f9189b9c5bd
+1	19	0	C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/arm64-v8a/CMakeFiles/cmake.verify_globs	152379f1bebc57fe
+1	23	0	C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/arm64-v8a/CMakeFiles/cmake.verify_globs	152379f1bebc57fe
+3	43	0	C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/arm64-v8a/CMakeFiles/cmake.verify_globs	152379f1bebc57fe

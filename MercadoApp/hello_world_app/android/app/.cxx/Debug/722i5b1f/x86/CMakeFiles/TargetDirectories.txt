@@ -1,0 +1,9 @@
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/x86/CMakeFiles/appmodules.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/x86/CMakeFiles/edit_cache.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/x86/CMakeFiles/rebuild_cache.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/x86/safeareacontext_autolinked_build/CMakeFiles/react_codegen_safeareacontext.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/x86/safeareacontext_autolinked_build/CMakeFiles/edit_cache.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/x86/safeareacontext_autolinked_build/CMakeFiles/rebuild_cache.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/x86/codegen_app_build/CMakeFiles/react_codegen_NativeLocalStorageSpec.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/x86/codegen_app_build/CMakeFiles/edit_cache.dir
+C:/mercadoapp/android/app/.cxx/Debug/722i5b1f/x86/codegen_app_build/CMakeFiles/rebuild_cache.dir

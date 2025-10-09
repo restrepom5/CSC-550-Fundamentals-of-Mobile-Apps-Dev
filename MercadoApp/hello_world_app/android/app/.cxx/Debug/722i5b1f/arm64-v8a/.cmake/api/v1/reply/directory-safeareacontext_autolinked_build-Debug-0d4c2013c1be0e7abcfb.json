@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "safeareacontext_autolinked_build",
+		"source" : "Z:/CSC-550/CSC-550-Fundamentals-of-Mobile-Apps-Dev/MercadoApp/hello_world_app/node_modules/react-native-safe-area-context/android/src/main/jni"
+	}
+}
