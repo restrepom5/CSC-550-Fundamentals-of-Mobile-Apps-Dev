@@ -1,139 +1,224 @@
-import { LinearGradient } from "expo-linear-gradient";
-import { Link, useRouter } from "expo-router";
-import React, { useRef } from "react";
+// app/(tabs)/index.tsx
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
+import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
 import {
-  Animated,
-  Dimensions,
+  Appearance,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
   StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
   View,
-} from "react-native";
+} from 'react-native';
+import NativeAppearance from '../../specs/NativeAppearance';
 
-const { width } = Dimensions.get("window");
+type Mode = 'light' | 'dark' | 'unspecified';
 
-export default function Index() {
-  const router = useRouter();
+export default function HomeScreen() {
+  // initial mode from native; fall back safely
+  const [mode, setMode] = React.useState<Mode>(() => {
+    try { return NativeAppearance.getCurrentStyle() as Mode; } catch { return 'unspecified'; }
+  });
+  const [isSim, setIsSim] = React.useState(false);
 
-  const Button = ({ title, color, onPress, href }) => {
-    const scale = useRef(new Animated.Value(1)).current;
+  React.useEffect(() => {
+    try { setIsSim(Boolean(NativeAppearance.isSimulator())); } catch {}
+    // keep label in sync with system when "System" is selected
+    const sub = Appearance.addChangeListener(({ colorScheme }) => {
+      if (mode === 'unspecified') setMode((colorScheme as Mode) ?? 'unspecified');
+    });
+    return () => sub.remove();
+  }, [mode]);
 
-    const animateIn = () =>
-      Animated.spring(scale, {
-        toValue: 0.96,
-        useNativeDriver: true,
-      }).start();
-
-    const animateOut = () =>
-      Animated.spring(scale, {
-        toValue: 1,
-        friction: 3,
-        useNativeDriver: true,
-      }).start();
-
-    const content = (
-      <Animated.View
-        style={[
-          styles.button,
-          { backgroundColor: color, transform: [{ scale }], shadowColor: color },
-        ]}
-      >
-        <Text style={styles.buttonText}>{title}</Text>
-      </Animated.View>
-    );
-
-    if (href) {
-      return (
-        <Link href={href} asChild>
-          <TouchableWithoutFeedback onPressIn={animateIn} onPressOut={animateOut}>
-            {content}
-          </TouchableWithoutFeedback>
-        </Link>
-      );
+  const setNative = (next: Mode) => {
+    NativeAppearance.setStyle(next);
+    if (next === 'unspecified') {
+      const sys = Appearance.getColorScheme() as Mode | null;
+      setMode(sys ?? 'unspecified');
+    } else {
+      setMode(next);
     }
-
-    return (
-      <TouchableWithoutFeedback
-        onPressIn={animateIn}
-        onPressOut={animateOut}
-        onPress={onPress}
-      >
-        {content}
-      </TouchableWithoutFeedback>
-    );
   };
 
   return (
-    <LinearGradient
-      colors={["#0f0f0f", "#181818", "#111"]}
-      style={styles.gradient}
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>🚀 React Native Navigation Demo</Text>
-        <Text style={styles.subtitle}>Explore the patterns below</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.page}>
+        {/* Header */}
+        <ThemedText type="title" style={{ fontSize: 28, marginBottom: 4 }}>
+          Native Module Integration - App theme toggle
+        </ThemedText>
+        <ThemedText style={{ opacity: 0.8, marginBottom: 18 }}>
+          Toggle iOS Light/Dark via a Turbo Native Module.
+        </ThemedText>
 
-        <Button
-          title="🔹 Stack Push Navigation"
-          color="#007AFF"
-          onPress={() => router.push("/pushed")}
-        />
-        <Button
-          title="🔸 Dynamic Route with Param"
-          color="#34C759"
-          onPress={() => router.push("/details/42")}
-        />
-        <Button title="🔺 Open Modal" color="#FF9500" href="/modal" />
-        <Button
-          title="💡 Deep Link Simulation"
-          color="#AF52DE"
-          onPress={() =>
-            router.push({ pathname: "/details/[id]", params: { id: "99" } })
-          }
-        />
-      </View>
-    </LinearGradient>
+        {/* Status row */}
+        <View style={styles.row}>
+          <Chip icon="phone-portrait" label={`Current: ${pretty(mode)}`} />
+          <Chip icon="information-circle-outline" label={`Simulator: ${isSim ? 'Yes' : 'No'}`} />
+          {Platform.OS !== 'ios' && (
+            <Chip icon="alert-circle" label="iOS-only toggle" />
+          )}
+        </View>
+
+        {/* Big buttons */}
+        <View style={styles.buttons}>
+          <BigButton
+            active={mode === 'light'}
+            icon="sunny"
+            title="Light"
+            onPress={() => setNative('light')}
+          />
+          <BigButton
+            active={mode === 'dark'}
+            icon="moon"
+            title="Dark"
+            onPress={() => setNative('dark')}
+          />
+          <BigButton
+            active={mode === 'unspecified'}
+            icon="contrast-outline"
+            title="System"
+            onPress={() => setNative('unspecified')}
+          />
+        </View>
+
+        {/* Live preview card */}
+        <ThemedView style={styles.card}>
+          <ThemedText type="subtitle" style={{ marginBottom: 8 }}>
+            Live Preview
+          </ThemedText>
+          <ThemedText>
+            This block reflects the app window appearance set by the native module. Tap the buttons
+            above to switch modes.
+          </ThemedText>
+          <View style={styles.previewBar}>
+            <ThemedText type="defaultSemiBold">Mode:</ThemedText>
+            <ThemedText> {pretty(mode)}</ThemedText>
+          </View>
+        </ThemedView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
+/* -------- small UI pieces -------- */
+
+function pretty(m: Mode) {
+  return m === 'unspecified' ? 'System' : m[0].toUpperCase() + m.slice(1);
+}
+
+function Chip({
+  icon,
+  label,
+}: {
+  icon: React.ComponentProps<typeof Ionicons>['name'];
+  label: string;
+}) {
+  return (
+    <View style={styles.chip}>
+      <Ionicons name={icon} size={14} style={{ marginRight: 6 }} />
+      <ThemedText style={{ fontSize: 12 }}>{label}</ThemedText>
+    </View>
+  );
+}
+
+function BigButton({
+  active,
+  icon,
+  title,
+  onPress,
+}: {
+  active: boolean;
+  icon: React.ComponentProps<typeof Ionicons>['name'];
+  title: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.bigBtn,
+        active && styles.bigBtnActive,
+        pressed && { transform: [{ scale: 0.98 }] },
+      ]}
+      android_ripple={{ color: '#00000010' }}
+    >
+      <Ionicons
+        name={icon}
+        size={18}
+        style={{ marginRight: 8, opacity: active ? 1 : 0.7 }}
+      />
+      <ThemedText
+        style={[styles.bigBtnLabel, active && { fontWeight: '700', opacity: 1 }]}
+      >
+        {title}
+      </ThemedText>
+    </Pressable>
+  );
+}
+
+/* -------- styles -------- */
+
 const styles = StyleSheet.create({
-  gradient: {
+  page: {
+    padding: 18,
+    gap: 12,
+  },
+  row: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 4,
+  },
+  chip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 999,
+    backgroundColor: '#00000010',
+  },
+  buttons: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 6,
+    marginBottom: 6,
+  },
+  bigBtn: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#00000020',
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 20,
+  bigBtnActive: {
+    backgroundColor: '#00000012',
   },
-  title: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: "#fff",
-    textAlign: "center",
-    marginBottom: 8,
-    textShadowColor: "#fff",
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 10,
+  bigBtnLabel: {
+    fontSize: 15,
+    opacity: 0.85,
   },
-  subtitle: {
-    fontSize: 16,
-    color: "#aaa",
-    marginBottom: 35,
-    textAlign: "center",
-  },
-  button: {
-    width: width * 0.85,
-    paddingVertical: 16,
-    borderRadius: 14,
-    marginVertical: 8,
-    shadowOpacity: 0.6,
+  card: {
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#00000020',
+    shadowOpacity: 0.12,
     shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 2,
+    gap: 6,
+    marginTop: 4,
   },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
-    textAlign: "center",
+  previewBar: {
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
 });
