@@ -1,1 +1,12 @@
+# Common system files
 .DS_Store
+
+# Dependencies (Node/JS)
+/node_modules
+
+# Build artifacts and temporary files
+/build
+/dist
+.log
+npm-debug.log*
+yarn-debug.log*
