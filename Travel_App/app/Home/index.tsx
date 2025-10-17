@@ -1,139 +1,99 @@
-import { LinearGradient } from "expo-linear-gradient";
-import { Link, useRouter } from "expo-router";
-import React, { useRef } from "react";
-import {
-  Animated,
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+// app/Home/index.tsx
 
-const { width } = Dimensions.get("window");
+import { router } from "expo-router";
+import { FlatList, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { LinearGradient } from "expo-linear-gradient"; 
 
-export default function Index() {
-  const router = useRouter();
+// 1. TypeScript Interface to fix the 'any' type error
+interface Trip { 
+    id: number; 
+    title: string; 
+    date: string; 
+    status: string;
+    icon?: string; // Optional icon property
+}
 
-  const Button = ({ title, color, onPress, href }) => {
-    const scale = useRef(new Animated.Value(1)).current;
+// Dummy Data
+const destinations: Trip[] = [
+  { id: 101, title: 'Africa', date: 'Oct 2025', status: 'Upcoming', icon: 'flag' },
+  { id: 102, title: 'Budapest Hungary', date: 'Jul 2025', status: 'Completed', icon: 'leaf' },
+  { id: 103, title: 'Sri Lanka', date: 'Dec 2025', status: 'Booked', icon: 'water' },
+];
 
-    const animateIn = () =>
-      Animated.spring(scale, {
-        toValue: 0.96,
-        useNativeDriver: true,
-      }).start();
+// 2. Component for each item (Typed correctly)
+const TripCard = ({ item }: { item: Trip }) => (
+  <TouchableOpacity 
+    style={styles.card}
+    // Navigate to the dynamic route
+    onPress={() => router.push(`/details/${item.id}`)}
+  >
+    <View style={styles.cardHeader}>
+        <Text style={styles.cardTitle}>{item.title}</Text>
+        <Text style={styles.cardStatus}>{item.status}</Text>
+    </View>
+    <Text style={styles.cardDate}>{item.date}</Text>
+  </TouchableOpacity>
+);
 
-    const animateOut = () =>
-      Animated.spring(scale, {
-        toValue: 1,
-        friction: 3,
-        useNativeDriver: true,
-      }).start();
-
-    const content = (
-      <Animated.View
-        style={[
-          styles.button,
-          { backgroundColor: color, transform: [{ scale }], shadowColor: color },
-        ]}
-      >
-        <Text style={styles.buttonText}>{title}</Text>
-      </Animated.View>
-    );
-
-    if (href) {
-      return (
-        <Link href={href} asChild>
-          <TouchableWithoutFeedback onPressIn={animateIn} onPressOut={animateOut}>
-            {content}
-          </TouchableWithoutFeedback>
-        </Link>
-      );
-    }
-
-    return (
-      <TouchableWithoutFeedback
-        onPressIn={animateIn}
-        onPressOut={animateOut}
-        onPress={onPress}
-      >
-        {content}
-      </TouchableWithoutFeedback>
-    );
-  };
-
+export default function TripsScreen() {
   return (
     <LinearGradient
       colors={["#0f0f0f", "#181818", "#111"]}
-      style={styles.gradient}
+      style={styles.container}
     >
-      <View style={styles.container}>
-        <Text style={styles.title}>🚀 React Native Navigation Demo</Text>
-        <Text style={styles.subtitle}>Explore the patterns below</Text>
-
-        <Button
-          title="🔹 Stack Push Navigation"
-          color="#007AFF"
-          onPress={() => router.push("/pushed")}
-        />
-        <Button
-          title="🔸 Dynamic Route with Param"
-          color="#34C759"
-          onPress={() => router.push("/details/42")}
-        />
-        <Button title="🔺 Open Modal" color="#FF9500" onPress={() => router.push("/modal")} />
-        <Button
-          title="💡 Deep Link Simulation"
-          color="#AF52DE"
-          onPress={() =>
-            router.push({ pathname: "/details/[id]", params: { id: "99" } })
-          }
-        />
-      </View>
+      <Text style={styles.header}>Your Travel Plans</Text>
+      <FlatList
+        data={destinations}
+        keyExtractor={item => item.id.toString()}
+        renderItem={({ item }) => <TripCard item={item} />}
+        contentContainerStyle={styles.listContent}
+      />
     </LinearGradient>
   );
 }
 
+// 3. New Styles
 const styles = StyleSheet.create({
-  gradient: {
-    flex: 1,
-  },
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     paddingHorizontal: 20,
+    paddingTop: 60, 
   },
-  title: {
+  header: {
     fontSize: 28,
-    fontWeight: "700",
-    color: "#fff",
-    textAlign: "center",
-    marginBottom: 8,
-    textShadowColor: "#fff",
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 10,
+    fontWeight: '700',
+    color: '#fff',
+    marginBottom: 20,
   },
-  subtitle: {
-    fontSize: 16,
-    color: "#aaa",
-    marginBottom: 35,
-    textAlign: "center",
+  listContent: {
+    paddingBottom: 20,
   },
-  button: {
-    width: width * 0.85,
-    paddingVertical: 16,
-    borderRadius: 14,
+  card: {
+    backgroundColor: '#222',
+    padding: 15,
+    borderRadius: 10,
     marginVertical: 8,
-    shadowOpacity: 0.6,
-    shadowRadius: 10,
-    shadowOffset: { width: 0, height: 4 },
+    borderLeftWidth: 4,
+    borderLeftColor: '#007AFF', 
   },
-  buttonText: {
-    color: "#fff",
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  cardTitle: {
     fontSize: 18,
-    fontWeight: "600",
-    textAlign: "center",
+    fontWeight: '600',
+    color: '#fff',
+  },
+  cardStatus: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#34C759', 
+  },
+  cardDate: {
+    fontSize: 14,
+    color: '#aaa',
   },
 });
