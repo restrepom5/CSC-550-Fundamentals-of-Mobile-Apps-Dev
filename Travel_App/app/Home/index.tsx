@@ -82,7 +82,7 @@ export default function Index() {
           color="#34C759"
           onPress={() => router.push("/details/42")}
         />
-        <Button title="🔺 Open Modal" color="#FF9500" href="/modal" />
+        <Button title="🔺 Open Modal" color="#FF9500" onPress={() => router.push("/modal")} />
         <Button
           title="💡 Deep Link Simulation"
           color="#AF52DE"
