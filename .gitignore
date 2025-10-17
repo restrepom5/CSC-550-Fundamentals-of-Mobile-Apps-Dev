@@ -41,3 +41,26 @@ app-example
 # generated native folders
 /ios
 /android
+
+node_modules/
+.expo/
+.DS_Store
+ios/Pods
+ios/build/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcuserdata/
+android/.gradle/
+android/build/
+android/app/build/
+EOF
+stop
+node_modules/
+.expo/
+.DS_Store
+ios/Pods/
+ios/build/
+ios/*.xcworkspace/xcuserdata/
+ios/*.xcodeproj/xcuserdata/
+android/.gradle/
+android/build/
+android/app/build/

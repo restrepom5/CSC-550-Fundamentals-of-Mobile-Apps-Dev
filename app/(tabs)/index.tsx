@@ -1,98 +1,128 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+// app/(tabs)/index.tsx
+import { Image } from "expo-image";
+import { Link } from "expo-router";
+import React from "react";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import NativeAppearance from "../../specs/NativeAppearance";
+import { useTheme } from "../../theme/ThemeProvider";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function Home() {
+  const { colors, setMode, colorScheme, mode } = useTheme();
 
-export default function HomeScreen() {
+  const apply = (m: "light" | "dark" | "system") => {
+    setMode(m);
+    try {
+      NativeAppearance?.setStyle?.(m === "system" ? "unspecified" : m);
+    } catch {}
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
+    <View style={[styles.container, { backgroundColor: colors.bg }]}>
+      {/* Hero image */}
+      <View style={styles.heroWrap}>
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+          source={{
+            uri:
+              // Magical mountain scene (direct Unsplash photo URL)
+              "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1600&auto=format&fit=crop",
+          }}
+          style={styles.hero}
+          contentFit="cover"
+          cachePolicy="disk"
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
+        <View style={styles.overlay} />
+        <View style={styles.heroTextWrap}>
+          <Text style={[styles.title, { color: "white" }]}>Travel Explorer</Text>
+          <Text style={[styles.subtitle, { color: "white" }]}>
+            Find your next magical escape ✨
+          </Text>
+        </View>
+      </View>
+
+      {/* Theme buttons */}
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: colors.text }]}>
+          Theme: {mode} ({colorScheme})
+        </Text>
+        <View style={styles.row}>
+          <Pressable
+            style={[styles.btn, { backgroundColor: colors.card }]}
+            onPress={() => apply("light")}
+          >
+            <Text style={[styles.btnText, { color: colors.text }]}>Light</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.btn, { backgroundColor: colors.card }]}
+            onPress={() => apply("dark")}
+          >
+            <Text style={[styles.btnText, { color: colors.text }]}>Dark</Text>
+          </Pressable>
+          <Pressable
+            style={[styles.btn, { backgroundColor: colors.card }]}
+            onPress={() => apply("system")}
+          >
+            <Text style={[styles.btnText, { color: colors.text }]}>System</Text>
+          </Pressable>
+        </View>
+      </View>
+
+      {/* Actions */}
+      <View style={styles.section}>
+        <Link href="/explore" asChild>
+          <Pressable style={[styles.cta, { backgroundColor: colors.tint }]}>
+            <Text style={styles.ctaText}>Start Exploring</Text>
+          </Pressable>
         </Link>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+        <View style={{ height: 10 }} />
+
+        <Link href="/modal" asChild>
+          <Pressable style={[styles.cta, { backgroundColor: colors.card }]}>
+            <Text style={[styles.ctaText, { color: colors.text }]}>What is this app?</Text>
+          </Pressable>
+        </Link>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: { flex: 1 },
+  heroWrap: { width: "100%", aspectRatio: 16 / 9, position: "relative" },
+  hero: { width: "100%", height: "100%" },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.25)",
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  heroTextWrap: {
+    position: "absolute",
+    left: 20,
+    bottom: 18,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  title: {
+    fontSize: 28,
+    fontWeight: "800",
+    letterSpacing: 0.3,
+    textShadowColor: "rgba(0,0,0,0.35)",
+    textShadowRadius: 8,
   },
+  subtitle: {
+    marginTop: 4,
+    fontSize: 14,
+    opacity: 0.9,
+    textShadowColor: "rgba(0,0,0,0.35)",
+    textShadowRadius: 8,
+  },
+  section: { paddingHorizontal: 20, paddingTop: 18 },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 10,
+    fontFamily: Platform.select({ ios: "Menlo", android: "monospace", default: "monospace" }),
+  },
+  row: { flexDirection: "row", gap: 12 },
+  btn: { paddingVertical: 10, paddingHorizontal: 16, borderRadius: 12 },
+  btnText: { fontSize: 16, fontWeight: "700" },
+  cta: { paddingVertical: 12, borderRadius: 12, alignItems: "center" },
+  ctaText: { color: "white", fontSize: 16, fontWeight: "800" },
 });
