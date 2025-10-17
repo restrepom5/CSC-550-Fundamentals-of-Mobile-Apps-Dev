@@ -12,6 +12,8 @@ export default function TabsLayout() {
         headerTitleAlign: "center",
         tabBarActiveTintColor: colors.tint,
         tabBarStyle: { backgroundColor: colors.card },
+        headerStyle: { backgroundColor: colors.card },
+        headerTintColor: colors.text,
       }}
     >
       <Tabs.Screen

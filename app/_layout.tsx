@@ -1,10 +1,11 @@
 // app/_layout.tsx
-import { Stack, Tabs } from "expo-router";
+import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
 import { ThemeProvider, useTheme } from "../theme/ThemeProvider";
 
 function ThemedStack() {
-  const { colors, colorScheme } = useTheme(); 
+  const { colors, colorScheme } = useTheme();
+
   return (
     <>
       <StatusBar barStyle={colorScheme === "dark" ? "light-content" : "dark-content"} />
@@ -17,19 +18,12 @@ function ThemedStack() {
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: "modal", title: "About" }} />
-        <Stack.Screen name="destination" options={{ headerShown: false }} />
+        {/* IMPORTANT: match the file path exactly */}
+        <Stack.Screen name="destination/[id]" options={{ headerShown: false }} />
       </Stack>
     </>
   );
 }
-
-<Tabs>
-  <Tabs.Screen name="index" options={{ title: "Home" }} />
-  <Tabs.Screen name="explore/index" options={{ title: "Explore" }} />
-  <Tabs.Screen name="profile/index" options={{ title: "Profile" }} />
-</Tabs>
-
-
 
 export default function RootLayout() {
   return (

@@ -3,17 +3,14 @@ import { Image } from "expo-image";
 import { Link } from "expo-router";
 import React from "react";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
-import NativeAppearance from "../../specs/NativeAppearance";
 import { useTheme } from "../../theme/ThemeProvider";
 
 export default function Home() {
   const { colors, setMode, colorScheme, mode } = useTheme();
 
   const apply = (m: "light" | "dark" | "system") => {
+   
     setMode(m);
-    try {
-      NativeAppearance?.setStyle?.(m === "system" ? "unspecified" : m);
-    } catch {}
   };
 
   return (
@@ -23,7 +20,6 @@ export default function Home() {
         <Image
           source={{
             uri:
-              // Magical mountain scene (direct Unsplash photo URL)
               "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1600&auto=format&fit=crop",
           }}
           style={styles.hero}
@@ -70,17 +66,9 @@ export default function Home() {
       <View style={styles.section}>
         <Link href="/explore" asChild>
           <Pressable style={[styles.cta, { backgroundColor: colors.tint }]}>
-            <Text style={styles.ctaText}>Start Exploring</Text>
           </Pressable>
         </Link>
-
-        <View style={{ height: 10 }} />
-
-        <Link href="/modal" asChild>
-          <Pressable style={[styles.cta, { backgroundColor: colors.card }]}>
-            <Text style={[styles.ctaText, { color: colors.text }]}>What is this app?</Text>
-          </Pressable>
-        </Link>
+        <Text style={[styles.ctaText, { color: "white" }]}>Explore Destinations</Text>
       </View>
     </View>
   );

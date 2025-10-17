@@ -1,28 +1,23 @@
 // components/DestinationCard.tsx
 import { Image } from "expo-image";
+import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import type { Destination } from "../data/destinations"; // <-- use the type from data
 
-type Destination = {
-  id: string;
-  name: string;
-  country: string;
-  image: string | null;
-  description: string;
+type Props = {
+  destination: Destination;
+  onPress?: () => void; // Link(asChild) will inject this
 };
 
-export default function DestinationCard({ destination, onPress }: {
-  destination: Destination;
-  onPress?: () => void;
-}) {
+export default function DestinationCard({ destination, onPress }: Props) {
   return (
-    <Pressable style={styles.card} onPress={onPress}>
+    <Pressable onPress={onPress} style={styles.card}>
       <Image
-        source={ destination.image ? { uri: destination.image } : require("../assets/fallback.jpg") }
-        style={styles.image}
+        source={destination.image}          
+        style={styles.photo}
         contentFit="cover"
-        cachePolicy="disk"
       />
-      <View style={styles.content}>
+      <View style={styles.meta}>
         <Text style={styles.name}>{destination.name}</Text>
         <Text style={styles.country}>{destination.country}</Text>
       </View>
@@ -31,9 +26,13 @@ export default function DestinationCard({ destination, onPress }: {
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: 16, overflow: "hidden", backgroundColor: "white", elevation: 2 },
-  image: { width: "100%", aspectRatio: 16 / 9 },
-  content: { padding: 12, gap: 4 },
-  name: { fontSize: 18, fontWeight: "700" },
-  country: { fontSize: 14, opacity: 0.7 },
+  card: {
+    borderRadius: 16,
+    overflow: "hidden",
+    backgroundColor: "white",
+  },
+  photo: { width: "100%", aspectRatio: 16 / 9 },
+  meta: { padding: 12 },
+  name: { fontSize: 20, fontWeight: "800" },
+  country: { opacity: 0.7, marginTop: 2 },
 });

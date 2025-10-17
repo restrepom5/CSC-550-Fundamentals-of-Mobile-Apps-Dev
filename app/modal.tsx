@@ -28,7 +28,7 @@ export default function DestinationModal() {
       </Pressable>
 
       <Image
-        source={ { uri: dest.image! } }
+        source={dest.image!}
         style={styles.image}
         contentFit="cover"
       />
