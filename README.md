@@ -1,4 +1,4 @@
-# Travel Explorer by Maria Giugno 🛵✨
+# ⛰️🗼🛫 Travel Explorer by Maria Giugno 🛵🗺️🌍
 
 ## ✨ Features
 - **Tabs:** Home, Explore, Profile
