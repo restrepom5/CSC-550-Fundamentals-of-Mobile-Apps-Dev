@@ -22,7 +22,7 @@ function ThemedStack() {
         {/* Tabs group */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
 
-        {/* Destination details with Back button label */}
+        {/* Destination details with Back button */}
         <Stack.Screen
           name="destination/[id]"
           options={{

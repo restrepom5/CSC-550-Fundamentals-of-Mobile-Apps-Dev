@@ -54,7 +54,7 @@ const destinations: Destination[] = [
     country: "Ireland",
     image: require("../assets/destinations/dublin.jpg"),
     description:
-      "Friendly pubs, Georgian streets, and literary history. Walk across the Ha’penny Bridge, tour Trinity College, and catch live trad music.",
+      "Friendly pubs, Georgian streets, and literary history. Walk across the Ha'penny Bridge, tour Trinity College, and catch live trad music.",
     tripUrl: "https://www.tripadvisor.com/Attractions-g186605-Activities-Dublin_County_Dublin.html",
   },
   {
@@ -63,7 +63,7 @@ const destinations: Destination[] = [
     country: "Japan",
     image: require("../assets/destinations/kyoto.jpg"),
     description:
-      "Shrines, gardens, and tea houses. Wander the vermilion gates at Fushimi Inari, then slow down in Arashiyama’s bamboo grove.",
+      "Shrines, gardens, and tea houses. Wander the vermilion gates at Fushimi Inari, then slow down in Arashiyama's bamboo grove.",
     tripUrl: "https://www.tripadvisor.com/Attractions-g298564-Activities-Kyoto_Kyoto_Prefecture_Kinki.html",
   },
   {
@@ -72,7 +72,7 @@ const destinations: Destination[] = [
     country: "France",
     image: require("../assets/destinations/paris.jpg"),
     description:
-      "Walk along the Seine at twilight, picnic on the Champs de Mars, and savor a café crème. Don’t miss the Eiffel Tower and the Louvre.",
+      "Walk along the Seine at twilight, picnic on the Champs de Mars, and savor a café crème. Don't miss the Eiffel Tower and the Louvre.",
     tripUrl: "https://www.tripadvisor.com/Attractions-g187147-Activities-Paris_Ile_de_France.html",
   },
   {

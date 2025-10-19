@@ -69,7 +69,6 @@ export default function SuggestScreen() {
           undefined,
           [{ text: "OK", onPress: () => router.back() }]
         );
-        // Optionally clear local state (not strictly needed if we navigate back)
         setName(""); setEmail(""); setCity(""); setStateRegion(""); setCountry(""); setFavorite("");
       } else {
         const text = await res.text().catch(() => "");
@@ -116,7 +115,7 @@ export default function SuggestScreen() {
           errorText={email && !emailOk ? "Please enter a valid email." : undefined}
         />
 
-        {/* City (required) */}
+        {/* City */}
         <Field
           label="City *"
           value={city}
@@ -125,7 +124,7 @@ export default function SuggestScreen() {
           required
         />
 
-        {/* State / Province (optional) */}
+        {/* State / Province */}
         <Field
           label="State / Province"
           value={stateRegion}
@@ -133,7 +132,7 @@ export default function SuggestScreen() {
           placeholder="e.g., Kyoto Prefecture"
         />
 
-        {/* Country (required) */}
+        {/* Country */}
         <Field
           label="Country *"
           value={country}
@@ -142,7 +141,7 @@ export default function SuggestScreen() {
           required
         />
 
-        {/* Favorite thing (required) */}
+        {/* Favorite thing */}
         <Field
           label="Your favorite thing to do *"
           value={favorite}
@@ -176,7 +175,7 @@ export default function SuggestScreen() {
   );
 }
 
-/* ---------- Small Field component ---------- */
+/* ---------- Field component ---------- */
 type FieldProps = React.ComponentProps<typeof TextInput> & {
   label: string;
   required?: boolean;

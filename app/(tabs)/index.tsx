@@ -27,7 +27,7 @@ export default function Home() {
         </View>
       </View>
 
-      {/* Theme toggle (no label) */}
+      {/* Theme toggle no label */}
       <View style={[styles.section, { paddingTop: 14 }]}>
         <View style={styles.row}>
           <Pressable
@@ -59,7 +59,7 @@ export default function Home() {
         </View>
       </View>
 
-      {/* Explore copy + CTAs */}
+      {/* Explore */}
       <View style={styles.section}>
         <Text style={[styles.h2, { color: colors.text }]}>Explore Destinations</Text>
         <Text style={[styles.body, { color: colors.text }]}>
@@ -67,7 +67,7 @@ export default function Home() {
           magical escape. Each destination includes a link to a TripAdvisor page with top things to do.
         </Text>
 
-        {/* Primary CTA: Suggest (modal) */}
+        {/* Suggest modal button */}
         <Link href="/suggest" asChild>
           <Pressable
             style={styles.ctaPrimary}
@@ -78,7 +78,7 @@ export default function Home() {
           </Pressable>
         </Link>
 
-        {/* Secondary CTA: Go to Explore tab */}
+        {/* Go to Explore button */}
         <Link href="/(tabs)/explore" asChild>
           <Pressable
             style={styles.ctaSecondary}
