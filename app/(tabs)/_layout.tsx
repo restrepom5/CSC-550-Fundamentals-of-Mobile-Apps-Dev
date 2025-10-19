@@ -1,6 +1,7 @@
 // app/(tabs)/_layout.tsx
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import React from "react";
 import { useTheme } from "../../theme/ThemeProvider";
 
 export default function TabsLayout() {
@@ -10,10 +11,20 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerTitleAlign: "center",
-        tabBarActiveTintColor: colors.tint,
-        tabBarStyle: { backgroundColor: colors.card },
         headerStyle: { backgroundColor: colors.card },
         headerTintColor: colors.text,
+        tabBarActiveTintColor: colors.tint,
+        tabBarInactiveTintColor: "#9AA0A6",
+        tabBarStyle: {
+          backgroundColor: colors.card,
+          borderTopWidth: 0.5,
+          borderTopColor: "rgba(0,0,0,0.08)",
+          height: 64,
+          paddingTop: 8,
+          paddingBottom: 10,
+        },
+        tabBarLabelStyle: { fontWeight: "600" },
+        sceneStyle: { backgroundColor: colors.bg },
       }}
     >
       <Tabs.Screen

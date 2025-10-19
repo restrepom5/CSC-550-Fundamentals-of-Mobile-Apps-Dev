@@ -7,7 +7,7 @@ export default function App() {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#1e1e1e', // dark charcoal background
+        backgroundColor: '#1e1e1e', 
       }}
     >
       <Text style={{ fontSize: 28, color: '#dcdcaa', fontFamily: 'monospace' }}>

@@ -1,7 +1,10 @@
 // app/_layout.tsx
-import { Stack } from "expo-router";
-import { StatusBar } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { Stack, router } from "expo-router";
+import { Pressable, StatusBar, Text } from "react-native";
 import { ThemeProvider, useTheme } from "../theme/ThemeProvider";
+
+import { FavoritesProvider } from "../favorites/FavoritesProvider";
 
 function ThemedStack() {
   const { colors, colorScheme } = useTheme();
@@ -16,10 +19,34 @@ function ThemedStack() {
           contentStyle: { backgroundColor: colors.bg },
         }}
       >
+        {/* Tabs group */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal", title: "About" }} />
-        {/* IMPORTANT: match the file path exactly */}
-        <Stack.Screen name="destination/[id]" options={{ headerShown: false }} />
+
+        {/* Destination details with Back button label */}
+        <Stack.Screen
+          name="destination/[id]"
+          options={{
+            title: "Details",
+            headerBackTitle: "Back",
+            headerLeft: () => (
+              <Pressable
+                onPress={() => router.back()}
+                style={{ flexDirection: "row", alignItems: "center", paddingHorizontal: 4, paddingVertical: 6 }}
+                accessibilityRole="button"
+                accessibilityLabel="Back"
+              >
+                <Ionicons name="chevron-back" size={22} color={colors.text} />
+                <Text style={{ color: colors.text, fontSize: 16, marginLeft: 2 }}>Back</Text>
+              </Pressable>
+            ),
+          }}
+        />
+
+        {/* Suggest form modal */}
+        <Stack.Screen
+          name="suggest"
+          options={{ presentation: "modal", title: "Suggest a Destination" }}
+        />
       </Stack>
     </>
   );
@@ -28,7 +55,9 @@ function ThemedStack() {
 export default function RootLayout() {
   return (
     <ThemeProvider>
-      <ThemedStack />
+      <FavoritesProvider>
+        <ThemedStack />
+      </FavoritesProvider>
     </ThemeProvider>
   );
 }

@@ -1,38 +1,67 @@
 // components/DestinationCard.tsx
-import { Image } from "expo-image";
+import { Ionicons } from "@expo/vector-icons";
+import { Image as ExpoImage } from "expo-image";
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import type { Destination } from "../data/destinations"; // <-- use the type from data
+import { ImageSourcePropType, Pressable, StyleSheet, Text, View } from "react-native";
+import { useFavorites } from "../favorites/FavoritesProvider";
+import { useTheme } from "../theme/ThemeProvider";
 
 type Props = {
-  destination: Destination;
-  onPress?: () => void; // Link(asChild) will inject this
+  destination: {
+    id: string;
+    name: string;
+    country: string;
+    image: ImageSourcePropType;
+    description: string;
+  };
 };
 
-export default function DestinationCard({ destination, onPress }: Props) {
+export default function DestinationCard({ destination }: Props): React.JSX.Element {
+  const { colors } = useTheme();
+  const { isFavorite, toggle } = useFavorites();
+  const fav = isFavorite(destination.id);
+
   return (
-    <Pressable onPress={onPress} style={styles.card}>
-      <Image
-        source={destination.image}          
-        style={styles.photo}
-        contentFit="cover"
-      />
-      <View style={styles.meta}>
-        <Text style={styles.name}>{destination.name}</Text>
-        <Text style={styles.country}>{destination.country}</Text>
+    <View style={[styles.card, { backgroundColor: colors.card, borderColor: "rgba(0,0,0,0.06)" }]}>
+      <View style={{ position: "relative" }}>
+        <ExpoImage
+          source={destination.image}
+          style={styles.image}
+          contentFit="cover"
+          cachePolicy="disk"
+          transition={200}
+        />
+        <Pressable
+          onPress={(e) => {
+            (e as any).preventDefault?.();
+            toggle(destination.id);
+          }}
+          style={styles.heart}
+          accessibilityRole="button"
+          accessibilityLabel={fav ? "Remove from favorites" : "Add to favorites"}
+        >
+          <Ionicons name={fav ? "heart" : "heart-outline"} size={22} color={fav ? "#ef4444" : "white"} />
+        </Pressable>
       </View>
-    </Pressable>
+
+      <View style={{ padding: 12 }}>
+        <Text style={[styles.title, { color: colors.text }]}>{destination.name}</Text>
+        <Text style={{ color: colors.muted }}>{destination.country}</Text>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: 16,
-    overflow: "hidden",
-    backgroundColor: "white",
+  card: { borderRadius: 16, overflow: "hidden", borderWidth: 1 },
+  image: { width: "100%", height: 180, backgroundColor: "#ddd" },
+  heart: {
+    position: "absolute",
+    right: 10,
+    top: 10,
+    padding: 8,
+    borderRadius: 999,
+    backgroundColor: "rgba(0,0,0,0.35)",
   },
-  photo: { width: "100%", aspectRatio: 16 / 9 },
-  meta: { padding: 12 },
-  name: { fontSize: 20, fontWeight: "800" },
-  country: { opacity: 0.7, marginTop: 2 },
+  title: { fontSize: 18, fontWeight: "800" },
 });

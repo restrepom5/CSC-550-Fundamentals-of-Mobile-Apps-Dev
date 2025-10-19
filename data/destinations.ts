@@ -7,7 +7,7 @@ export type Destination = {
   country: string;
   image: ImageSourcePropType;
   description: string;
-  tripUrl: string;  // NEW
+  tripUrl: string;  
 };
 
 const destinations: Destination[] = [
