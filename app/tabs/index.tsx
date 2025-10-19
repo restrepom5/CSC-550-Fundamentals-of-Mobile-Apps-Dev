@@ -4,10 +4,10 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Khadi's App!</Text>
-      <Text style={styles.subtitle}>This is the Home Screen.</Text>
-      <Link href="/about" asChild>
-        <Button title="Go to About Screen" />
+      <Text style={styles.title}>🌍 Welcome to Travel Explorer!</Text>
+      <Text style={styles.subtitle}>Discover your next adventure.</Text>
+      <Link href="/tabs/explore" asChild>
+        <Button title="Go to Explore" />
       </Link>
     </View>
   );
