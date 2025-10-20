@@ -59,7 +59,7 @@ export default function Details() {
         {foundDestination.mission_family && (
           <View style={styles.tributeBox}>
             <Text style={styles.tributeHeader}>Mission Focus</Text>
-            <Text style={styles.tributeText}>Dedicated to the work of the {foundDestination.mission_family}.</Text>
+            <Text style={styles.tributeText}>Dedicated to the work of {foundDestination.mission_family}.</Text>
             <Text style={styles.tributeSmallText}>{foundDestination.mission_focus}</Text>
           </View>
         )}
