@@ -45,7 +45,6 @@ export default function HomeScreen() {
         {[...locations] 
           .sort((a, b) => a.label.localeCompare(b.label))
           .map((item) => {
-            const added = myLocations.some((loc) => loc.id === item.id) ? "yes" : "no";
             return (
               <MyButton
                 buttonText={item.label}
@@ -54,7 +53,7 @@ export default function HomeScreen() {
                 onLocationPress={() =>
                   router.push({
                     pathname: "/details/[id]",
-                    params: { id: String(item.id), added },
+                    params: { id: String(item.id) },
                   })
                 }
               />

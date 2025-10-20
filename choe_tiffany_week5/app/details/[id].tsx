@@ -12,9 +12,25 @@ import { MyButton } from "@/components/my-button";
 
 
 export default function Destination() {
-  const { id, added } = useLocalSearchParams<{ id: string; added?: string }>();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const label = states.find(state => state.id === id)?.label;
   const router = useRouter();
+  const added = myLocations.find((loc) => loc.id === id);
+  const buttonText = added ? "Remove from My Destinations" : "Add to My Destinations";
+  const onButtonPress = (loc: { id: string; label: string } | undefined) => {
+    if (loc) {
+      if (added) {
+        const index = myLocations.findIndex((val) => val.id === loc.id);
+        if (index !== -1) {
+          myLocations.splice(index, 1);
+        }
+      } else {
+          myLocations.push(loc);
+      }
+    }
+    router.navigate("/");
+  };
+
 
   return (
       <ParallaxScrollView
@@ -42,19 +58,14 @@ export default function Destination() {
             }}>
             Here is some detailed information about {label}.
           </ThemedText>
-          {added === "no" && id && label &&(
+          {id && label &&( 
              <MyButton
-              buttonText="Add to My Destinations"
+              buttonText={buttonText}
               location={{ id: id, label: label }}
-              onLocationPress={(loc) => {
-                if (loc && !myLocations.some((val) => val.id === loc.id)) {
-                  myLocations.push(loc);
-                }
-                router.push("/");
-              }}
+              onLocationPress={onButtonPress}
             />
           )}
-        
+
         </ThemedView>
       </ParallaxScrollView>
     );

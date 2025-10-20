@@ -8,13 +8,9 @@ import { states } from './(tabs)/explore';
 
 export default function ModalScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const added = () => {
-    const hasLocation = myLocations.find((loc) => loc.id === id);
-    return hasLocation ? "yes" : "no";
-  }
   return (
     <ThemedView style={styles.container}>
-      <Link href={{ pathname: "/details/[id]", params: { id, added: added() } }} dismissTo style={styles.link}>
+      <Link href={{ pathname: "/details/[id]", params: { id } }} dismissTo style={styles.link}>
         <ThemedText type="link">Go to details page</ThemedText>
       </Link>
       <Link href="/" dismissTo style={styles.link} 
