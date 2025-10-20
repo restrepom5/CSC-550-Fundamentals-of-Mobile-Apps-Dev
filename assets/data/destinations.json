@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1",
+    "name": "Paris",
+    "description": "The City of Light, home to the Eiffel Tower and world-class art.",
+    "image": "https://images.unsplash.com/photo-1736183587761-d5e43490fa5a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGFyaXMlMjB0cmF2ZWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=900"
+  },
+  {
+    "id": "2",
+    "name": "Tokyo",
+    "description": "A bustling city blending tradition and modernity.",
+    "image": "https://images.unsplash.com/photo-1578592760915-bcd6d30b3107?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fHRva3lvJTIwdHJhdmVsfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
+  },
+  {
+    "id": "3",
+    "name": "New York",
+    "description": "The city that never sleeps.",
+    "image": "https://images.unsplash.com/photo-1562031963-2ecda18817f5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bmV3JTIweW9yayUyMHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
+  },
+  {
+    "id": "4",
+    "name": "Rome",
+    "description": "An ancient city filled with history, art, and delicious cuisine.",
+    "image": "https://images.unsplash.com/photo-1586436400105-7d828e374d28?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cm9tZSUyMHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
+  },
+  {
+    "id": "5",
+    "name": "Sydney",
+    "description": "A coastal gem known for its harbor, beaches, and the iconic Opera House.",
+    "image": "https://images.unsplash.com/photo-1610616786415-ae0aaf40d62c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c3lkbmV5JTIwdHJhdmVsfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
+  },
+  {
+    "id": "6",
+    "name": "Cairo",
+    "description": "Home to the Great Pyramids and the timeless River Nile.",
+    "image": "https://images.unsplash.com/photo-1553993500-d70955b75b5c?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fGNhaXJvJTIwdHJhdmVsfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
+  },
+  {
+    "id": "7",
+    "name": "Rio de Janeiro",
+    "description": "Vibrant city famous for its beaches, carnival, and Christ the Redeemer statue.",
+    "image": "https://images.unsplash.com/photo-1700677866571-43199bcbc593?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGNocmlzdCUyMHRoZSUyMHJlZGVlbWVyfGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900"
+  },
+  {
+    "id": "8",
+    "name": "Vancouver",
+    "description": "A scenic coastal city surrounded by mountains and ocean views.",
+    "image": "https://images.unsplash.com/photo-1711827190798-c36f88fc7868?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHZhbmNvdXZlciUyMHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
+  }
+]

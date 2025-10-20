@@ -1,0 +1,20 @@
+[
+    {
+        "destination": "Japan",
+        "date": "Summer, 2025",
+        "favorite": "Tokyo, Kyoto, Mt. Fuji",
+        "image": "https://images.unsplash.com/photo-1499419819507-77191b8ec46e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8amFwYW4lMjB0cmF2ZWx8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&q=60&w=900"
+    },
+    {
+        "destination": "Spain",
+        "date": "Winter, 2024",
+        "favorite": "Madrid, Barcelona, Basilica de la Sagrada Familia",
+        "image": "https://images.unsplash.com/photo-1728249987965-3943d53dd634?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c3BhaW4lMjB0cmF2ZWwlMjBzYWdyYWRhJTIwZmFtaWxpYXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
+    },
+    {
+        "destination": "Ireland",
+        "date": "Summer, 2024",
+        "favorite": "Dublin, Galway, Kylemore Abbey",
+        "image": "https://images.unsplash.com/photo-1686586351889-3dd1d9562913?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a3lsZW1vcmUlMjBhYmJleXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&q=60&w=900"
+    }
+]
