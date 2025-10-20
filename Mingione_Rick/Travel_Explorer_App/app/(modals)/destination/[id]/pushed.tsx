@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/themed-text';
 import { Link } from 'expo-router';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, View } from 'react-native';
 
 export default function PushedScreen() {
   return (

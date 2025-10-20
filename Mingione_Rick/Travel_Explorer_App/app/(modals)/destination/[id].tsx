@@ -1,6 +1,6 @@
-import { Link, LinkMenuAction, useLocalSearchParams, useRouter } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { Button, Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import { ThemedText } from '@/components/themed-text';
+// import { ThemedText } from '@/components/themed-text';
 
 // ✅ Correct local imports (relative paths and forward slashes)
 import acadia from "../../../assets/images/parks/acadia.jpg";
@@ -22,9 +22,9 @@ export default function DestinationDetails() {
     router.push(`/destination/${id}/details`);
   };
 
-  const openPushedModal = () => {
-    router.push(`/destination/${id}/pushed`);
-  };
+  // const openPushedModal = () => {
+  //   router.push(`/destination/${id}/pushed`);
+  // };
 
   // ✅ Type should be `any` for local images
   const destinations: Record<

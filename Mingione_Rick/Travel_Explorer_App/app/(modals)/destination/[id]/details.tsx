@@ -1,4 +1,4 @@
-import { ScrollView, Text, Button, StyleSheet, Image } from 'react-native';
+import { ScrollView, Button, StyleSheet, Image } from 'react-native';
 import { useRouter, useLocalSearchParams, Link } from 'expo-router';
 import { ThemedText } from '@/components/themed-text';
 import { Collapsible } from '@/components/ui/collapsible';
