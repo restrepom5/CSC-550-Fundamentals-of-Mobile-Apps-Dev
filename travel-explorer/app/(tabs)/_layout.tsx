@@ -61,12 +61,11 @@ export default function TabLayout() {
             ),
           }}
         />
-        {/* This screen is part of the tabs navigator but is not shown in the tab bar */}
         <Tabs.Screen
           name="destination/[id]"
           options={{
             title: "Destination Details",
-            href: null, // This special property hides this screen from the tab bar
+            href: null,
           }}
         />
       </Tabs>

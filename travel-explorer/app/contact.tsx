@@ -14,25 +14,21 @@ export default function ContactScreen() {
       <Text style={styles.title}>Get in Touch</Text>
       <Text style={styles.subtitle}>Feel free to reach out through any of the platforms below.</Text>
 
-      {/* Email Link */}
       <TouchableOpacity style={styles.linkItem} onPress={() => handleLinkPress('mailto:mashrekys@gmail.com')}>
         <FontAwesome name="envelope" size={24} color="#c71610" />
         <Text style={styles.linkText}>mashrekys@gmail.com</Text>
       </TouchableOpacity>
 
-      {/* LinkedIn Link */}
       <TouchableOpacity style={styles.linkItem} onPress={() => handleLinkPress('https://www.linkedin.com/in/shafqat-mashrakey-831525265/')}>
         <FontAwesome name="linkedin-square" size={24} color="#0077b5" />
         <Text style={styles.linkText}>LinkedIn Profile</Text>
       </TouchableOpacity>
 
-      {/* GitHub Link */}
       <TouchableOpacity style={styles.linkItem} onPress={() => handleLinkPress('https://github.com/shafqatmashrakey')}>
         <FontAwesome name="github" size={24} color="#333" />
         <Text style={styles.linkText}>GitHub Portfolio</Text>
       </TouchableOpacity>
 
-      {/* On iOS, modals can be dismissed with a gesture, but other platforms like Web and Android need an explicit button. */}
       {Platform.OS !== 'ios' && (
         <TouchableOpacity style={styles.button} onPress={() => router.back()}>
           <Text style={styles.buttonText}>Close</Text>

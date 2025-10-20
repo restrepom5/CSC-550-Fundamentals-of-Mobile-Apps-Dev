@@ -6,22 +6,20 @@ export default function DestinationDetail() {
 
   let imageSource;
 
-
   switch (id) {
-    case "1": // Santorini
+    case "1":
       imageSource = require("../../../assets/images/greece.jpg");
       break;
-    case "2": // Kyoto
+    case "2":
       imageSource = require("../../../assets/images/kyoto.jpg");
       break;
-    case "3": // Machu Picchu
+    case "3":
       imageSource = require("../../../assets/images/machu.webp");
       break;
-    case "4": // Venice
+    case "4":
       imageSource = require("../../../assets/images/venice.jpg");
       break;
     default:
-      // A fallback image in case of an unexpected ID
       imageSource = require("../../../assets/images/art.jpg");
       break;
   }
@@ -40,7 +38,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 20,
-    backgroundColor: "transparent", // The overall background is handled by the tab layout
+    backgroundColor: "transparent",
   },
   image: {
     width: "100%",
@@ -53,16 +51,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#blue",
     textAlign: "center",
-    textShadowColor: 'rgba(0, 0, 0, 0.75)', // Text shadow for readability
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
     textShadowRadius: 10,
   },
   description: {
     fontSize: 18,
-    color: "#fff", // White color for readability
+    color: "#fff",
     textAlign: "center",
     marginTop: 10,
-    backgroundColor: 'rgba(0,0,0,0.5)', // Semi-transparent black background for the text block
+    backgroundColor: 'rgba(0,0,0,0.5)',
     padding: 15,
     borderRadius: 8,
   },

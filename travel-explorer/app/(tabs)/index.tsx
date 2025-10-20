@@ -40,7 +40,6 @@ export default function HomeScreen() {
         style={[styles.backgroundImage, { opacity: fadeAnim }]}
         resizeMode="cover"
       />
-      {/* This content view sits on top, with an overlay for readability */}
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Your Journey Begins Here</Text>
         <Text style={styles.subtitle}>
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backgroundImage: {
-    ...StyleSheet.absoluteFillObject, // Makes the image fill the container
+    ...StyleSheet.absoluteFillObject,
     width: '100%',
     height: '100%',
   },
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "rgba(0,0,0,0.4)", // Semi-transparent overlay to keep text readable
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
   title: {
     color: "white",
