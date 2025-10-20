@@ -34,21 +34,6 @@ export default function Profile() {
           </View>
         </View>
 
-        {/* 2. Tribute/Mentoring Section (Honoring Rev Edmund Chan) */}
-        <View style={styles.tributeBox}>
-            {/* ⭐️ IMAGE TRIBUTE ADDED HERE ⭐️ */}
-            <Image
-                // Using a generic image from his ministry's public profile (for example)
-                source={{ uri: "https://i.ibb.co/X8x3xYv/EdmundChan.jpg" }} 
-                style={styles.tributeImage}
-            />
-            <Text style={styles.tributeHeader}>Our Guiding Mandate</Text>
-            <Text style={styles.tributeQuote}>
-                "The Mandate Precedes the Mission."
-            </Text>
-            <Text style={styles.tributeSource}>— Rev Edmund Chan (Singapore)</Text>
-        </View>
-
         {/* 3. Action Buttons */}
         <TouchableOpacity style={styles.actionButton}>
             <Text style={styles.actionText}>Edit Profile</Text>
@@ -99,37 +84,6 @@ const styles = StyleSheet.create({
   statLabel: {
     color: '#ccc',
     fontSize: 14,
-  },
-  
-  // Tribute Box (New Section)
-  tributeBox: {
-    backgroundColor: '#3a3a3c',
-    borderRadius: 10,
-    padding: 15,
-    width: '100%',
-    marginBottom: 30,
-    borderLeftWidth: 4,
-    borderLeftColor: '#f0ad4e', // Gold accent
-  },
-  tributeHeader: {
-    color: '#f0ad4e',
-    fontSize: 16,
-    fontWeight: '700',
-    marginBottom: 5,
-    textAlign: 'center', // Center the header
-  },
-  tributeQuote: {
-    color: '#fff',
-    fontSize: 18,
-    fontStyle: 'italic',
-    textAlign: 'center',
-    paddingVertical: 10,
-  },
-  tributeSource: {
-    color: '#ccc',
-    fontSize: 14,
-    textAlign: 'right',
-    marginTop: 5,
   },
   
   // ⭐️ NEW STYLE FOR IMAGE ⭐️
