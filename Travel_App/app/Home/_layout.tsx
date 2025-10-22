@@ -14,16 +14,16 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Your Travel Plans",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home-outline" color={color} size={size} />
+            <Ionicons name="airplane" color={color} size={size} />
           ),
         }}
       />
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Discover",
+          title: "Discover Destinations",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="globe-outline" color={color} size={size} />
           ),

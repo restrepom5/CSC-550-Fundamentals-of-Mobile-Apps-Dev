@@ -1,5 +1,5 @@
 # Common system files
-.DS_Store
+**/.DS_Store
 
 # Dependencies (Node/JS)
 /node_modules
