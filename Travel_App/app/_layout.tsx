@@ -9,7 +9,7 @@ export default function RootLayout() {
         contentStyle: { backgroundColor: "#181818" },
       }}
     >
-      <Stack.Screen name="Home" options={{ headerShown: false }} />
+      <Stack.Screen name="Home" options={{ headerShown: false, headerTitle: ' ' }} />
       <Stack.Screen
         name="pushed"
         options={{ title: "Pushed Screen", animation: "slide_from_right" }}

@@ -1,7 +1,8 @@
 // app/details/[id].tsx
 
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter, useNavigation } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from "react-native";
+import { useLayoutEffect } from "react"; // <-- New Import
 
 // Enriched Trip Data
 const destinations = [
@@ -27,13 +28,27 @@ const destinations = [
 ];
 
 export default function Details() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, backTitle } = useLocalSearchParams<{ id: string, backTitle: string }>();
   const router = useRouter();
+  const navigation = useNavigation();
+
+  const resolvedBackTitle = Array.isArray(backTitle) ? backTitle[0] : backTitle;
 
   // Find the matching destination (MUST be after the destinations array)
   const foundDestination = destinations.find(
     (d) => d.id.toString() === id
   );
+
+    // *** NEW: Hook to set the back button text dynamically ***
+  useLayoutEffect(() => {
+    if (resolvedBackTitle) {
+      navigation.setOptions({
+        headerBackTitle: resolvedBackTitle,
+        headerTitle: foundDestination?.title || "Details",
+      });
+    }
+  }, [navigation, resolvedBackTitle, foundDestination?.title]);
+  // ********************************************************
 
   // 1. ERROR RETURN: Executed if the ID is invalid (fixes the syntax error)
   if (!foundDestination) {

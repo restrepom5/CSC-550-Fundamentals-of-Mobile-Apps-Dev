@@ -54,8 +54,11 @@ export default function Explore() {
         renderItem={({ item }) => (
           <TouchableOpacity 
             style={styles.card}
-            // Navigate to the details screen, passing the ID
-            onPress={() => router.push(`/details/${item.id}`)}
+            // *** CRITICAL CHANGE: Pass the desired backTitle as a query parameter ***
+            onPress={() => router.push({
+                pathname: `../details/${item.id}`, 
+                params: { backTitle: 'Discover Destinations' } // <-- Sets the custom text
+            })}
           >
             <Text style={styles.cardTitle}>{item.name}</Text>
             <Text style={styles.cardSubtitle}>{item.country}</Text>

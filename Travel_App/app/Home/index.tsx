@@ -25,7 +25,10 @@ const TripCard = ({ item }: { item: Trip }) => (
   <TouchableOpacity 
     style={styles.card}
     // Navigate to the dynamic route
-    onPress={() => router.push(`/details/${item.id}`)}
+    onPress={() => router.push({
+        pathname: `../details/${item.id}`, 
+        params: { backTitle: 'Your Travel Plans' } // <-- Sets the custom text
+    })}
   >
     <View style={styles.cardHeader}>
         <Text style={styles.cardTitle}>{item.title}</Text>
