@@ -1,4 +1,5 @@
-import { Image, StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Profile() {
   // Mock Data (Replace with actual user state later)

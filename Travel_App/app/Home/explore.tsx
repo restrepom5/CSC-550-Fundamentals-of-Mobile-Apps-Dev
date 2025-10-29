@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { router } from "expo-router";
-import { FlatList, StyleSheet, Text, View, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // 1. TypeScript Interface for Destination Data
 interface Destination {
