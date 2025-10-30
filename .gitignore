@@ -1,5 +1,5 @@
 # Common system files
-**/.DS_Store
+.DS_Store
 
 # Dependencies (Node/JS)
 /node_modules
@@ -11,5 +11,12 @@
 npm-debug.log*
 yarn-debug.log*
 
-#old project
-IanCheung/
+# Expo/React Native-specific files
+/.expo/
+/web-build/
+/android/build/
+/ios/build/
+.env
+
+# Old project (Only include if this is not your current project code!)
+# IanCheung/
