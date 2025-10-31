@@ -1,7 +1,11 @@
 import { Stack } from "expo-router";
+import { store } from "../src/store/store";
+import React from "react";
+import { Provider } from "react-redux";
 
 export default function RootLayout() {
   return (
+    <Provider store={store}>
     <Stack
       screenOptions={{
         headerStyle: { backgroundColor: "#121212" },
@@ -23,5 +27,6 @@ export default function RootLayout() {
         options={{ presentation: "modal", title: "Modal Example" }}
       />
     </Stack>
+    </Provider>
   );
 }

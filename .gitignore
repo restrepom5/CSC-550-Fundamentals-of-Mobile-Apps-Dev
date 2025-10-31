@@ -20,3 +20,5 @@ yarn-debug.log*
 
 # Old project (Only include if this is not your current project code!)
 # IanCheung/
+Local project settings
+/.vscode
