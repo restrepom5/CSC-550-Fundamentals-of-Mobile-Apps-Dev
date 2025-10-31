@@ -18,7 +18,7 @@ export default function MoodTrackerScreen() {
       <View style={styles.container}>
         <Text style={styles.header}>Today is: **{today}**</Text>
         <Button 
-          title="➕ Add Current Mood" 
+          title="+ Add Current Mood" 
           onPress={() => router.push('/Home/MoodTracker/addMood')} 
           color="#90EE90"
         />
