@@ -4,7 +4,7 @@ import { View, Text, TextInput, Button, StyleSheet, SafeAreaView } from 'react-n
 import React, { useState } from 'react'; 
 import { router } from 'expo-router';
 import { useDispatch } from 'react-redux'; 
-import { addMood } from '../../../src/store/moodSlice'; 
+import { addMood } from '../../../src/store/moodsSlice'; 
 import { RootState } from '../../../src/store/types'; // Import RootState if needed for any complex local state logic, though usually not directly in addMood for useSelector.
 
 const MOOD_OPTIONS = ['Happy', 'Calm', 'Stressed', 'Tired', 'Sad', 'Relaxed'];

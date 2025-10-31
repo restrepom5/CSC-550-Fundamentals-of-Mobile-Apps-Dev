@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 // CORRECT PATH: Since moodsSlice.js is in the same folder, use './'
-import moodsReducer from './moodSlice'; 
+import moodsReducer from './moodsSlice'; 
 
 // Configure the store with the moods reducer
 export const store = configureStore({
