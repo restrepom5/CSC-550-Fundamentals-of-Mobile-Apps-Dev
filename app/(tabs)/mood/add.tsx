@@ -1,4 +1,4 @@
-// app/mood/add.tsx
+// app/(tabs)/mood/add.tsx
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import { Stack, useRouter, useFocusEffect } from "expo-router";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
