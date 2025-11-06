@@ -5,6 +5,14 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { Screen } from "../../../src/ui/Screen";                 
 import { useMood, MoodEntry } from "../../../src/mood/MoodContext";
 
+function getLocalDateISO(d = new Date()) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+
 type PrimaryButtonProps = {
   label: string;
   onPress?: () => void;
@@ -80,7 +88,7 @@ export default function AddMood() {
   );
 
   const save = () => {
-    const todayISO = new Date().toISOString().slice(0, 10);
+    const todayISO = getLocalDateISO();
     addMood({ dateISO: todayISO, mood, note: note.trim() || undefined });
 
     
