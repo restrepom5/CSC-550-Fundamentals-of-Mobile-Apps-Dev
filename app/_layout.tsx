@@ -1,7 +1,10 @@
 import { Stack } from "expo-router";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 export default function RootLayout() {
   return (
+     <Provider store={store}>
     <Stack
       screenOptions={{
         headerStyle: { backgroundColor: "#121212" },
@@ -11,24 +14,16 @@ export default function RootLayout() {
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen
-        name="reservation"
+        name="Moods Display"
         options={{ title: "Reservations", animation: "slide_from_right" }}
       />
       <Stack.Screen
-        name="details/[subscription]"
-        options={{ title: "Subscription", animation: "slide_from_right" }}
+        name="Add a Mood"
+        options={{ title: "addmod", animation: "slide_from_right" }}
       />
-      <Stack.Screen
-        name="vacation"
-        options={{ title: "Vacations Packages", animation: "slide_from_left" }}
-
-      />
-      <Stack.Screen
-        name="gallery/[gallery]"
-        options={{ title: "Destinations Gallery", animation: "slide_from_right" }}
-
-      />
-
+      
+      
     </Stack>
+    </Provider>
   );
 }

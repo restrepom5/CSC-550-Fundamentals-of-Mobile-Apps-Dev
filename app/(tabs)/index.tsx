@@ -1,15 +1,15 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Href, Link, useRouter } from "expo-router";
 import React, { useRef } from "react";
+
 import {
   Animated,
   Dimensions,
   ImageBackground,
   StyleSheet,
   Text,
-  TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
+  View
 } from "react-native";
 
 const { width, height } = Dimensions.get("window");
@@ -74,37 +74,22 @@ export default function Index() {
 
   return (
     <LinearGradient colors={["#0f0f0f", "#181818", "#111"]} style={styles.gradient}>
-      <ImageBackground source={require("../../assets/images/playa.jpg")} style={{ flex: 1 }}>
+      <ImageBackground source={require("../../assets/images/emojimain.jpg")} style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Text style={styles.title}>Find Breath Taking Places</Text>
+          <Text style={styles.title}>Mood Tracking APP</Text>
 
           
           <View style={styles.buttonGroup}>
             
             <Button
-              title="Visit our Gallery"
+              title=" Access To your Mood Tracker"
               color="#FF9500"
-              onPress={() => router.push("/gallery/destinations")}
-            />
-            <Button title="Packages Price Specials" color="#FF9500" href="/vacation" />
-            <Button
-              title=" Book Your Trip"
-              color="#FF9500"
-              onPress={() => router.push("/reservation")}
+              onPress={() => router.push("/moodtrack/reservation")}
             />
           </View>
 
          
-          <TouchableOpacity
-            onPress={() =>
-              router.push({ pathname: "/details/[subscription]", params: { subscription: "99" } })
-            }
-            style={styles.bottomLinkWrapper}
-          >
-            <Text style={styles.bottomLinkText}>
-              Subscribe To our News Letter
-            </Text>
-          </TouchableOpacity>
+          
         </View>
       </ImageBackground>
     </LinearGradient>
@@ -120,7 +105,7 @@ const styles = StyleSheet.create({
   },
   title: {
     position: "absolute",
-    top: 300,
+    top: 100,
     left: 50,
     right: 30,
     fontSize: 29,
@@ -134,7 +119,7 @@ const styles = StyleSheet.create({
   
   buttonGroup: {
     position: "absolute",
-    top: height * 0.55, 
+    top: height * 0.40, 
     alignItems: "center",
     width: "100%",
   },

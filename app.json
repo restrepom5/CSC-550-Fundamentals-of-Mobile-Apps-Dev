@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "navigationApp",
-    "slug": "navigationApp",
+    "name": "moodtrack",
+    "slug": "moodtrack",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "NavigationApp",
+    "scheme": "MoodTrack",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.tylerslater.xnavigationApp"
+      "bundleIdentifier": "com.tylerslater.xmoodtrack"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.tylerslater.xnavigationApp"
+      "package": "com.tylerslater.xmoodtrack"
     },
     "web": {
       "output": "static",

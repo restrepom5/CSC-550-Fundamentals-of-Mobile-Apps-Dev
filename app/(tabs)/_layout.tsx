@@ -1,8 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { Provider } from "react-redux";
+import { store } from "../store";
 
 export default function TabsLayout() {
   return (
+     <Provider store={store}>
     <Tabs
       screenOptions={{
         headerShown: false,
@@ -26,7 +29,7 @@ export default function TabsLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-circle-outline" color={color} size={size} />
+            <Ionicons name="log-out-outline" color={color} size={size} />
           ),
         }}
       />
@@ -34,16 +37,16 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="settings"
         options={{
-          title: "Settings",
+          title: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings" color={color} size={size} />
+            <Ionicons name="settings-outline" color={color} size={size} />
           ),
         }}
       />
-     
 
       
-
+     
     </Tabs>
+    </Provider>
   );
 }
