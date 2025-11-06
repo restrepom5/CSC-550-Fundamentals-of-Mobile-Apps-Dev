@@ -1,31 +1,27 @@
 // app/(tabs)/mood/index.tsx
+
 import { useMemo } from "react";
 import { View, Text, FlatList } from "react-native";
 import { Screen } from "../../../src/ui/Screen";
 import { useMood } from "../../../src/mood/MoodContext";
 import { Card } from "../../../src/ui/card";
 
-function parseISOAsLocal(iso: string) {
-  const [y, m, d] = iso.split("-").map(Number);
-  return new Date(y, m - 1, d);
+function formatFromTs(ts: number) {
+  const d = new Date(ts);
+  return d.toLocaleDateString(undefined, { month: "numeric", day: "numeric", year: "numeric" });
 }
 
-function formatPretty(dateISO: string) {
-  try {
-    const d = parseISOAsLocal(dateISO);
-    return d.toLocaleDateString(undefined, { month: "numeric", day: "numeric", year: "numeric" });
-  } catch {
-    return dateISO;
-  }
+function formatFromISO(iso: string) {
+  const [y, m, d] = iso.split("-").map((s) => Number(s));
+  return `${m}/${d}/${y}`;
 }
 
 export default function HistoryScreen() {
-  
-  const { moods: moodEntries = [] } = useMood();
+  const { moods } = useMood();
 
   const data = useMemo(
-    () => [...moodEntries].sort((a, b) => (a.dateISO < b.dateISO ? 1 : -1)),
-    [moodEntries]
+    () => [...moods].sort((a, b) => (a.ts < b.ts ? 1 : -1)),
+    [moods]
   );
 
   return (
@@ -36,30 +32,14 @@ export default function HistoryScreen() {
         contentContainerStyle={{ paddingBottom: 24, gap: 10 }}
         renderItem={({ item }) => (
           <Card>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <Text style={{ color: "#fff", fontFamily: "PoppinsSemi" }}>
-                {item.mood}
-              </Text>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+              <Text style={{ color: "#fff", fontFamily: "PoppinsSemi" }}>{item.mood}</Text>
               <Text style={{ color: "#ffffffAA", fontFamily: "Poppins" }}>
-                {formatPretty(item.dateISO)}
+                {typeof item.ts === "number" ? formatFromTs(item.ts) : formatFromISO(item.dateISO)}
               </Text>
             </View>
             {item.note ? (
-              <Text
-                style={{
-                  color: "#D8DEE9",
-                  fontFamily: "Poppins",
-                  marginTop: 4,
-                }}
-              >
-                {item.note}
-              </Text>
+              <Text style={{ color: "#D8DEE9", fontFamily: "Poppins", marginTop: 4 }}>{item.note}</Text>
             ) : null}
           </Card>
         )}
@@ -72,3 +52,4 @@ export default function HistoryScreen() {
     </Screen>
   );
 }
+
