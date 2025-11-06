@@ -1,13 +1,15 @@
-import { StyleSheet, View } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 import ParallaxScrollView from "@/components/parallax-scroll-view";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import {  useEffect, useState } from "react";
 import { MoodBox } from "@/components/mood-box";
-import { moodColors, MoodEntry, moodOptions, useMoods } from "../mood_context";
+import { useRouter } from "expo-router";
+import { moodColors, MoodEntry, moodOptions, useMoods } from "@/src/context/mood_context";
 
 export default function HomeScreen() {
+  const router = useRouter();
   const { moods } = useMoods();
 
   const [todayMood, setTodayMood] = useState<MoodEntry | undefined>(undefined);
@@ -22,8 +24,10 @@ export default function HomeScreen() {
   }
 
   useEffect(() => {
-    moods.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    const match = moods.find(m => {
+    const sorted = [...moods].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+    const match = sorted.find(m => {
       return isToday(m.date);
     });
     setTodayMood(match);
@@ -53,6 +57,9 @@ export default function HomeScreen() {
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Current Mood</ThemedText>
       </ThemedView>
+      <ThemedView style={styles.subtitleContainer}>
+        <ThemedText type="subtitle">Date: ({new Date().toDateString()})</ThemedText>
+      </ThemedView>
       {todayMood ? (
         <MoodBox
           buttonText={todayMood.mood}
@@ -79,6 +86,7 @@ export default function HomeScreen() {
             );
           })}
       </View>
+      <Button title="Add Current Mood" onPress={() => router.push('/add_mood')} />
     </ParallaxScrollView>
   );
 }
@@ -94,6 +102,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+  },
+  subtitleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
   },
   list: {
     paddingVertical: 4,

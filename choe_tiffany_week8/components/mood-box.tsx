@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import { Fonts } from "@/constants/theme";
-import { MoodEntry } from "@/app/mood_context";
+import { MoodEntry } from "@/src/context/mood_context";
 
 type Props = {
   mood?: MoodEntry;

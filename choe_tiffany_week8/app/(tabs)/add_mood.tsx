@@ -2,10 +2,10 @@ import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useState } from 'react';
-import { Mood, moodColors, moodOptions, useMoods } from '../mood_context';
 import { useRouter } from 'expo-router';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Mood, moodColors, moodOptions, useMoods } from '@/src/context/mood_context';
 
 export default function AddMood() {
   const router = useRouter();
