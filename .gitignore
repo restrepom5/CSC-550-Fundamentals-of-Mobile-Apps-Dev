@@ -16,3 +16,8 @@ android/build/
 
 .expo/
 .DS_Store
+
+# ignore junk
+node_modules/
+.expo/
+.DS_Store
