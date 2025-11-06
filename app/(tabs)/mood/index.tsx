@@ -5,14 +5,15 @@ import { Screen } from "../../../src/ui/Screen";
 import { useMood } from "../../../src/mood/MoodContext";
 import { Card } from "../../../src/ui/card";
 
+function parseISOAsLocal(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
 function formatPretty(dateISO: string) {
   try {
-    const d = new Date(dateISO);
-    return d.toLocaleDateString(undefined, {
-      month: "numeric",
-      day: "numeric",
-      year: "numeric",
-    });
+    const d = parseISOAsLocal(dateISO);
+    return d.toLocaleDateString(undefined, { month: "numeric", day: "numeric", year: "numeric" });
   } catch {
     return dateISO;
   }
