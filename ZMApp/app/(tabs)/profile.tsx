@@ -1,13 +1,10 @@
 import { Image } from 'expo-image';
-import { Platform, StyleSheet, TextInput} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { StyleSheet, TextInput } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 export default function HomeScreen() {
     const [text, setText] = useState('');
