@@ -1,8 +1,9 @@
 // app/(tabs)/mood/add.tsx
+
 import { useState, useCallback, Dispatch, SetStateAction } from "react";
 import { Stack, useRouter, useFocusEffect } from "expo-router";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import { Screen } from "../../../src/ui/Screen";                 
+import { Screen } from "../../../src/ui/Screen";
 import { useMood, MoodEntry } from "../../../src/mood/MoodContext";
 
 function getLocalDateISO(d = new Date()) {
@@ -12,40 +13,27 @@ function getLocalDateISO(d = new Date()) {
   return `${y}-${m}-${day}`;
 }
 
+type PrimaryButtonProps = { label: string; onPress?: () => void; style?: any };
+const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, onPress, style }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    activeOpacity={0.85}
+    style={[
+      {
+        backgroundColor: "#5A67D8",
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        borderRadius: 12,
+        alignItems: "center",
+      },
+      style,
+    ]}
+  >
+    <Text style={{ color: "#fff", fontFamily: "PoppinsSemi" }}>{label}</Text>
+  </TouchableOpacity>
+);
 
-type PrimaryButtonProps = {
-  label: string;
-  onPress?: () => void;
-  style?: any;
-};
-
-const PrimaryButton: React.FC<PrimaryButtonProps> = ({ label, onPress, style }) => {
-  return (
-    <TouchableOpacity
-      onPress={onPress}
-      activeOpacity={0.85}
-      style={[
-        {
-          backgroundColor: "#5A67D8",
-          paddingVertical: 12,
-          paddingHorizontal: 16,
-          borderRadius: 12,
-          alignItems: "center",
-        },
-        style,
-      ]}
-    >
-      <Text style={{ color: "#fff", fontFamily: "PoppinsSemi" }}>{label}</Text>
-    </TouchableOpacity>
-  );
-};
-
-type SegmentedProps<T extends string> = {
-  options: T[];
-  value: T;
-  onChange: Dispatch<SetStateAction<T>>;
-};
-
+type SegmentedProps<T extends string> = { options: T[]; value: T; onChange: Dispatch<SetStateAction<T>> };
 function Segmented<T extends string>({ options, value, onChange }: SegmentedProps<T>) {
   return (
     <View style={{ flexDirection: "row" }}>
@@ -79,7 +67,6 @@ export default function AddMood() {
   const [mood, setMood] = useState<MoodEntry["mood"]>("Happy");
   const [note, setNote] = useState("");
 
-  
   useFocusEffect(
     useCallback(() => {
       setMood("Happy");
@@ -88,10 +75,14 @@ export default function AddMood() {
   );
 
   const save = () => {
-    const todayISO = getLocalDateISO();
-    addMood({ dateISO: todayISO, mood, note: note.trim() || undefined });
+    const now = Date.now();
+    addMood({
+      ts: now,
+      dateISO: getLocalDateISO(new Date(now)),
+      mood,
+      note: note.trim() || undefined,
+    });
 
-    
     setMood("Happy");
     setNote("");
 
@@ -101,11 +92,9 @@ export default function AddMood() {
   return (
     <Screen title="Add Mood" subtitle="Select a mood and add a note.">
       <Stack.Screen options={{ headerShown: false }} />
-
       <View style={{ gap: 16 }}>
         <Text style={{ color: "#fff", fontFamily: "PoppinsSemi", fontSize: 16 }}>Select your mood</Text>
         <Segmented options={MOODS} value={mood} onChange={setMood} />
-
         <Text style={{ color: "#fff", fontFamily: "PoppinsSemi", fontSize: 16, marginTop: 6 }}>Add a note</Text>
         <TextInput
           placeholder="Type something…"
@@ -124,9 +113,9 @@ export default function AddMood() {
             backgroundColor: "#ffffff14",
           }}
         />
-
         <PrimaryButton label="Save Mood" onPress={save} style={{ marginTop: 8 }} />
       </View>
     </Screen>
   );
 }
+
