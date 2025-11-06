@@ -12,7 +12,7 @@ function getLocalDateISO(d = new Date()) {
 
 export type MoodEntry = {
   id: string;
-  dateISO: string; 
+  dateISO: string;
   mood: "Happy" | "Sad" | "Stressed" | "Relaxed" | "Calm" | "Tired";
   note?: string;
 };
@@ -42,58 +42,57 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
   }, [moods]);
 
   useEffect(() => {
-  (async () => {
-    try {
-      // run only once
-      const done = await AsyncStorage.getItem("@mood/migrated_v1");
-      if (done) return;
+    (async () => {
+      try {
+        const done = await AsyncStorage.getItem("@mood/migrated_v2");
+        if (done) return;
 
-      const raw = await AsyncStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        await AsyncStorage.setItem("@mood/migrated_v1", "1");
-        return;
-      }
-
-      const list: MoodEntry[] = JSON.parse(raw);
-
-      const dayMs = 24 * 60 * 60 * 1000;
-      let changed = false;
-
-      const fixed = list.map((e) => {
-        const maybeEpoch = Number(String(e.id).slice(0, 13));
-        if (Number.isNaN(maybeEpoch) || !Number.isFinite(maybeEpoch)) return e;
-
-        const created = new Date(maybeEpoch);
-        const localISO = getLocalDateISO(created);
-
-        const parseISOAsUTC = (iso: string) => new Date(iso + "T00:00:00Z").getTime();
-        const diffDays = Math.round(
-          (parseISOAsUTC(e.dateISO) - parseISOAsUTC(localISO)) / dayMs
-        );
-
-        if (diffDays === 1 || diffDays === -1) {
-          changed = true;
-          return { ...e, dateISO: localISO };
+        const raw = await AsyncStorage.getItem(STORAGE_KEY);
+        if (!raw) {
+          await AsyncStorage.setItem("@mood/migrated_v2", "1");
+          return;
         }
-        return e;
-      });
 
-      if (changed) {
-        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(fixed));
-        setMoods(fixed);
-      }
+        const list: MoodEntry[] = JSON.parse(raw);
+        let changed = false;
 
-      await AsyncStorage.setItem("@mood/migrated_v1", "1");
-    } catch {
-    }
-  })();
-}, []);
+        const fixed = list.map((e) => {
+          const ms = Number(String(e.id).slice(0, 13));
+          if (!Number.isFinite(ms) || ms < 1262304000000 || ms > 2050000000000) {
+            return e;
+          }
+          const localISO = getLocalDateISO(new Date(ms));
+          if (localISO !== e.dateISO) {
+            changed = true;
+            return { ...e, dateISO: localISO };
+          }
+          return e;
+        });
+
+        if (changed) {
+          await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(fixed));
+          setMoods(fixed);
+        }
+
+        await AsyncStorage.setItem("@mood/migrated_v2", "1");
+      } catch {}
+    })();
+  }, []);
 
   const addMood: MoodCtx["addMood"] = (m) => {
-    setMoods((prev) => [{ id: String(Date.now()) + Math.random().toString(36).slice(2), ...m }, ...prev]);
+    setMoods((prev) => [
+      { id: String(Date.now()) + Math.random().toString(36).slice(2), ...m },
+      ...prev,
+    ]);
   };
 
   return <Ctx.Provider value={{ moods, addMood }}>{children}</Ctx.Provider>;
+}
+
+export function useMood() {
+  const v = useContext(Ctx);
+  if (!v) throw new Error("useMood must be used within MoodProvider");
+  return v;
 }
 
 export function useMood() {
