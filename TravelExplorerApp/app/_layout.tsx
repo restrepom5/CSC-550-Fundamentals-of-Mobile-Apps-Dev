@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { Provider } from "react-redux";
 
 export default function RootLayout() {
   return (
@@ -16,7 +17,7 @@ export default function RootLayout() {
       />
       <Stack.Screen
         name="details/[id]"
-        options={{ presentation: "modal", title: "Modal Example" }}
+        options={{ presentation: "modal", title: "Museum" }}
       />
     </Stack>
   );

@@ -1,5 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Tabs, Stack } from "expo-router";
+import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStaticNavigation,
+  useNavigation,
+  StackActions,
+} from '@react-navigation/native';
 
 /*
 Used the following for help:
@@ -9,6 +15,8 @@ https://reactnative.dev/docs/flatlist#required-renderitem
 https://docs.expo.dev/router/advanced/modals/
 https://xebia.com/blog/generic-listitem-in-react-native-using-typescript/
 */
+
+
 
 export default function TabsLayout() {
   return (
@@ -39,14 +47,23 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="tracker"
         options={{
-          title: "Profile",
+          title: "Mood Tracker",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-circle-outline" color={color} size={size} />
+            <Ionicons name="happy" color={color} size={size} />
           ),
         }}
       />
+      <Tabs.Screen
+              name="profile"
+              options={{
+                title: "Profile",
+                tabBarIcon: ({ color, size }) => (
+                  <Ionicons name="person-circle-outline" color={color} size={size} />
+                ),
+              }}
+            />
     </Tabs>
   );
 }
