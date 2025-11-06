@@ -1,7 +1,7 @@
 # ✨🪩🌀Mood Tracker🌀🪩✨  
 ### *Track how you feel, every day.*
 
-A minimalist yet vibrant **React Native (Expo Router)** app that helps you log daily moods.
+A minimalist,vibrant **React Native (Expo Router)** app that helps you log daily moods.
 
 ---
 
