@@ -94,9 +94,3 @@ export function useMood() {
   if (!v) throw new Error("useMood must be used within MoodProvider");
   return v;
 }
-
-export function useMood() {
-  const v = useContext(Ctx);
-  if (!v) throw new Error("useMood must be used within MoodProvider");
-  return v;
-}
