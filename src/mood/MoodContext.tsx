@@ -3,6 +3,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+function getLocalDateISO(d = new Date()) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 export type MoodEntry = {
   id: string;
   dateISO: string; 
@@ -33,6 +40,54 @@ export function MoodProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(moods)).catch(() => {});
   }, [moods]);
+
+  useEffect(() => {
+  (async () => {
+    try {
+      // run only once
+      const done = await AsyncStorage.getItem("@mood/migrated_v1");
+      if (done) return;
+
+      const raw = await AsyncStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        await AsyncStorage.setItem("@mood/migrated_v1", "1");
+        return;
+      }
+
+      const list: MoodEntry[] = JSON.parse(raw);
+
+      const dayMs = 24 * 60 * 60 * 1000;
+      let changed = false;
+
+      const fixed = list.map((e) => {
+        const maybeEpoch = Number(String(e.id).slice(0, 13));
+        if (Number.isNaN(maybeEpoch) || !Number.isFinite(maybeEpoch)) return e;
+
+        const created = new Date(maybeEpoch);
+        const localISO = getLocalDateISO(created);
+
+        const parseISOAsUTC = (iso: string) => new Date(iso + "T00:00:00Z").getTime();
+        const diffDays = Math.round(
+          (parseISOAsUTC(e.dateISO) - parseISOAsUTC(localISO)) / dayMs
+        );
+
+        if (diffDays === 1 || diffDays === -1) {
+          changed = true;
+          return { ...e, dateISO: localISO };
+        }
+        return e;
+      });
+
+      if (changed) {
+        await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(fixed));
+        setMoods(fixed);
+      }
+
+      await AsyncStorage.setItem("@mood/migrated_v1", "1");
+    } catch {
+    }
+  })();
+}, []);
 
   const addMood: MoodCtx["addMood"] = (m) => {
     setMoods((prev) => [{ id: String(Date.now()) + Math.random().toString(36).slice(2), ...m }, ...prev]);
