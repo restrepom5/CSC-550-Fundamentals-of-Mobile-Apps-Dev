@@ -1,15 +1,11 @@
-import { LinearGradient } from "expo-linear-gradient";
 import { Link, useRouter, useLocalSearchParams } from "expo-router";
 import React, { useRef, useEffect, useState } from "react";
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { useNavigation, StackActions, useRoute } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-//import {state} from "../modal";
 import {
-  Animated,
   Button,
   Dimensions,
+  FlatList,
   StyleSheet,
   Text,
   TextInput,
@@ -22,6 +18,7 @@ import {
 Used the following for help:
 https://reactnavigation.org/docs/params/#passing-params-to-a-previous-screen
 https://react-native-async-storage.github.io/async-storage/docs/usage
+https://devcodelight.com/en/load-a-flatlist-from-the-end-to-display-a-chat-in-react-native/
 */
 const { width } = Dimensions.get("window");
 type LogItem = {
@@ -34,11 +31,19 @@ type LogItem = {
 export default function Tracker() {
 
     const router = useRouter();
-    //const route = useRoute();
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
 
     const { entry } = useLocalSearchParams();
     const [logs, setLogs] = useState<LogItem[]>([]);
 
+    //for updating the log history
     useEffect(() => {
         (async () => {
           try {
@@ -46,11 +51,12 @@ export default function Tracker() {
             if (stored) {
                 setLogs(JSON.parse(stored));
                 }
-          } catch (e) {
-            console.error("Failed to load mood logs", e);
+          } catch (err) {
+            console.error("Failed to load mood logs", err);
           }
         })}, []);
 
+    //for getting the new log entry and setting it
     useEffect(() => {
         if (entry) {
             try {
@@ -62,9 +68,10 @@ export default function Tracker() {
                             id: Date.now().toString(),
                             mood: parsed.mood,
                             log: parsed.log,
-                            timestamp: new Date().toLocaleString(),
+                            timestamp: new Date().toLocaleString(undefined, options),
                             },
                     ];
+                console.log(updated);
                     AsyncStorage.setItem("moodLogs", JSON.stringify(updated)).catch(() => {});
                     return updated;
                     });
@@ -74,35 +81,53 @@ export default function Tracker() {
             }
     }, [entry]);
 
+
+    //clean the screen
+    const removeValue = async () => {
+      try {
+        await AsyncStorage.removeItem('moodLogs');
+      } catch(err) {
+        console.warn("Couldn't remove logs", err);
+        setLogs([]);
+      }}
+
+
     return (
-        <SafeAreaView style={styles.container}>
-            <Text style={styles.title}>Mood Tracker</Text>
-            <Text style={styles.text}>This is your mood tracker. Click on "Add Current Mood" to start your log.</Text>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => router.push("/modal")}>
-                <Text style={styles.buttonText}>Add Current Mood</Text>
-            </TouchableOpacity>
-                <Text style={styles.text}>Mood History</Text>
-                {log && (
-                <View style={styles.entryBox}>
-                    <Text style={styles.entryMood}>Mood: {item.mood}</Text>
-                    <Text style={styles.entryText}>Note: {item.log}</Text>}
-                    <Text style={styles.entryDate}>{item.timestamp}</Text>
-                </View>
-                )}
-        </SafeAreaView>
-    );
+            <SafeAreaView style={styles.container}>
+                <Text style={styles.title}>Mood Tracker</Text>
+                <Text style={styles.subtext}>Today's Date: {new Date().toLocaleString(undefined,options)}</Text>
+                <Text style={styles.text}>This is your mood tracker. Click on "Add Current Mood" to start your log.</Text>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => router.push("/modal")}>
+                    <Text style={styles.buttonText}>Add Current Mood</Text>
+                </TouchableOpacity>
+                    <Text style={styles.text}>Mood History</Text>
+                    <FlatList
+                    inverted
+                    data = {logs}
+                    keyExtractor = {(item) => item.id}
+                    renderItem = {({item}) => (
+                        <View style={styles.entryBox}>
+                            <Text style={styles.subtext}>Mood: {item.mood}</Text>
+                            <Text style={styles.subtext}>Note: {item.log}</Text>
+                            <Text style={styles.subtext}>{item.timestamp}</Text>
+                            <Text style={styles.subtext}>=============================================</Text>
+                        </View>
+                        )}
+                    />
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={removeValue}>
+                        <Text style={styles.buttonText}>Clear All Logs</Text>
+                    </TouchableOpacity>
+            </SafeAreaView>
+        );
 }
 
 const styles = StyleSheet.create({
-    gradient: {
-        flex: 1,
-        },
     container: {
         flex: 1,
-        //justifyContent: "center",
-        //alignItems: "center",
         padding: 20,
         backgroundColor:"#111",
         },
@@ -122,11 +147,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         marginTop: 20,
         },
-    subtitle: {
+    subtext: {
         fontSize: 16,
-        color: "#aaa",
-        marginBottom: 35,
-        textAlign: "center",
+        color: "#DAD7CD",
+        marginBottom: 10,
+        textAlign: "left",
         },
     button: {
         backgroundColor: "#3a5a40",
@@ -140,11 +165,5 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "600",
         textAlign: "center",
-        },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
         },
     });

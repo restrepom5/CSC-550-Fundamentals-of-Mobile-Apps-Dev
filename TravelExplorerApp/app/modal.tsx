@@ -2,7 +2,6 @@ import { useRouter } from "expo-router";
 import { useState, useReducer } from "react";
 import { Dropdown } from 'react-native-element-dropdown';
 import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useNavigation, useRoute, StackActions } from '@react-navigation/native';
 
 const { width } = Dimensions.get("window");
 
@@ -18,7 +17,6 @@ function reducer(state, action) {
 }
 
 export default function Modal() {
-    //const navigation = useNavigation();
     const router = useRouter();
     const [state, dispatch] = useReducer(reducer, {mood:'', log:''});
 
@@ -69,7 +67,7 @@ export default function Modal() {
                     }}
                 />
             <TouchableOpacity style={styles.button} onPress={submitHandler}>
-                <Text style={styles.buttonText}>Submit</Text>
+                <Text style={styles.buttonText}>Save Mood</Text>
             </TouchableOpacity>
         </View>
         );

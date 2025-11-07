@@ -1,11 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs, Stack } from "expo-router";
-import { createStackNavigator } from '@react-navigation/stack';
-import {
-  createStaticNavigation,
-  useNavigation,
-  StackActions,
-} from '@react-navigation/native';
 
 /*
 Used the following for help:
