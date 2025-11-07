@@ -1,3 +1,4 @@
+// Is this the file copy to make changes in the state and then replace in the store?
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface MoodEntry {
