@@ -1,43 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import React from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
+import AnimatedBackground from "../components/AnimatedBackground";
 
 export default function ProfileScreen() {
-  const images = [
-    require("../../assets/images/art.jpg"),
-    require("../../assets/images/giphy.gif"),
-    require("../../assets/images/art2.jpg"),
-  ];
-
-  const [index, setIndex] = useState(0);
-  const fadeAnim = useRef(new Animated.Value(1)).current;
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      Animated.timing(fadeAnim, {
-        toValue: 0,
-        duration: 800,
-        useNativeDriver: true,
-      }).start(() => {
-        setIndex((prev) => (prev + 1) % images.length);
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 800,
-          useNativeDriver: true,
-        }).start();
-      });
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [fadeAnim]);
-
   return (
     <View style={styles.container}>
-      <Animated.Image
-        source={images[index]}
-        style={[styles.backgroundImage, { opacity: fadeAnim }]}
-        resizeMode="cover"
-      />
+      <AnimatedBackground />
       <View style={styles.contentContainer}>
         <Image
           source={require('../../assets/images/shaf.jpg')}
@@ -61,11 +30,6 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  backgroundImage: {
-    ...StyleSheet.absoluteFillObject,
-    width: '100%',
-    height: '100%',
   },
   contentContainer: {
     flex: 1,
