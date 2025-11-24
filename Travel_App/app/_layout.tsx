@@ -15,16 +15,8 @@ export default function RootLayout() {
     >
       <Stack.Screen name="Home" options={{ headerShown: false, headerTitle: ' ' }} />
       <Stack.Screen
-        name="pushed"
-        options={{ title: "Pushed Screen", animation: "slide_from_right" }}
-      />
-      <Stack.Screen
         name="details/[id]"
         options={{ title: "Details", animation: "slide_from_right" }}
-      />
-      <Stack.Screen
-        name="modal"
-        options={{ presentation: "modal", title: "Modal Example" }}
       />
     </Stack>
     </Provider>

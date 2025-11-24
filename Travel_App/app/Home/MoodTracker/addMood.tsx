@@ -9,15 +9,6 @@ import { useNavigation } from 'expo-router';
 
 // Define the moods available for selection
 const MOOD_OPTIONS = ['Happy', 'Calm', 'Stressed', 'Tired', 'Sad', 'Relaxed', 'Anxious'];
-const DISPATCH_VOICES: { [key: string]: string } = {
-  'Happy': 'Puck',
-  'Calm': 'Leda',
-  'Stressed': 'Kore',
-  'Tired': 'Charon',
-  'Sad': 'Fenrir',
-  'Relaxed': 'Aoede',
-  'Anxious': 'Orus',
-};
 
 interface MoodButtonProps {
   mood: string;
