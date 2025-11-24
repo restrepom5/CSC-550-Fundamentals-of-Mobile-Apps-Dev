@@ -2,26 +2,16 @@
 
 import React, { useState } from 'react';
 import { router } from "expo-router";
-import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-// 1. TypeScript Interface
+// 1. TypeScript Interface for Destination Data
 interface Destination {
   id: number;
   name: string;
   country: string;
   tags: string;
 }
-
-// 2. Expensive Logic (Remains the same, but execution is optimized)
-const calculateExpensiveValue = (name: string): string => {
-  let result = 0;
-  // Simulate a very heavy, synchronous calculation
-  for (let i = 0; i < 5000000; i++) {
-    result += Math.sqrt(i) * Math.log(i + 1);
-  }
-  return `(${name.length} chars)`;
-};
 
 const allDestinations: Destination[] = [
   { id: 104, name: 'Tokyo', country: 'Japan', tags: 'city, culture, food' },
@@ -31,36 +21,11 @@ const allDestinations: Destination[] = [
   { id: 108, name: 'Cairo', country: 'Egypt', tags: 'history, desert, culture' },
 ];
 
-// ************************************************************
-// 🎯 OPTIMIZATION: Extract and Memoize the Card Component
-// ************************************************************
-const DestinationCard = React.memo(({ item }: { item: Destination }) => {
-    // This expensive function now ONLY runs if the 'item' prop changes.
-    const expensiveText = calculateExpensiveValue(item.name); 
-
-    console.log(`Rendering/Calculating: ${item.name}`); // Optional: Check console logs to see which cards render
-
-    return (
-        <TouchableOpacity 
-            style={styles.card}
-            onPress={() => router.push({
-                pathname: `../details/${item.id}`, 
-                params: { backTitle: 'Discover Destinations' }
-            })}
-        >
-            <Text style={styles.cardTitle}>{item.name}</Text>
-            {/* Display the result of the expensive text */}
-            <Text style={styles.cardSubtitle}>{item.country} {expensiveText}</Text>
-        </TouchableOpacity>
-    );
-});
-
-// ************************************************************
-
-
 export default function Explore() {
+  // 3. Search State
   const [searchText, setSearchText] = useState('');
 
+  // 4. Filtering Logic
   const filteredDestinations = allDestinations.filter((dest) => {
     const searchLower = searchText.toLowerCase();
     return (
@@ -74,7 +39,7 @@ export default function Explore() {
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Discover Destinations</Text>
       
-      {/* Search Input (Triggers re-render of Explore) */}
+      {/* Search Input */}
       <TextInput
         style={styles.searchInput}
         placeholder="Search by city, country, or tag..."
@@ -87,8 +52,20 @@ export default function Explore() {
       <FlatList
         data={filteredDestinations}
         keyExtractor={(item) => item.id.toString()}
-        // Use the memoized component here
-        renderItem={({ item }) => <DestinationCard item={item} />} 
+        renderItem={({ item }) => (
+          <TouchableOpacity 
+            style={styles.card}
+            // *** CRITICAL CHANGE: Pass the desired backTitle as a query parameter ***
+            onPress={() => router.push({
+                pathname: `../details/${item.id}`, 
+                params: { backTitle: 'Discover Destinations' } // <-- Sets the custom text
+            })}
+          >
+            <Text style={styles.cardTitle}>{item.name}</Text>
+            <Text style={styles.cardSubtitle}>{item.country}</Text>
+          </TouchableOpacity>
+        )}
+        // Display a message if no results are found
         ListEmptyComponent={() => (
           <Text style={styles.emptyText}>No destinations matched your search.</Text>
         )}
@@ -98,10 +75,9 @@ export default function Explore() {
 }
 
 const styles = StyleSheet.create({
-  // ... (Your styles remain the same) ...
   container: { 
     flex: 1, 
-    backgroundColor: "#1c1c1e", 
+    backgroundColor: "#1c1c1e", // Dark background
     paddingHorizontal: 20, 
     paddingTop: 10 
   },
@@ -127,7 +103,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 6,
     borderLeftWidth: 4,
-    borderLeftColor: '#007AFF',
+    borderLeftColor: '#007AFF', // Blue accent for discoverability
   },
   cardTitle: { 
     color: "#fff", 
