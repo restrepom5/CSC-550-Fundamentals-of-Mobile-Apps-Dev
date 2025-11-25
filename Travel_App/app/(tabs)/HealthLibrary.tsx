@@ -1,48 +1,34 @@
-// app/Home/explore.tsx
-
 import React, { useState } from 'react';
 import { router } from "expo-router";
 import { FlatList, StyleSheet, Text, View, TextInput, TouchableOpacity } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-// 1. TypeScript Interface for Destination Data
-interface Destination {
-  id: number;
-  name: string;
-  country: string;
-  tags: string;
-}
+// FIX: Corrected import path. Since this file is now at app/HealthLibrary.tsx,
+// we only need to go up one level (..) to exit app/, then enter src/.
+// NOTE: If this path is still incorrect, please confirm the path from your project root to 'diseases'.
+import { healthProblems, Disease } from '../../src/data/diseases';
 
-const allDestinations: Destination[] = [
-  { id: 104, name: 'Tokyo', country: 'Japan', tags: 'city, culture, food' },
-  { id: 105, name: 'Rome', country: 'Italy', tags: 'history, ruins, food, city' },
-  { id: 106, name: 'Patagonia', country: 'Argentina/Chile', tags: 'mountains, hiking, nature' },
-  { id: 107, name: 'Phuket', country: 'Thailand', tags: 'beach, relaxation, food' },
-  { id: 108, name: 'Cairo', country: 'Egypt', tags: 'history, desert, culture' },
-];
-
-export default function Explore() {
-  // 3. Search State
+export default function HealthLibrary() {
   const [searchText, setSearchText] = useState('');
 
   // 4. Filtering Logic
-  const filteredDestinations = allDestinations.filter((dest) => {
+  const filteredDiseases = healthProblems.filter((disease) => {
     const searchLower = searchText.toLowerCase();
     return (
-      dest.name.toLowerCase().includes(searchLower) ||
-      dest.country.toLowerCase().includes(searchLower) ||
-      dest.tags.toLowerCase().includes(searchLower)
+      disease.disease.toLowerCase().includes(searchLower) ||
+      disease.remedy.toLowerCase().includes(searchLower) ||
+      disease.symptoms.toLowerCase().includes(searchLower)
     );
   });
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Discover Destinations</Text>
+      <Text style={styles.title}>Health Resource Library</Text>
       
-      {/* Search Input */}
+      {/* Search Input (User Input Requirement Met) */}
       <TextInput
         style={styles.searchInput}
-        placeholder="Search by city, country, or tag..."
+        placeholder="Search disease, symptoms, or remedy..."
         placeholderTextColor="#777"
         onChangeText={setSearchText}
         value={searchText}
@@ -50,24 +36,29 @@ export default function Explore() {
 
       {/* List of Filtered Results */}
       <FlatList
-        data={filteredDestinations}
+        data={filteredDiseases}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity 
             style={styles.card}
-            // *** CRITICAL CHANGE: Pass the desired backTitle as a query parameter ***
+            // NAV FIX: Use absolute path from root for robustness
             onPress={() => router.push({
-                pathname: `../details/${item.id}`, 
-                params: { backTitle: 'Discover Destinations' } // <-- Sets the custom text
+pathname: `../details/${item.id}`, 
+                // FIX: Pass the desired back button title explicitly. 
+                // This tells the Stack Navigator to use "Health Library" 
+                // instead of the default "Home" or "Activity".
+                params: { 
+                  backTitle: 'Health Library' // This is the key fix
+                } 
             })}
           >
-            <Text style={styles.cardTitle}>{item.name}</Text>
-            <Text style={styles.cardSubtitle}>{item.country}</Text>
+            <Text style={styles.cardTitle}>{item.disease}</Text>
+            <Text style={styles.cardSubtitle}>{item.remedy}</Text>
           </TouchableOpacity>
         )}
         // Display a message if no results are found
         ListEmptyComponent={() => (
-          <Text style={styles.emptyText}>No destinations matched your search.</Text>
+          <Text style={styles.emptyText}>No matching diseases found.</Text>
         )}
       />
     </SafeAreaView>
@@ -77,7 +68,7 @@ export default function Explore() {
 const styles = StyleSheet.create({
   container: { 
     flex: 1, 
-    backgroundColor: "#1c1c1e", // Dark background
+    backgroundColor: "#1c1c1e", 
     paddingHorizontal: 20, 
     paddingTop: 10 
   },
@@ -103,7 +94,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 6,
     borderLeftWidth: 4,
-    borderLeftColor: '#007AFF', // Blue accent for discoverability
+    borderLeftColor: '#4CAF50', // Updated accent color for health theme
   },
   cardTitle: { 
     color: "#fff", 

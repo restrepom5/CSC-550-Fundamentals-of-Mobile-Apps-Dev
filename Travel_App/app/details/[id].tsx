@@ -1,164 +1,148 @@
-// app/details/[id].tsx
+import React, { useLayoutEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { useLocalSearchParams, router } from 'expo-router';
+import { Text, View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { FontAwesome5 } from '@expo/vector-icons';
 
-import { useLocalSearchParams, useRouter, useNavigation } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from "react-native";
-import { useLayoutEffect } from "react"; // <-- New Import
+// Assuming you have your data source imported here:
+import { healthProblems } from '../../src/data/diseases';
 
-// Enriched Trip Data
-const destinations = [
-  // --- Data from Home Screen (IDs 101-103) ---
-  { id: 101, title: 'Africa Safari', date: 'Oct 2025', status: 'Upcoming', description: 'Explore the great plains and diverse wildlife of Africa.' },
-  { 
-    id: 102, 
-    title: 'Budapest Hungary', 
-    date: 'Jul 2025', 
-    status: 'Completed', 
-    description: 'A trip focused on cultural immersion and community service with the Kihm family. Site-seeing included the Danube and Buda Castle.', 
-    mission_family: 'Daniel, Christy, and Sofie Kihm',
-    mission_focus: 'CHOG Community Outreach' 
-  },
-  { id: 103, title: 'Sri Lanka Getaway', date: 'Dec 2025', status: 'Booked', description: 'Relaxing beaches and ancient temples in the Indian Ocean.' },
+export default function DetailsScreen() {
+    const navigation = useNavigation();
+    const { id, backTitle } = useLocalSearchParams();
+    const problemId = parseInt(id as string);
+    
+    const problem = healthProblems.find(p => p.id === problemId);
 
-  // --- Data from Discover Screen (IDs 104-108) ---
-  { id: 104, title: 'Tokyo', date: 'Oct 2026', status: 'Planned', description: 'A city of contrasts: neon skyscrapers and ancient temples. Focus on culture and food.' },
-  { id: 105, title: 'Rome', country: 'Italy', date: 'May 2026', status: 'Planned', description: 'The Eternal City. History, ancient ruins, and incredible Italian cuisine.' },
-  { id: 106, title: 'Patagonia', country: 'Argentina/Chile', date: 'Jan 2027', status: 'Dreaming', description: 'Trekking through vast, stunning landscapes, glaciers, and mountains.' },
-  { id: 107, title: 'Phuket', country: 'Thailand', date: 'Apr 2026', status: 'Planned', description: 'Tropical beaches, beautiful islands, and the warm waters of the Andaman Sea.' },
-  { id: 108, title: 'Cairo', country: 'Egypt', date: 'Nov 2026', status: 'Dreaming', description: 'Witness the Great Pyramids and explore the rich history of the Nile River Valley.' },
-];
+    // --- 1. Set Custom Header Options ---
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            // Ensure the title is set
+            headerTitle: problem?.disease || 'Remedy Details', 
 
-export default function Details() {
-  const { id, backTitle } = useLocalSearchParams<{ id: string, backTitle: string }>();
-  const router = useRouter();
-  const navigation = useNavigation();
+            // Explicitly set visibility and background color
+            headerShown: true, // Should be true if you see the header bar
+            headerStyle: {
+                backgroundColor: '#1c1c1e', // Dark background to contrast button
+            },
+            
+            // Hide the default system back button
+            headerBackVisible: false, 
+            
+            // Set the custom header button component
+            headerLeft: () => (
+                <TouchableOpacity
+                    onPress={() => {
+                        // FIX: Prioritize goBack() for animation, but ensure it works.
+                        // We use goBack() which should pop the screen off the stack.
+                        // If that fails (which it shouldn't here), the router will try to navigate.
+                        router.back();
+                    }}
+                    style={styles.backButton}
+                    // Add hitSlop to increase the tappable area for better touch responsiveness
+                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                >
+                    {/* The icon and text which compose the back button */}
+                    <FontAwesome5 name="chevron-left" size={24} color="#4CAF50" />
+                    <Text style={styles.backButtonText}>{backTitle || 'Back'}</Text>
+                </TouchableOpacity>
+            ),
+            // Important: We need to ensure the header is accessible if it was previously hidden
+        });
+    }, [navigation, problem?.disease, backTitle]);
 
-  const resolvedBackTitle = Array.isArray(backTitle) ? backTitle[0] : backTitle;
-
-  // Find the matching destination (MUST be after the destinations array)
-  const foundDestination = destinations.find(
-    (d) => d.id.toString() === id
-  );
-
-    // *** NEW: Hook to set the back button text dynamically ***
-  useLayoutEffect(() => {
-    if (resolvedBackTitle) {
-      navigation.setOptions({
-        headerBackTitle: resolvedBackTitle,
-        headerTitle: foundDestination?.title || "Details",
-      });
+    if (!problem) {
+        return (
+            <View style={styles.notFoundContainer}>
+                <Text style={styles.notFoundText}>Error: Problem not found.</Text>
+            </View>
+        );
     }
-  }, [navigation, resolvedBackTitle, foundDestination?.title]);
-  // ********************************************************
 
-  // 1. ERROR RETURN: Executed if the ID is invalid (fixes the syntax error)
-  if (!foundDestination) {
+    // ... (rest of the component JSX)
     return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.title}>Trip Not Found!</Text>
-        <TouchableOpacity style={styles.button} onPress={() => router.back()}>
-          <Text style={styles.buttonText}>⬅ Go Back</Text>
-        </TouchableOpacity>
-      </View>
+        <SafeAreaView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.contentPadding}>
+                <Text style={styles.title}>{problem.disease}</Text>
+                
+                <Text style={styles.remedyHeader}>Recommended Remedy</Text>
+                <Text style={styles.remedyText}>{problem.remedy}</Text>
+                
+                <Text style={styles.descriptionHeader}>Symptoms</Text>
+                <Text style={styles.descriptionText}>{problem.symptoms}</Text>
+
+                <Text style={styles.descriptionHeader}>Prevention</Text>
+                <Text style={styles.descriptionText}>{problem.explanation}</Text>
+
+            </ScrollView>
+        </SafeAreaView>
     );
-  }
-
-  // 2. SUCCESS RETURN: Executed when the trip is found
-  return (
-    <ScrollView style={styles.scrollViewContainer}>
-      
-      <View style={styles.contentPadding}>
-        <Text style={styles.title}>{foundDestination.title}</Text>
-        <Text style={styles.dateText}>{foundDestination.date} ({foundDestination.status})</Text>
-
-        {/* Conditional Tribute to the Kihm Family */}
-        {foundDestination.mission_family && (
-          <View style={styles.tributeBox}>
-            <Text style={styles.tributeHeader}>Mission Focus</Text>
-            <Text style={styles.tributeText}>Dedicated to the work of {foundDestination.mission_family}.</Text>
-            <Text style={styles.tributeSmallText}>{foundDestination.mission_focus}</Text>
-          </View>
-        )}
-
-        <Text style={styles.descriptionHeader}>Trip Overview</Text>
-        <Text style={styles.descriptionText}>{foundDestination.description}</Text>
-
-        <TouchableOpacity style={styles.button} onPress={() => router.back()}>
-          <Text style={styles.buttonText}>⬅ Go Back</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
-  );
 }
 
+// NOTE: You must include all the styles used in this file
 const styles = StyleSheet.create({
-  scrollViewContainer: {
-    flex: 1,
-    backgroundColor: "#1c1c1e",
-  },
-  contentPadding: {
-    padding: 20,
-    paddingTop: 60, // Ensure content is below the status bar
-  },
-  title: {
-    color: "#fff",
-    fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 8,
-  },
-  dateText: { 
-    color: "#aaa", 
-    fontSize: 16, 
-    marginBottom: 20 
-  },
-  descriptionHeader: {
-    color: "#fff",
-    fontSize: 22,
-    fontWeight: '600',
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  descriptionText: {
-    color: "#ccc",
-    fontSize: 16,
-    lineHeight: 24,
-    marginBottom: 30,
-  },
-  tributeBox: {
-    backgroundColor: '#2e2e30',
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 20,
-  },
-  tributeHeader: {
-    color: '#007AFF',
-    fontSize: 18,
-    fontWeight: '700',
-    marginBottom: 5,
-  },
-  tributeText: {
-    color: '#fff',
-    fontSize: 16,
-  },
-  tributeSmallText: {
-    color: '#aaa',
-    fontSize: 14,
-    marginTop: 5,
-  },
-  button: {
-    backgroundColor: "#007AFF",
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  buttonText: { color: "#fff", fontSize: 18, fontWeight: "600" },
-
-  errorContainer: {
-    flex: 1,
-    backgroundColor: "#1c1c1e",
-    justifyContent: 'center', // Centers vertically
-    alignItems: 'center',    // Centers horizontally
-    padding: 20,
-},
+    container: {
+        flex: 1,
+        backgroundColor: '#1c1c1e', // Dark background
+    },
+    contentPadding: {
+        paddingHorizontal: 20,
+        paddingTop: 40,
+        paddingBottom: 80, // Extra padding for safe area
+    },
+    title: {
+        color: '#fff',
+        fontSize: 32,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
+    remedyHeader: {
+        color: '#4CAF50', // Health green accent
+        fontSize: 18,
+        fontWeight: '700',
+        marginTop: 20,
+        marginBottom: 4,
+    },
+    remedyText: {
+        color: '#90EE90', // Lighter green for remedy
+        fontSize: 18,
+        fontWeight: '600',
+        marginBottom: 20,
+    },
+    descriptionHeader: {
+        color: '#fff',
+        fontSize: 22,
+        fontWeight: '700',
+        marginTop: 15,
+        marginBottom: 5,
+    },
+    descriptionText: {
+        color: '#aaa',
+        fontSize: 16,
+        lineHeight: 24,
+    },
+    notFoundContainer: {
+        flex: 1,
+        backgroundColor: '#1c1c1e',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    notFoundText: {
+        color: 'white',
+        fontSize: 20,
+    },
+    // Styles for the custom back button
+    backButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        // Increased padding to ensure it's clickable
+        paddingVertical: 10, 
+        paddingRight: 15,
+    },
+    backButtonText: {
+        color: '#4CAF50',
+        fontSize: 17,
+        marginLeft: 4,
+    }
 });

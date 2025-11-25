@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context'; 
 
-import { RootState } from '../../../src/store/types'; 
+import { RootState } from '../../src/store/types'; 
 
 // Define mood icon options for display consistency
 const MOOD_ICONS: { [key: string]: string } = {
@@ -30,7 +30,7 @@ export default function MoodTrackerScreen() {
         {/* 💡 FIX: Replaced Button with TouchableOpacity for press feedback on Android */}
         <TouchableOpacity 
           style={styles.addButton}
-          onPress={() => router.push('/Home/MoodTracker/addMood')} 
+          onPress={() => router.push('/addMood')} 
           activeOpacity={0.7} // Visual feedback on press
         >
           <Text style={styles.addButtonText}>➕ Add Current Mood</Text>

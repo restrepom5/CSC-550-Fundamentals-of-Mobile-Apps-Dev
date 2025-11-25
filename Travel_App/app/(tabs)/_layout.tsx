@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Stack, Redirect } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+import React, { useEffect, useState } from 'react';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen'; // Keep this import for the hide call
 import { Text, View, StyleSheet } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Provider } from 'react-redux'; // <-- 1. Redux Provider
-import { store } from '../src/store/store'; // <-- 2. Redux Store (see next file)
+import { Provider } from 'react-redux'; 
+import { store } from '../../src/store/store'; // Correct path to your store implementation
 
+// Keep this line. Even if it doesn't prevent flicker fully, it's best practice.
 SplashScreen.preventAutoHideAsync();
 
 // Custom Splash Screen Component
@@ -17,38 +18,37 @@ const CustomSplashScreen = () => (
   </View>
 );
 
-// Main Root Layout Component - This handles the Stack Navigation and Redux Context
+// Main Root Layout Component
 export default function RootLayout() {
   const [appIsReady, setAppIsReady] = useState(false);
 
-  // Splash screen logic (loading fonts, etc.)
   useEffect(() => {
     async function prepare() {
       try {
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        // 1. Simulate loading time (e.g., fetching data, initializing state)
+        await new Promise(resolve => setTimeout(resolve, 3000)); 
       } catch (e) {
-        console.warn(e);
+        console.warn("Error during app preparation:", e);
       } finally {
+        // 2. Hide the native splash screen (this is a safe call)
+        await SplashScreen.hideAsync();
+        
+        // 3. Set the state to ready, switching from CustomSplashScreen to Stack Navigator
         setAppIsReady(true);
       }
     }
     prepare();
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
   if (!appIsReady) {
+    // While loading (for 3 seconds), display the custom splash screen component.
     return <CustomSplashScreen />;
   }
 
+  // Once loading is complete, render the main app structure
   return (
-    // Inject the Redux Provider at the highest level
     <Provider store={store}>
-      <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <View style={{ flex: 1 }}>
         <Stack 
           screenOptions={{ 
             headerShown: false, // Default to hidden
@@ -56,21 +56,18 @@ export default function RootLayout() {
           }}
         >
           
-          {/* 1. The (tabs) group - This renders the Tab Navigator defined in (tabs)/_layout.tsx */}
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           
-          {/* 2. Global screens - This is your details page */}
           <Stack.Screen 
             name="details/[id]" 
             options={{ 
-              headerShown: true, // Explicitly show the header for this global screen
+              headerShown: true, // Show header for detail screens
               headerTitle: "Remedy Details", 
               headerStyle: headerStyles.header,
-              headerTintColor: '#4CAF50', // Green back button/icons
+              headerTintColor: '#4CAF50',
             }} 
           />
-          
-          {/* 3. The root index file (redirects to (tabs)) */}
+          <Stack.Screen name="addMood" options={{ headerShown: true }} /> 
           <Stack.Screen name="index" options={{ headerShown: false }} />
 
         </Stack>
@@ -91,7 +88,7 @@ const headerStyles = StyleSheet.create({
 const splashStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: '#121212', // Critical: Dark background for the custom component
     justifyContent: 'center',
     alignItems: 'center',
   },
