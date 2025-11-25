@@ -5,15 +5,16 @@ export interface Mood {
     id: string;
     date: string;
     mood: string;
-    note: string; // <-- Changed from 'notes' to 'note' (singular)
+    note: string; // <-- Now uses 'note' (singular)
+    location?: string;
 }
 
 const initialState = {
-  // Placeholder data as required by the assignment
   moods: [
-    { id: '1', date: 'Oct 29, 2025', mood: 'Happy', note: 'Had a great day coding!' },
-    { id: '2', date: 'Oct 28, 2025', mood: 'Stressed', note: 'Project deadlines looming.' },
-  ] as Mood[], // Use 'as Mood[]' for proper typing of initial state
+    // Update existing placeholders
+    { id: '1', date: 'Oct 29, 2025', mood: 'Happy', note: 'Had a great day coding!', location: 'New Haven, CT' },
+    { id: '2', date: 'Oct 28, 2025', mood: 'Stressed', note: 'Project deadlines looming.', location: 'New York, NY' },
+  ] as Mood[], 
 };
 
 const moodsSlice = createSlice({

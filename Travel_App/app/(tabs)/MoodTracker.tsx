@@ -4,10 +4,17 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context'; 
 
+// 💡 Assuming this is the new correct path to your RootState type
 import { RootState } from '../../src/store/types'; 
 
 // Define mood icon options for display consistency
 const MOOD_ICONS: { [key: string]: string } = {
+  'Great': '😀', // Assuming 'Great' maps to a happy emoji
+  'Good': '😊', 
+  'Neutral': '😌',
+  'Bad': '😟',
+  'Awful': '😬', 
+  // Map moods used in your AddMoodScreen to emojis
   'Happy': '😊',
   'Calm': '😌',
   'Relaxed': '🧘‍♀️',
@@ -27,11 +34,12 @@ export default function MoodTrackerScreen() {
       <View style={styles.container}>
         <Text style={styles.header}>Today is: **{today}**</Text>
         
-        {/* 💡 FIX: Replaced Button with TouchableOpacity for press feedback on Android */}
         <TouchableOpacity 
           style={styles.addButton}
+          // The router.push here is correct and will navigate to the screen
+          // which automatically fetches the location when it mounts.
           onPress={() => router.push('/addMood')} 
-          activeOpacity={0.7} // Visual feedback on press
+          activeOpacity={0.7} 
         >
           <Text style={styles.addButtonText}>➕ Add Current Mood</Text>
         </TouchableOpacity>
@@ -43,10 +51,19 @@ export default function MoodTrackerScreen() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.moodItem}>
-              <Text style={styles.moodDate}>{item.date}</Text>
+              <Text style={styles.moodDate}>Logged: {new Date(item.date).toLocaleDateString()} at {new Date(item.date).toLocaleTimeString()}</Text>
+              
               <Text style={styles.moodType}>
                 {MOOD_ICONS[item.mood] || ''} Mood: **{item.mood}**
               </Text>
+              
+              {/* 💡 CHANGE: Display the saved location */}
+              {item.location && item.location !== 'Not Logged' && (
+                  <Text style={styles.moodLocation}>
+                      📍 Location: {item.location}
+                  </Text>
+              )}
+              
               {item.note && <Text style={styles.moodNote}>Note: {item.note}</Text>}
             </View>
           )}
@@ -74,9 +91,8 @@ const styles = StyleSheet.create({
     color: '#D4D4D4', 
     marginBottom: 15,
   },
-  // 💡 NEW STYLE for the custom 'Add Mood' button
   addButton: {
-    backgroundColor: '#388E3C', // A slightly darker green for better contrast
+    backgroundColor: '#388E3C', 
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -85,7 +101,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
-    elevation: 5, // Android shadow
+    elevation: 5,
   },
   addButtonText: {
     color: '#FFFFFF',
@@ -117,6 +133,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#FFFFFF',
     marginBottom: 4,
+  },
+  // 💡 NEW STYLE for the saved location display
+  moodLocation: { 
+    fontSize: 13,
+    color: '#B0C4DE', 
+    marginBottom: 4,
+    fontStyle: 'italic',
   },
   moodNote: {
     fontSize: 14,

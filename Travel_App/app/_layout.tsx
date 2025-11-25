@@ -64,7 +64,7 @@ export default function RootLayout() {
             }} 
           />
           {/* 3. The Mood logging screen */}
-          <Stack.Screen name="addMood" options={{ headerShown: true, headerStyle: headerStyles.header, headerTintColor: '#4CAF50' }} />
+          <Stack.Screen name="addMood" options={{ headerShown: false, headerStyle: headerStyles.header, headerTintColor: '#4CAF50' }} />
           
           {/* 4. The root index file */}
           <Stack.Screen name="index" options={{ headerShown: false }} />
