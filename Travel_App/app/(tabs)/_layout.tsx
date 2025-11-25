@@ -1,108 +1,75 @@
-import React, { useEffect, useState } from 'react';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen'; // Keep this import for the hide call
-import { Text, View, StyleSheet } from 'react-native';
+import React from 'react';
+import { Tabs } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { Provider } from 'react-redux'; 
-import { store } from '../../src/store/store'; // Correct path to your store implementation
+import { StyleSheet } from 'react-native';
 
-// Keep this line. Even if it doesn't prevent flicker fully, it's best practice.
-SplashScreen.preventAutoHideAsync();
-
-// Custom Splash Screen Component
-const CustomSplashScreen = () => (
-  <View style={splashStyles.container}>
-    <FontAwesome5 name="heartbeat" size={80} color="#4CAF50" style={splashStyles.icon} />
-    <Text style={splashStyles.title}>Health Monitor</Text>
-    <Text style={splashStyles.subtitle}>Loading Resources...</Text>
-  </View>
-);
-
-// Main Root Layout Component
-export default function RootLayout() {
-  const [appIsReady, setAppIsReady] = useState(false);
-
-  useEffect(() => {
-    async function prepare() {
-      try {
-        // 1. Simulate loading time (e.g., fetching data, initializing state)
-        await new Promise(resolve => setTimeout(resolve, 3000)); 
-      } catch (e) {
-        console.warn("Error during app preparation:", e);
-      } finally {
-        // 2. Hide the native splash screen (this is a safe call)
-        await SplashScreen.hideAsync();
-        
-        // 3. Set the state to ready, switching from CustomSplashScreen to Stack Navigator
-        setAppIsReady(true);
-      }
-    }
-    prepare();
-  }, []);
-
-  if (!appIsReady) {
-    // While loading (for 3 seconds), display the custom splash screen component.
-    return <CustomSplashScreen />;
-  }
-
-  // Once loading is complete, render the main app structure
+// The Tab Layout component defines the look and structure of the tab bar.
+export default function TabLayout() {
   return (
-    <Provider store={store}>
-      <View style={{ flex: 1 }}>
-        <Stack 
-          screenOptions={{ 
-            headerShown: false, // Default to hidden
-            contentStyle: { backgroundColor: '#1c1c1e' }
-          }}
-        >
-          
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          
-          <Stack.Screen 
-            name="details/[id]" 
-            options={{ 
-              headerShown: true, // Show header for detail screens
-              headerTitle: "Remedy Details", 
-              headerStyle: headerStyles.header,
-              headerTintColor: '#4CAF50',
-            }} 
-          />
-          <Stack.Screen name="addMood" options={{ headerShown: true }} /> 
-          <Stack.Screen name="index" options={{ headerShown: false }} />
+    // Use the Tabs component from expo-router
+    <Tabs
+      screenOptions={{
+        headerShown: false, // We control headers individually or in the root stack
+        tabBarActiveTintColor: '#90EE90', // Light green for active tabs
+        tabBarInactiveTintColor: '#888', // Gray for inactive tabs
+        tabBarStyle: styles.tabBar,
+        tabBarLabelStyle: styles.tabBarLabel,
+      }}
+    >
+      {/* Define each screen that lives inside the (tabs) folder. 
+        The router finds index, MoodTracker, HealthLibrary, and Account automatically.
+      */}
+      
+      {/* Home Tab */}
+      <Tabs.Screen
+        name="Home/index" // Corresponds to app/(tabs)/Home/index.tsx
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color }) => <FontAwesome5 name="home" size={20} color={color} solid />,
+        }}
+      />
 
-        </Stack>
-      </View>
-    </Provider>
+      {/* Mood Tracker Tab */}
+      <Tabs.Screen
+        name="MoodTracker" // Corresponds to app/(tabs)/MoodTracker.tsx
+        options={{
+          title: 'Mood Tracker',
+          tabBarIcon: ({ color }) => <FontAwesome5 name="list-alt" size={20} color={color} solid />,
+        }}
+      />
+
+      {/* Health Library Tab */}
+      <Tabs.Screen
+        name="HealthLibrary" // Corresponds to app/(tabs)/HealthLibrary.tsx
+        options={{
+          title: 'Library',
+          tabBarIcon: ({ color }) => <FontAwesome5 name="book" size={20} color={color} />,
+        }}
+      />
+
+      {/* Account Tab */}
+      <Tabs.Screen
+        name="Account" // Corresponds to app/(tabs)/Account.tsx
+        options={{
+          title: 'Account',
+          tabBarIcon: ({ color }) => <FontAwesome5 name="user-alt" size={20} color={color} />,
+        }}
+      />
+
+    </Tabs>
   );
 }
 
-const headerStyles = StyleSheet.create({
-    header: {
-        backgroundColor: '#1c1c1e', // Dark background for the header
-        borderBottomWidth: 0,
-        elevation: 0,
-        shadowOpacity: 0,
+const styles = StyleSheet.create({
+    tabBar: {
+        backgroundColor: '#1c1c1e', // Dark background
+        borderTopWidth: 0,
+        paddingTop: 5,
+        height: 60,
+    },
+    tabBarLabel: {
+        fontSize: 11,
+        fontWeight: '600',
+        marginBottom: 5,
     }
-});
-
-const splashStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212', // Critical: Dark background for the custom component
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  icon: {
-    marginBottom: 10,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 5,
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#aaa',
-  },
 });
