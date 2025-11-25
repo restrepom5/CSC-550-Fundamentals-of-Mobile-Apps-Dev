@@ -65,11 +65,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#1c1c1e', // Dark background
         borderTopWidth: 0,
         paddingTop: 5,
-        height: 60,
+        height: 75,
+        paddingBottom: 10,
     },
     tabBarLabel: {
         fontSize: 11,
         fontWeight: '600',
-        marginBottom: 5,
+        marginBottom: 0,
     }
 });
