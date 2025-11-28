@@ -66,6 +66,7 @@ const AddMoodScreen = () => {
         setCurrentLocation('Fetching Location...');
         
         try {
+            // STEP 1: Check for permission
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== 'granted') {
                 setLocationStatus('error');
@@ -73,7 +74,24 @@ const AddMoodScreen = () => {
                 Alert.alert("Permission Denied", "Location access is needed to log your current location.");
                 return;
             }
+            
+            // >>> CRITICAL NEW CHECK <<<
+            // STEP 2: Check if location services are enabled on the device/emulator
+            const isEnabled = await Location.hasServicesEnabledAsync();
+            if (!isEnabled) {
+                // If services are disabled, the user needs to turn them on in the emulator settings.
+                setLocationStatus('error');
+                setCurrentLocation('Services Disabled');
+                Alert.alert(
+                    "Location Services Disabled", 
+                    "Please ensure location services are enabled in your device settings or, if using an emulator, ensure a mock location is set."
+                );
+                return;
+            }
+            // >>> END CRITICAL NEW CHECK <<<
 
+
+            // STEP 3: Get current position
             let location = await Location.getCurrentPositionAsync({
                 accuracy: Location.Accuracy.Balanced,
             });
@@ -83,6 +101,7 @@ const AddMoodScreen = () => {
                 longitude: location.coords.longitude,
             });
 
+            // STEP 4: Reverse Geocode (Network Call)
             let geocode: Location.LocationGeocodedAddress[] = [];
             try {
                 geocode = await Location.reverseGeocodeAsync({
@@ -91,6 +110,10 @@ const AddMoodScreen = () => {
                 });
             } catch (e) {
                 console.error("Geocoding failed:", e);
+                // Fallback if geocoding fails (e.g., temporary network issue)
+                setCurrentLocation(`Location Coordinates: ${location.coords.latitude.toFixed(2)}, ${location.coords.longitude.toFixed(2)}`);
+                setLocationStatus('success');
+                return;
             }
             
 
@@ -100,13 +123,15 @@ const AddMoodScreen = () => {
                 setCurrentLocation(locationString);
                 setLocationStatus('success');
             } else {
+                // Fallback if geocoding returns no result but the location was fetched
                 setCurrentLocation(`Location Coordinates: ${location.coords.latitude.toFixed(2)}, ${location.coords.longitude.toFixed(2)}`);
                 setLocationStatus('success');
             }
 
         } catch (error: any) {
             console.error("Error getting location:", error);
-            let message = error.message || "Could not determine current location. Location services might be disabled.";
+            // This catches the original "Current location is unavailable" error
+            let message = "Could not determine current location. Location services might be disabled or no GPS signal is available (set a mock location in the emulator).";
             setCurrentLocation('Failed to get location');
             setLocationStatus('error');
             Alert.alert("Location Error", message);
@@ -153,6 +178,11 @@ const AddMoodScreen = () => {
     };
 
     const getLocationButtonText = () => {
+        // If we are showing the Services Disabled error, show that specific text.
+        if (locationStatus === 'error' && currentLocation === 'Services Disabled') {
+            return 'Location Services Disabled (Enable Now)';
+        }
+        
         if (locationStatus === 'fetching') return <ActivityIndicator color="white" />;
         if (locationStatus === 'success') return currentLocation; 
         if (locationStatus === 'error') return 'Location Failed (Tap to retry)';
