@@ -55,12 +55,115 @@ const AddMoodScreen = () => {
         { mood: 'Awful', icon: 'sad-sharp' },
     ];
 
+    // Refactored useEffect to clean up async state updates on unmount
     useEffect(() => {
-        handleGetLocation();
-    }, []);
+        let isMounted = true;
 
-    const handleGetLocation = async () => {
-        if (locationStatus === 'fetching') return;
+        const getLocationOnMount = async () => {
+             // Only run if the component is still mounted
+            if (locationStatus === 'fetching' || !isMounted) return;
+        
+            setLocationStatus('fetching');
+            setCurrentLocation('Fetching Location...');
+            
+            try {
+                // STEP 1: Check for permission
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== 'granted') {
+                    if (isMounted) {
+                        setLocationStatus('error');
+                        setCurrentLocation('Permission Denied');
+                        Alert.alert("Permission Denied", "Location access is needed to log your current location.");
+                    }
+                    return;
+                }
+                
+                // STEP 2: Check if location services are enabled on the device/emulator
+                const isEnabled = await Location.hasServicesEnabledAsync();
+                if (!isEnabled) {
+                    if (isMounted) {
+                        // If services are disabled, the user needs to turn them on in the emulator settings.
+                        setLocationStatus('error');
+                        setCurrentLocation('Services Disabled');
+                        Alert.alert(
+                            "Location Services Disabled", 
+                            "Please ensure location services are enabled in your device settings or, if using an emulator, ensure a mock location is set."
+                        );
+                    }
+                    return;
+                }
+
+                // STEP 3: Get current position
+                let location = await Location.getCurrentPositionAsync({
+                    accuracy: Location.Accuracy.Balanced,
+                });
+
+                if (isMounted) {
+                    setLocationCoordinates({
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+                    });
+                }
+
+
+                // STEP 4: Reverse Geocode (Network Call)
+                let geocode: Location.LocationGeocodedAddress[] = [];
+                try {
+                    geocode = await Location.reverseGeocodeAsync({
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+                    });
+                } catch (e) {
+                    console.error("Geocoding failed:", e);
+                    // Fallback if geocoding fails (e.g., temporary network issue)
+                    if (isMounted) {
+                        setCurrentLocation(`Location Coordinates: ${location.coords.latitude.toFixed(2)}, ${location.coords.longitude.toFixed(2)}`);
+                        setLocationStatus('success');
+                    }
+                    return;
+                }
+                
+                if (isMounted) {
+                    if (geocode.length > 0) {
+                        const { city, region, country } = geocode[0];
+                        const locationString = `${city || region || 'Unknown City'}, ${country || 'Unknown Region'}`;
+                        setCurrentLocation(locationString);
+                        setLocationStatus('success');
+                    } else {
+                        // Fallback if geocoding returns no result but the location was fetched
+                        setCurrentLocation(`Location Coordinates: ${location.coords.latitude.toFixed(2)}, ${location.coords.longitude.toFixed(2)}`);
+                        setLocationStatus('success');
+                    }
+                }
+
+            } catch (error: any) {
+                console.error("Error getting location:", error);
+                if (isMounted) {
+                    // This catches the original "Current location is unavailable" error
+                    let message = "Could not determine current location. Location services might be disabled or no GPS signal is available (set a mock location in the emulator).";
+                    setCurrentLocation('Failed to get location');
+                    setLocationStatus('error');
+                    Alert.alert("Location Error", message);
+                }
+            }
+        };
+
+        // You should define handleGetLocation outside useEffect or pass it as a stable dependency.
+        // For the sake of refactoring only the useEffect logic:
+        // We'll rename the original function to keep consistency.
+        getLocationOnMount();
+
+
+        // Cleanup function to prevent setting state on unmounted component
+        return () => {
+            isMounted = false;
+        };
+    }, []); // Run once on component mount
+
+    // Kept handleGetLocation as a separate function for the button retry logic
+    const handleGetLocation = async (isManualRetry = false) => {
+        // Only run if manually triggered or if it's the initial mount and status is idle/error
+        if (!isManualRetry && locationStatus === 'fetching') return; 
         
         setLocationStatus('fetching');
         setCurrentLocation('Fetching Location...');
@@ -75,7 +178,6 @@ const AddMoodScreen = () => {
                 return;
             }
             
-            // >>> CRITICAL NEW CHECK <<<
             // STEP 2: Check if location services are enabled on the device/emulator
             const isEnabled = await Location.hasServicesEnabledAsync();
             if (!isEnabled) {
@@ -88,8 +190,6 @@ const AddMoodScreen = () => {
                 );
                 return;
             }
-            // >>> END CRITICAL NEW CHECK <<<
-
 
             // STEP 3: Get current position
             let location = await Location.getCurrentPositionAsync({
@@ -226,7 +326,7 @@ const AddMoodScreen = () => {
                 <Text style={styles.sectionTitle}>Current Location</Text>
                 <TouchableOpacity
                     style={getLocationButtonStyle()}
-                    onPress={handleGetLocation}
+                    onPress={() => handleGetLocation(true)} // Pass true to indicate manual retry
                     disabled={locationStatus === 'fetching'}
                 >
                     <Ionicons name="location-sharp" size={18} color="white" style={styles.iconMarginRight} />
