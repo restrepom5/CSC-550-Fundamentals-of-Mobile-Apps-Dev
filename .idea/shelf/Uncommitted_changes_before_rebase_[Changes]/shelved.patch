@@ -1,0 +1,14 @@
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># CSC-550-Fundamentals-of-Mobile-Apps-Dev\r\nFall 2025\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision d47bc7d6bd35798b2edb2c5260566c241be81ee8)
++++ b/README.md	(date 1760890775710)
+@@ -1,2 +1,2 @@
+ # CSC-550-Fundamentals-of-Mobile-Apps-Dev
+-Fall 2025
++Fall 2024
