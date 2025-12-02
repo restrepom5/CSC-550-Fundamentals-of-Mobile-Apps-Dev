@@ -199,7 +199,6 @@
         <PersistentDeviceSelectionData>
           <option name="api" value="35" />
           <option name="brand" value="samsung" />
-<<<<<<< HEAD
           <option name="codename" value="a35x" />
           <option name="id" value="a35x" />
           <option name="labId" value="google" />
@@ -212,8 +211,6 @@
         <PersistentDeviceSelectionData>
           <option name="api" value="35" />
           <option name="brand" value="samsung" />
-=======
->>>>>>> Mashrakey_Shafqat_week8
           <option name="codename" value="a36xq" />
           <option name="id" value="a36xq" />
           <option name="labId" value="google" />

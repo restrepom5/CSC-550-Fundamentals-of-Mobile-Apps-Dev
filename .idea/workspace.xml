@@ -4,7 +4,49 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ab10c65-44dd-4c80-8a2e-8a67e6e3b774" name="Changes" comment="preliminary trial" />
+    <list default="true" id="2ab10c65-44dd-4c80-8a2e-8a67e6e3b774" name="Changes" comment="preliminary trial">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/.vscode/extensions.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/.vscode/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/app.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/(tabs)/_layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/(tabs)/explore.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/(tabs)/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/_layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/modal.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/android-icon-background.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/android-icon-foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/android-icon-monochrome.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/favicon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/partial-react-logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/react-logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/react-logo@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/react-logo@3x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/splash-icon.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/external-link.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/haptic-tab.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/hello-wave.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/parallax-scroll-view.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/themed-text.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/themed-view.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/ui/collapsible.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/ui/icon-symbol.ios.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/ui/icon-symbol.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/constants/theme.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/eslint.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/hooks/use-color-scheme.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/hooks/use-color-scheme.web.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/hooks/use-theme-color.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/scripts/reset-project.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-app/my-app/tsconfig.json" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,6 +104,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\shafq\OneDrive - Southern Connecticut State University\Desktop\SCSU\csc550\CSC-550-Fundamentals-of-Mobile-Apps-Dev\my-app" />
       <recent name="C:\Users\shafq\OneDrive - Southern Connecticut State University\Desktop\SCSU\csc550\CSC-550-Fundamentals-of-Mobile-Apps-Dev\travel-explorer" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\shafq\OneDrive - Southern Connecticut State University\Desktop\SCSU\csc550\CSC-550-Fundamentals-of-Mobile-Apps-Dev\Final\app\components" />
     </key>
   </component>
   <component name="TaskManager">
