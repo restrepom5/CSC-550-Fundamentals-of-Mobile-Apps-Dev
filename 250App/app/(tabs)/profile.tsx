@@ -1,28 +1,79 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import {
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Button,
+  ScrollView,
+} from "react-native";
 
 export default function Profile() {
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+
   return (
-    <View style={styles.container}>
-      <Image
-        source={{
-          uri: "https://avatars.githubusercontent.com/u/9919?s=200&v=4",
-        }}
-        style={styles.avatar}
-      />
-      <Text style={styles.name}>Your Name</Text>
-      <Text style={styles.bio}>iamrestrepo</Text>
-    </View>
+    <SafeAreaView style={styles.safe}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps="handled"
+        >
+          <Text style={styles.header}>🧍‍♀️ Edit Your Profile</Text>
+
+          <Text style={styles.label}>Full Name</Text>
+          <TextInput
+            value={name}
+            onChangeText={setName}
+            placeholder="Enter your name"
+            style={styles.input}
+            placeholderTextColor="#777"
+          />
+
+          <Text style={styles.label}>Bio</Text>
+          <TextInput
+            value={bio}
+            onChangeText={setBio}
+            placeholder="Tell us about yourself"
+            style={[styles.input, styles.textArea]}
+            placeholderTextColor="#777"
+            multiline
+          />
+
+          <Button
+            title="Save Profile"
+            onPress={() => alert(`Saved: ${name || "No name"} ✅`)}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#111",
-    justifyContent: "center",
-    alignItems: "center",
+  safe: { flex: 1, backgroundColor: "#181818" },
+  container: { padding: 20 },
+  header: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 30,
+    textAlign: "center",
   },
-  avatar: { width: 120, height: 120, borderRadius: 60, marginBottom: 20 },
-  name: { color: "#fff", fontSize: 24, fontWeight: "bold" },
-  bio: { color: "#ccc", fontSize: 16, marginTop: 8 },
+  label: { color: "#ccc", marginBottom: 6, fontWeight: "500" },
+  input: {
+    backgroundColor: "#222",
+    color: "#fff",
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginBottom: 20,
+  },
+  textArea: { height: 120, textAlignVertical: "top" },
 });

@@ -22,6 +22,10 @@ export default function RootLayout() {
         name="modal"
         options={{ presentation: "modal", title: "Modal Example" }}
       />
+      <Stack.Screen
+        name="safe-area-demo"
+        options={{ title: "Safe Area Demo", animation: "slide_from_right" }}
+      />
     </Stack>
   );
 }

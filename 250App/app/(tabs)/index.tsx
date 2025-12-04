@@ -17,7 +17,7 @@ export default function Index() {
 
   const Button = ({ title, color, onPress, href }) => {
     const scale = useRef(new Animated.Value(1)).current;
-
+    console.log("COLOR", color);
     const animateIn = () =>
       Animated.spring(scale, {
         toValue: 0.96,
@@ -89,6 +89,11 @@ export default function Index() {
           onPress={() =>
             router.push({ pathname: "/details/[id]", params: { id: "99" } })
           }
+        />
+        <Button
+          title="🟢 Safe Area Demo"
+          color="#32D74B"
+          onPress={() => router.push("/safe-area-demo")}
         />
       </View>
     </LinearGradient>
