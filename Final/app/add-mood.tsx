@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useMoods } from './contexts/MoodContext'; // Import the hook
+import { useMoods } from './contexts/MoodContext';
+import { useAppTheme } from './contexts/ThemeContext';
 
 const moodOptions = ["Happy", "Sad", "Calm", "Tired", "Excited"];
 
@@ -9,34 +10,44 @@ export default function AddMoodScreen() {
   const [selectedMood, setSelectedMood] = useState("");
   const [note, setNote] = useState("");
   const router = useRouter();
-  const { addMood } = useMoods(); // Get the addMood function from our context
+  const { addMood } = useMoods();
+  const { theme } = useAppTheme();
+  const isDark = theme === 'dark';
 
   const handleSave = () => {
-    if (selectedMood) { // Only save if a mood has been selected
-      addMood(selectedMood, note); // This now saves the mood to the device
+    if (selectedMood) {
+      addMood(selectedMood, note);
       router.back();
     }
   };
 
+  // Dynamic styles
+  const containerStyle = [styles.container, { backgroundColor: isDark ? '#121212' : '#fff' }];
+  const headerStyle = [styles.header, { color: isDark ? '#fff' : '#000' }];
+  const moodButton = (mood: string) => [styles.moodButton, { borderColor: isDark ? '#555' : '#ccc' }, selectedMood === mood && styles.selectedMood];
+  const moodTextStyle = { color: isDark ? '#fff' : '#000' };
+  const textInputStyle = [styles.textInput, { borderColor: isDark ? '#555' : '#ccc', color: isDark ? '#fff' : '#000' }];
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>How are you feeling?</Text>
+    <View style={containerStyle}>
+      <Text style={headerStyle}>How are you feeling?</Text>
 
       <View style={styles.moodSelector}>
         {moodOptions.map((mood) => (
           <TouchableOpacity
             key={mood}
-            style={[styles.moodButton, selectedMood === mood && styles.selectedMood]}
+            style={moodButton(mood)}
             onPress={() => setSelectedMood(mood)}
           >
-            <Text style={styles.moodText}>{mood}</Text>
+            <Text style={moodTextStyle}>{mood}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
       <TextInput
-        style={styles.textInput}
+        style={textInputStyle}
         placeholder="Add a note for today (optional)"
+        placeholderTextColor={isDark ? '#999' : '#aaa'}
         value={note}
         onChangeText={setNote}
         multiline
@@ -49,12 +60,10 @@ export default function AddMoodScreen() {
   );
 }
 
-// Styles remain the same
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#fff',
   },
   header: {
     fontSize: 22,
@@ -71,7 +80,6 @@ const styles = StyleSheet.create({
   moodButton: {
     padding: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
     borderRadius: 20,
     margin: 5,
   },
@@ -84,7 +92,6 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 100,
-    borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,

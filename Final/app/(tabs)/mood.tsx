@@ -1,28 +1,40 @@
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import { Link } from "expo-router";
-import { useMoods } from "../contexts/MoodContext"; // Import the hook
+import { useMoods } from "../contexts/MoodContext";
+import { useAppTheme } from "../contexts/ThemeContext"; // Import the theme hook
 
 export default function MoodTrackerScreen() {
-  const { moods } = useMoods(); // Use the hook to get the real moods
+  const { moods } = useMoods();
+  const { theme } = useAppTheme();
+  const isDark = theme === 'dark';
+
   const today = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
+  // Dynamic styles
+  const containerStyle = [styles.container, { backgroundColor: isDark ? '#121212' : '#f0f8ff' }];
+  const dateTextStyle = [styles.dateText, { color: isDark ? '#fff' : '#333' }];
+  const headerStyle = [styles.header, { color: isDark ? '#fff' : '#000' }];
+  const moodEntryStyle = [styles.moodEntry, { backgroundColor: isDark ? '#2C2C2E' : '#fff', borderColor: isDark ? '#444' : '#eee' }];
+  const moodTextStyle = [styles.moodText, { color: isDark ? '#fff' : '#000' }];
+  const noteTextStyle = [styles.noteText, { color: isDark ? '#ccc' : '#555' }];
+  const emptyTextStyle = [styles.emptyText, { color: isDark ? '#888' : '#888' }];
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.dateText}>{today}</Text>
-      <Text style={styles.header}>Your Recent Moods</Text>
+    <View style={containerStyle}>
+      <Text style={dateTextStyle}>{today}</Text>
+      <Text style={headerStyle}>Your Recent Moods</Text>
 
       <FlatList
-        data={moods} // Use the real data from the context
+        data={moods}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.moodEntry}>
-            <Text style={styles.moodText}>{item.mood}</Text>
-            <Text style={styles.noteText}>{item.note}</Text>
+          <View style={moodEntryStyle}>
+            <Text style={moodTextStyle}>{item.mood}</Text>
+            <Text style={noteTextStyle}>{item.note}</Text>
             <Text style={styles.entryDate}>{item.date}</Text>
           </View>
         )}
-        // This message will show if the list is empty
-        ListEmptyComponent={() => <Text style={styles.emptyText}>No moods saved yet.</Text>}
+        ListEmptyComponent={() => <Text style={emptyTextStyle}>No moods saved yet.</Text>}
       />
 
       <Link href="/add-mood" asChild>
@@ -34,17 +46,14 @@ export default function MoodTrackerScreen() {
   );
 }
 
-// The styles remain the same
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#f0f8ff",
   },
   dateText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
     textAlign: "center",
     marginBottom: 20,
   },
@@ -54,11 +63,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   moodEntry: {
-    backgroundColor: "#fff",
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
-    borderColor: "#eee",
     borderWidth: 1,
   },
   moodText: {
@@ -67,7 +74,6 @@ const styles = StyleSheet.create({
   },
   noteText: {
     fontSize: 14,
-    color: "#555",
     marginTop: 4,
   },
   entryDate: {
@@ -80,7 +86,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginTop: 50,
     fontSize: 16,
-    color: "#888",
   },
   button: {
     backgroundColor: "#007AFF",

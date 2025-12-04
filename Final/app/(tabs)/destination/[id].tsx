@@ -1,15 +1,13 @@
 import { useLocalSearchParams, Stack } from "expo-router";
 import { View, Text, Image, StyleSheet, ScrollView, Platform, Linking, TouchableOpacity } from "react-native";
+import { useAppTheme } from "../../contexts/ThemeContext";
 
-// --- Conditional Import for react-native-maps ---
-// This prevents a crash on web by only importing the native library on mobile.
 let MapView, Marker;
 if (Platform.OS !== 'web') {
   const RnM = require('react-native-maps');
   MapView = RnM.default;
   Marker = RnM.Marker;
 }
-// --------------------------------------------------
 
 const mononokeLocation = {
   latitude: 30.3586,
@@ -27,6 +25,14 @@ const silentVoiceLocation = {
 
 export default function DestinationDetail() {
   const { id, name, desc } = useLocalSearchParams();
+  const { theme } = useAppTheme();
+  const isDark = theme === 'dark';
+
+  // Dynamic styles for theme
+  const titleStyle = [styles.title, { color: isDark ? '#fff' : '#111' }];
+  const locationTextStyle = [styles.locationText, { backgroundColor: isDark ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.7)', color: isDark ? '#fff' : '#000' }];
+  const descriptionStyle = [styles.description, { backgroundColor: isDark ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.8)', color: isDark ? '#fff' : '#333' }];
+  const linkTextStyle = [styles.linkText, { color: isDark ? '#589afc' : '#007bff' }];
 
   let imageSource;
   let location = "";
@@ -60,7 +66,7 @@ export default function DestinationDetail() {
       if (id === '2') {
         return (
           <View style={styles.mapContainer}>
-            <Text style={styles.locationText}>Inspiration: Yakushima Island</Text>
+            <Text style={locationTextStyle}>Inspiration: Yakushima Island</Text>
             <MapView style={styles.map} initialRegion={mononokeLocation}>
               <Marker coordinate={mononokeLocation} title={"Yakushima Forest"} />
             </MapView>
@@ -69,7 +75,7 @@ export default function DestinationDetail() {
       } else if (id === '4') {
         return (
           <View style={styles.mapContainer}>
-            <Text style={styles.locationText}>Location: Ōgaki, Japan</Text>
+            <Text style={locationTextStyle}>Location: Ōgaki, Japan</Text>
             <MapView style={styles.map} initialRegion={silentVoiceLocation}>
               <Marker coordinate={silentVoiceLocation} title={"Ōgaki"} />
             </MapView>
@@ -78,13 +84,13 @@ export default function DestinationDetail() {
       }
     } else {
       if (id === '2') {
-        return <TouchableOpacity onPress={() => Linking.openURL('https://maps.app.goo.gl/i9juLLBx8QYpHwz26')}><Text style={styles.linkText}>View on Google Maps</Text></TouchableOpacity>;
+        return <TouchableOpacity onPress={() => Linking.openURL('https://maps.app.goo.gl/i9juLLBx8QYpHwz26')}><Text style={linkTextStyle}>View on Google Maps</Text></TouchableOpacity>;
       } else if (id === '4') {
-        return <TouchableOpacity onPress={() => Linking.openURL('https://maps.app.goo.gl/kG7bzHTtYzxaJtnv5')}><Text style={styles.linkText}>View on Google Maps</Text></TouchableOpacity>;
+        return <TouchableOpacity onPress={() => Linking.openURL('https://maps.app.goo.gl/kG7bzHTtYzxaJtnv5')}><Text style={linkTextStyle}>View on Google Maps</Text></TouchableOpacity>;
       }
     }
 
-    return location ? <Text style={styles.locationText}>Origin: {location}</Text> : null;
+    return location ? <Text style={locationTextStyle}>Origin: {location}</Text> : null;
   };
 
   return (
@@ -92,11 +98,11 @@ export default function DestinationDetail() {
       <Stack.Screen options={{ title: `${name}` }} />
 
       <Image source={imageSource} style={styles.image} resizeMode="cover" />
-      <Text style={styles.title}>{name}</Text>
+      <Text style={titleStyle}>{name}</Text>
 
       {renderMapOrLink()}
 
-      <Text style={styles.description}>{desc}</Text>
+      <Text style={descriptionStyle}>{desc}</Text>
     </ScrollView>
   );
 }
@@ -104,7 +110,7 @@ export default function DestinationDetail() {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    paddingBottom: 50,
+    paddingBottom: 50, 
     alignItems: "center",
     backgroundColor: "transparent",
   },
@@ -117,7 +123,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#fff",
     textAlign: "center",
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: -1, height: 1},
@@ -126,8 +131,6 @@ const styles = StyleSheet.create({
   locationText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#fff',
-    backgroundColor: 'rgba(0,0,0,0.6)',
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderRadius: 5,
@@ -136,10 +139,8 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 18,
-    color: "#fff",
     textAlign: "center",
     marginTop: 10,
-    backgroundColor: 'rgba(0,0,0,0.5)',
     padding: 15,
     borderRadius: 8,
   },
@@ -154,7 +155,6 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontSize: 16,
-    color: '#2f95dc',
     textDecorationLine: 'underline',
     marginTop: 10,
   }

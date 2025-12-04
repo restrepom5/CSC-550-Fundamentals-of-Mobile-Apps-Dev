@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
-import { ImageBackground, StyleSheet, TouchableOpacity } from "react-native";
+import { ImageBackground, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Audio } from 'expo-av';
 import { Asset } from 'expo-asset';
+import { useAppTheme } from '../contexts/ThemeContext'; // Corrected Path
 
 const backgroundImage = require("../../assets/images/art.jpg");
 
+// --- Mute Button --- //
 function MuteButton() {
   const [sound, setSound] = useState<Audio.Sound>();
   const [isMuted, setIsMuted] = useState(false);
@@ -20,31 +22,37 @@ function MuteButton() {
   useEffect(() => {
     const loadAndPlaySound = async () => {
       try {
-        // Use Asset module for more reliable loading
-        const asset = Asset.fromModule(require('../../assets/music/ashitaka.mp3'));
-        await asset.downloadAsync(); // Ensure the asset is downloaded
-        
-        const { sound } = await Audio.Sound.createAsync(
-          asset,
-          { isLooping: true }
-        );
+        const asset = Asset.fromModule(require('../../assets/music/Lapis Philosophorum.mp3'));
+        await asset.downloadAsync();
+        const { sound } = await Audio.Sound.createAsync(asset, { isLooping: true });
         setSound(sound);
         await sound.playAsync();
       } catch (error) {
         console.error('Error loading sound', error);
       }
     };
-
     loadAndPlaySound();
-
-    return () => {
-      sound?.unloadAsync();
-    };
+    return () => { sound?.unloadAsync(); };
   }, []);
 
   return (
-    <TouchableOpacity onPress={toggleMute} style={{ marginRight: 15 }}>
+    <TouchableOpacity onPress={toggleMute} style={{ padding: 10 }}>
       <FontAwesome name={isMuted ? 'volume-off' : 'volume-up'} size={24} color="#2f95dc" />
+    </TouchableOpacity>
+  );
+}
+
+// --- Theme Button --- //
+function ThemeToggleButton() {
+  const { theme, setTheme } = useAppTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <TouchableOpacity onPress={toggleTheme} style={{ padding: 10 }}>
+      <FontAwesome name={theme === 'light' ? 'moon-o' : 'sun-o'} size={24} color="#2f95dc" />
     </TouchableOpacity>
   );
 }
@@ -76,6 +84,7 @@ export default function TabLayout() {
           options={{
             title: "Explore",
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="compass" color={color} />,
+            headerRight: () => <ThemeToggleButton />,
           }}
         />
         <Tabs.Screen

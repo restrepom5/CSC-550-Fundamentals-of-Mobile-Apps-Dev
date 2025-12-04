@@ -5,47 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ab10c65-44dd-4c80-8a2e-8a67e6e3b774" name="Changes" comment="preliminary trial">
+      <change afterPath="$PROJECT_DIR$/Final/app/contexts/ThemeContext.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Final/assets/music/Lapis Philosophorum.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Final/tamagui.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/.vscode/extensions.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/.vscode/settings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/app.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/(tabs)/_layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/(tabs)/explore.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/(tabs)/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/_layout.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/app/modal.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/android-icon-background.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/android-icon-foreground.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/android-icon-monochrome.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/partial-react-logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/react-logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/react-logo@2x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/react-logo@3x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/assets/images/splash-icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/external-link.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/haptic-tab.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/hello-wave.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/parallax-scroll-view.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/themed-text.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/themed-view.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/ui/collapsible.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/ui/icon-symbol.ios.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/components/ui/icon-symbol.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/constants/theme.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/eslint.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/hooks/use-color-scheme.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/hooks/use-color-scheme.web.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/hooks/use-theme-color.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/scripts/reset-project.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-app/my-app/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Final/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/app/(tabs)/destination/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/(tabs)/destination/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/app/(tabs)/explore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/(tabs)/explore.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/app/(tabs)/mood.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/(tabs)/mood.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/_layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/app/add-mood.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/add-mood.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/assets/music/ashitaka.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Final/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Final/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,24 +59,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Mashrakey__Shafqat__final&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/shafq/OneDrive - Southern Connecticut State University/Desktop/SCSU/csc550/CSC-550-Fundamentals-of-Mobile-Apps-Dev/my-app&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "Mashrakey__Shafqat__final",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Users/shafq/OneDrive - Southern Connecticut State University/Desktop/SCSU/csc550/CSC-550-Fundamentals-of-Mobile-Apps-Dev/Final/assets/music",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\shafq\OneDrive - Southern Connecticut State University\Desktop\SCSU\csc550\CSC-550-Fundamentals-of-Mobile-Apps-Dev\Final\assets\music" />
       <recent name="C:\Users\shafq\OneDrive - Southern Connecticut State University\Desktop\SCSU\csc550\CSC-550-Fundamentals-of-Mobile-Apps-Dev\my-app" />
       <recent name="C:\Users\shafq\OneDrive - Southern Connecticut State University\Desktop\SCSU\csc550\CSC-550-Fundamentals-of-Mobile-Apps-Dev\travel-explorer" />
     </key>

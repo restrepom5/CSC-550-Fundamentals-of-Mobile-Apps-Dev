@@ -1,5 +1,6 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Link } from "expo-router";
+import { useAppTheme } from "../contexts/ThemeContext"; // Import the theme hook
 
 const destinations = [
   {
@@ -30,15 +31,36 @@ const destinations = [
 ];
 
 export default function ExploreScreen() {
+  const { theme } = useAppTheme();
+  const isDark = theme === 'dark';
+
+  // Dynamically adjust styles based on the theme
+  const containerStyle = {
+    ...styles.container,
+    backgroundColor: isDark ? 'rgba(0,0,0,0.5)' : 'transparent',
+  };
+  const titleStyle = {
+    ...styles.title,
+    color: isDark ? '#FFF' : '#111',
+  };
+  const cardStyle = {
+    ...styles.card,
+    backgroundColor: isDark ? 'rgba(44, 44, 46, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+  };
+  const linkTextStyle = {
+    ...styles.linkText,
+    color: isDark ? '#589afc' : '#007bff',
+  };
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Explore Destinations</Text>
+    <ScrollView contentContainerStyle={containerStyle}>
+      <Text style={titleStyle}>Explore The Themes</Text>
       {destinations.map((dest) => (
-        <View key={dest.id} style={styles.card}>
+        <View key={dest.id} style={cardStyle}>
           <Image source={dest.image} style={styles.image} />
           <Link href={{ pathname: `/destination/${dest.id}`, params: { name: dest.name, desc: dest.description } }} asChild>
             <TouchableOpacity>
-              <Text style={styles.linkText}>{dest.name}</Text>
+              <Text style={linkTextStyle}>{dest.name}</Text>
             </TouchableOpacity>
           </Link>
         </View>
@@ -56,18 +78,17 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#333",
   },
   card: {
     marginBottom: 20,
     alignItems: "center",
     borderRadius: 10,
-    backgroundColor: "rgba(255,255,255,0.8)",
     padding: 10,
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowRadius: 5,
     elevation: 4,
+    width: '95%',
   },
   image: {
     width: 250,
@@ -77,7 +98,7 @@ const styles = StyleSheet.create({
   linkText: {
     marginTop: 10,
     fontSize: 18,
-    color: "#007bff",
     fontWeight: "bold",
+    textAlign: 'center',
   },
 });
