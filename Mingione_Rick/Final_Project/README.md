@@ -1,6 +1,20 @@
-# Welcome to your Expo app 👋
+# Welcome to Dead on Board MTG Deck Builder
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a lightweight application for compiliing lists of cards from the tcg Magic the Gathering to build decks or save for later.
+
+## Information
+
+This applications uses the scryfall.com/api
+
+## Notable Library
+
+ - react-native-animated
+ - zustand
+ - react-native-async-storage/async-storage
+
+## Performance
+
+I used Android Studio's native "Profile" feature to record and optimize performance. Originally, prior to adding zustand, attempting to do API searches were occasionally failing or having slow image loads. Using zustand allowed the app to process queries as a much faster speed. Additionally, memoizing the images returned the the queries helped with the single card modal renders significantly. One bottleneck in performance could be the advanced tab that can return very large queries of data. Magic the Gathering is a tcg that has over 27,000 unique cards and it is constantly growing. This can balloon memory for zustand and my cause slow updates as time goes. Given more time I'd add pagination to the query outputs to help with loading better and improve the zustand and reduce the amount of memory needed for searches.
 
 ## Get started
 
@@ -24,27 +38,3 @@ In the output, you'll find options to open the app in a
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
