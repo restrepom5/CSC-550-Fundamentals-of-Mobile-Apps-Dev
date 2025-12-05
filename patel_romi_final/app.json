@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "patel_romi_final",
+    "slug": "patel_romi_final",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/laugh.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/laugh.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#020617"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/laugh.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/laugh.png"
+    }
+  }
+}
