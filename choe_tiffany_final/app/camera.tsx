@@ -21,11 +21,7 @@ export default function CameraScreen() {
 
   return (
     <View style={styles.container}>
-      <CameraView
-        ref={cameraRef}
-        style={styles.camera}
-        onCameraReady={() => console.log('Camera ready')}
-      />
+      <CameraView ref={cameraRef} style={styles.camera} />
       <Button
         title="Take Photo"
         onPress={async () => {
