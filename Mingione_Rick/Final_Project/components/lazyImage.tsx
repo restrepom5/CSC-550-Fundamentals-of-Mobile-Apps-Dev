@@ -1,5 +1,5 @@
 // components/lazyImage.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Image, ImageProps, View, ActivityIndicator, StyleSheet } from 'react-native';
 
 interface LazyImageProps extends ImageProps {

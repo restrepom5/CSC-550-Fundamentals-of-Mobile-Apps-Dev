@@ -10,7 +10,6 @@ import {
   StyleSheet,
   useColorScheme,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 interface Card {
   id: string;
@@ -21,35 +20,24 @@ interface Card {
     large?: string;
     png?: string;
   };
-  // ESLint doesn't like this Array syntax
-  // card_faces?: Array<{
-  //   name?: string;
-  //   image_uris?: {
-  //     small?: string;
-  //     normal?: string;
-  //     large?: string;
-  //     png?: string;
-  //   };
-  // }>;
-  card_faces?: {
+  card_faces?: Array<{
     name?: string;
     image_uris?: {
-      png: string; 
-      large: string; 
-      normal: string; 
-      small: string;
-      };
-  }[];
+      small?: string;
+      normal?: string;
+      large?: string;
+      png?: string;
+    };
+  }>;
 }
 
 type Props = {
   card: Card | null;
   visible: boolean;
   onClose: () => void;
-  onAddToDeck?: (quantity: number) => void; // New prop
 };
 
-export default function CardDetailModal({ card, visible, onClose, onAddToDeck }: Props) {
+export default function CardDetailModal({ card, visible, onClose }: Props) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const [isBackFace, setIsBackFace] = useState(false);
@@ -75,12 +63,6 @@ export default function CardDetailModal({ card, visible, onClose, onAddToDeck }:
       card.image_uris?.small ||
       'https://via.placeholder.com/240x335?text=No+Image'
     );
-  };
-
-  const handleAddToDeck = () => {
-    if (onAddToDeck) {
-      onAddToDeck(quantity);
-    }
   };
 
   return (
@@ -132,29 +114,6 @@ export default function CardDetailModal({ card, visible, onClose, onAddToDeck }:
                 <Text style={styles.qtyText}>+</Text>
               </TouchableOpacity>
             </View>
-
-            {/* Add to Deck Button */}
-            {onAddToDeck && (
-              <TouchableOpacity
-                style={[styles.addButton, { backgroundColor: '#9333ea' }]}
-                onPress={handleAddToDeck}
-              >
-                <Ionicons name="add-circle" size={24} color="#fff" />
-                <Text style={styles.addButtonText}>
-                  Add {quantity}x to Deck
-                </Text>
-              </TouchableOpacity>
-            )}
-
-            {/* Close Button */}
-            <TouchableOpacity
-              style={[styles.closeButton, { backgroundColor: isDark ? '#333' : '#f0f0f0' }]}
-              onPress={onClose}
-            >
-              <Text style={[styles.closeButtonText, { color: isDark ? '#fff' : '#000' }]}>
-                Close
-              </Text>
-            </TouchableOpacity>
           </Pressable>
         </View>
       </Pressable>
@@ -207,41 +166,10 @@ const styles = StyleSheet.create({
   },
   flipText: { color: '#fff', fontSize: 12, fontWeight: '600' },
   faceName: { marginTop: 12, fontSize: 16, fontStyle: 'italic' },
-  quantityRow: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    marginTop: 24, 
-    gap: 20,
-    marginBottom: 20,
-  },
+  quantityRow: { flexDirection: 'row', alignItems: 'center', marginTop: 24, gap: 20 },
   qtyBtn: { width: 50, height: 50, borderRadius: 25, justifyContent: 'center', alignItems: 'center' },
   minus: { backgroundColor: '#ef4444' },
   plus: { backgroundColor: '#22c55e' },
   qtyText: { color: '#fff', fontSize: 28, fontWeight: 'bold' },
   qtyNumber: { fontSize: 36, fontWeight: 'bold', minWidth: 60, textAlign: 'center' },
-  addButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-    width: '100%',
-    gap: 10,
-  },
-  addButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  closeButton: {
-    padding: 16,
-    borderRadius: 12,
-    width: '100%',
-    alignItems: 'center',
-  },
-  closeButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
 });

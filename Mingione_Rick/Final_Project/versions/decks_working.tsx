@@ -1,5 +1,5 @@
-//(tabs)/decks.tsx
-import React, { useState } from 'react';
+// app/(tabs)/decks.tsx
+import React from 'react';
 import {
   View,
   Text,
@@ -13,136 +13,11 @@ import {
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { useDeckStore, Deck } from '@/stores/deckStore';
-import DeckDetailModal from '@/components/DeckDetailModal';
-
-// export default function DecksScreen() {
-//   const { decks, addDeck, deleteDeck } = useDeckStore();
-//   const [modalVisible, setModalVisible] = React.useState(false);
-//   const [deckName, setDeckName] = React.useState('');
-
-//   const createDeck = () => {
-//     if (!deckName.trim()) {
-//       Alert.alert('Error', 'Please enter a deck name');
-//       return;
-//     }
-//     addDeck(deckName.trim());
-//     setDeckName('');
-//     setModalVisible(false);
-//   };
-
-//   const promptDelete = (deck: Deck) => {
-//     Alert.alert(
-//       'Delete Deck',
-//       `Delete "${deck.name}"?`,
-//       [
-//         { text: 'Cancel', style: 'cancel' },
-//         { text: 'Delete', style: 'destructive', onPress: () => deleteDeck(deck.id) },
-//       ]
-//     );
-//   };
-
-//   // Calculate total cards including quantities
-//   const getTotalCards = (deck: Deck) => {
-//     return deck.cards.reduce((total, card) => total + (card.quantity || 1), 0);
-//   };
-
-//   const DeckThumbnail = ({ deck }: { deck: Deck }) => {
-//     const previewCards = deck.cards.slice(0, 4);
-//     const emptySlots = 4 - previewCards.length;
-//     const totalCards = getTotalCards(deck);
-
-//     return (
-//       <TouchableOpacity style={styles.deckCard} onLongPress={() => promptDelete(deck)}>
-//         <Text style={styles.deckName} numberOfLines={1}>
-//           {deck.name}
-//         </Text>
-//         <View style={styles.previewGrid}>
-//           {previewCards.map((card) => (
-//             <Image
-//               key={card.id}
-//               source={{ uri: card.imageUri || 'https://via.placeholder.com/60x84/222/666?text=?' }}
-//               style={styles.previewImage}
-//             />
-//           ))}
-//           {Array(emptySlots)
-//             .fill(null)
-//             .map((_, i) => (
-//               <View key={`empty-${i}`} style={styles.emptySlot} />
-//             ))}
-//         </View>
-//         <Text style={styles.cardCount}>
-//           {totalCards} card{totalCards !== 1 ? 's' : ''}
-//           {deck.cards.length !== totalCards && ` (${deck.cards.length} unique)`}
-//         </Text>
-//       </TouchableOpacity>
-//     );
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.header}>My Decks</Text>
-
-//       {decks.length === 0 ? (
-//         <View style={styles.emptyState}>
-//           <Text style={styles.emptyText}>No decks yet</Text>
-//           <Text style={styles.emptySub}>Tap + to create your first deck</Text>
-//         </View>
-//       ) : (
-//         <ScrollView contentContainerStyle={styles.grid}>
-//           {decks.map((deck) => (
-//             <DeckThumbnail key={deck.id} deck={deck} />
-//           ))}
-//         </ScrollView>
-//       )}
-
-//       {/* Floating + Button */}
-//       <TouchableOpacity
-//         style={styles.fab}
-//         onPress={() => setModalVisible(true)}
-//       >
-//         <Ionicons name="add" size={32} color="#fff" />
-//       </TouchableOpacity>
-
-//       {/* Create Deck Modal */}
-//       <Modal visible={modalVisible} transparent animationType="fade">
-//         <View style={styles.modalOverlay}>
-//           <View style={styles.modalContent}>
-//             <Text style={styles.modalTitle}>New Deck</Text>
-//             <TextInput
-//               style={styles.input}
-//               placeholder="Enter deck name..."
-//               placeholderTextColor="#888"
-//               value={deckName}
-//               onChangeText={setDeckName}
-//               autoFocus
-//             />
-//             <View style={styles.modalButtons}>
-//               <TouchableOpacity
-//                 style={[styles.modalBtn, styles.cancelBtn]}
-//                 onPress={() => {
-//                   setModalVisible(false);
-//                   setDeckName('');
-//                 }}
-//               >
-//                 <Text style={styles.cancelText}>Cancel</Text>
-//               </TouchableOpacity>
-//               <TouchableOpacity style={[styles.modalBtn, styles.createBtn]} onPress={createDeck}>
-//                 <Text style={styles.createText}>Create</Text>
-//               </TouchableOpacity>
-//             </View>
-//           </View>
-//         </View>
-//       </Modal>
-//     </View>
-//   );
-// }
 
 export default function DecksScreen() {
   const { decks, addDeck, deleteDeck } = useDeckStore();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [deckName, setDeckName] = useState('');
-  const [selectedDeckId, setSelectedDeckId] = useState<string | null>(null); // Change type to string | null
-  const [showDeckDetail, setShowDeckDetail] = useState(false);
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const [deckName, setDeckName] = React.useState('');
 
   const createDeck = () => {
     if (!deckName.trim()) {
@@ -165,25 +40,12 @@ export default function DecksScreen() {
     );
   };
 
-  // Calculate total cards including quantities
-  const getTotalCards = (deck: Deck) => {
-    return deck.cards.reduce((total, card) => total + (card.quantity || 1), 0);
-  };
-
   const DeckThumbnail = ({ deck }: { deck: Deck }) => {
     const previewCards = deck.cards.slice(0, 4);
     const emptySlots = 4 - previewCards.length;
-    const totalCards = getTotalCards(deck);
 
     return (
-      <TouchableOpacity 
-        style={styles.deckCard} 
-        onPress={() => {
-          setSelectedDeckId(deck.id); // Pass the deck ID
-          setShowDeckDetail(true);
-        }}
-        onLongPress={() => promptDelete(deck)}
-      >
+      <TouchableOpacity style={styles.deckCard} onLongPress={() => promptDelete(deck)}>
         <Text style={styles.deckName} numberOfLines={1}>
           {deck.name}
         </Text>
@@ -201,10 +63,7 @@ export default function DecksScreen() {
               <View key={`empty-${i}`} style={styles.emptySlot} />
             ))}
         </View>
-        <Text style={styles.cardCount}>
-          {totalCards} card{totalCards !== 1 ? 's' : ''}
-          {deck.cards.length !== totalCards && ` (${deck.cards.length} unique)`}
-        </Text>
+        <Text style={styles.cardCount}>{deck.cards.length} cards</Text>
       </TouchableOpacity>
     );
   };
@@ -264,16 +123,6 @@ export default function DecksScreen() {
           </View>
         </View>
       </Modal>
-
-      {/* Deck Detail Modal */}
-      <DeckDetailModal
-        visible={showDeckDetail}
-        onClose={() => {
-          setShowDeckDetail(false);
-          setSelectedDeckId(null);
-        }}
-        deckId={selectedDeckId} // Pass the deck ID string
-      />
     </View>
   );
 }

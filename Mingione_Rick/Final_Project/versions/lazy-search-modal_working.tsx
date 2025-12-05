@@ -11,33 +11,24 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useSearchStore } from '@/stores/searchStore';
-import { useDeckStore } from '@/stores/deckStore'; // Add this import
 import LazyImage from '@/components/lazyImage';
-import AddToDeckModal from '@/components/AddToDeckModal'; // Add this import
 
 interface Card {
   id: string;
   name: string;
   image_uris?: { small?: string };
-  card_faces?: {
-  name?: string;
-  image_uris?: {
-    png: string; 
-    large: string; 
-    normal: string; 
-    small: string;
-    };
-  }[];
+  card_faces?: { image_uris?: { small?: string } }[];
 }
 
 // Lazy load CardDetailModal
 const CardDetailModal = React.lazy(() => import('@/components/cardDetailModal'));
 
 // ----- Memoized Card Component -----
-const CardItem = React.memo(({ item, onAddToDeck }: { item: Card, onAddToDeck?: () => void }) => {
+const CardItem = React.memo(({ item }: { item: Card }) => {
   const colorScheme = useColorScheme();
   const textColor = colorScheme === 'dark' ? '#fff' : '#000';
 
+  // Use LazyImage instead of Image
   const image =
     (item.card_faces && item.card_faces[0]?.image_uris?.small) ||
     item.image_uris?.small ||
@@ -47,11 +38,6 @@ const CardItem = React.memo(({ item, onAddToDeck }: { item: Card, onAddToDeck?: 
     <View style={styles.card}>
       {image && <LazyImage uri={image} style={styles.cardImage} />}
       <Text style={[styles.cardName, { color: textColor }]}>{item.name}</Text>
-      {onAddToDeck && (
-        <TouchableOpacity style={styles.addButton} onPress={onAddToDeck}>
-          <Ionicons name="add-circle" size={28} color="#9333ea" />
-        </TouchableOpacity>
-      )}
     </View>
   );
 });
@@ -62,20 +48,13 @@ export default function SearchModal() {
   const colorScheme = useColorScheme();
   const textColor = colorScheme === 'dark' ? '#fff' : '#000';
   const cards = useSearchStore((state) => state.lastResults);
-  const { decks } = useDeckStore(); // Get decks
 
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [showAddToDeckModal, setShowAddToDeckModal] = useState(false); // New state
 
   const openCard = (card: Card) => {
     setSelectedCard(card);
     setModalVisible(true);
-  };
-
-  const handleAddToDeck = (card: Card) => {
-    setSelectedCard(card);
-    setShowAddToDeckModal(true);
   };
 
   return (
@@ -93,10 +72,7 @@ export default function SearchModal() {
           data={cards}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => openCard(item)}>
-              <CardItem 
-                item={item} 
-                onAddToDeck={decks.length > 0 ? () => handleAddToDeck(item) : undefined}
-              />
+              <CardItem item={item} />
             </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id}
@@ -108,31 +84,16 @@ export default function SearchModal() {
         />
       )}
 
-      {/* Lazy-loaded Card Detail Modal */}
+      {/* Lazy-loaded Modal */}
       <Suspense fallback={null}>
         {modalVisible && selectedCard && (
           <CardDetailModal
             card={selectedCard}
             visible={modalVisible}
             onClose={() => setModalVisible(false)}
-            onAddToDeck={() => {
-              setModalVisible(false);
-              setShowAddToDeckModal(true);
-            }}
           />
         )}
       </Suspense>
-
-         {/* Add to Deck Modal */}
-      <AddToDeckModal
-        visible={showAddToDeckModal}
-        onClose={() => {
-          setShowAddToDeckModal(false);
-          setSelectedCard(null);
-        }}
-        card={selectedCard}
-        quantity={1}
-      />
     </View>
   );
 }
@@ -157,7 +118,4 @@ const styles = StyleSheet.create({
   },
   cardImage: { width: 68, height: 95, borderRadius: 6, marginRight: 14 },
   cardName: { fontSize: 17, fontWeight: '600', flex: 1 },
-  addButton: {
-    padding: 8,
-  },
 });

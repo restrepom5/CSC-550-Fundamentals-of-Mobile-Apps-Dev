@@ -18,8 +18,15 @@ interface Card {
   id: string;
   name: string;
   image_uris?: { small?: string };
-  card_faces?: { image_uris?: { small?: string } }[];
-  // Add more fields as needed
+  card_faces?: {
+    name?: string;
+    image_uris?: {
+      png: string; 
+      large: string; 
+      normal: string; 
+      small: string;
+      };
+  }[];
 }
 
 // ----- Memoized Card Component -----

@@ -1,6 +1,5 @@
-// app/(tabs)/index.tsx
+// app/(tabs)/index.tsx  (or app/index.tsx)
 import { useSearchStore } from '@/stores/searchStore';
-import { useDeckStore } from '@/stores/deckStore'; // Add this import
 import React, { useState } from 'react';
 import {
   View,
@@ -16,7 +15,6 @@ import {
   Pressable,
 } from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import AddToDeckModal from '@/components/AddToDeckModal'; // Add this import
 
 interface Card {
   id: string;
@@ -27,23 +25,14 @@ interface Card {
     normal: string;
     small: string;
   };
-  // ESLint doesn't like this Array syntax
-  // card_faces?: Array<{ 
-  //   image_uris?: {
-  //     png: string; 
-  //     large: string; 
-  //     normal: string; 
-  //     small: string;
-  //   };
-  // }>;
-  card_faces?: {
-  image_uris?: {
-    png: string; 
-    large: string; 
-    normal: string; 
-    small: string;
-    };
-  }[];
+  card_faces?: Array<{ 
+    image_uris?: { 
+      png: string; 
+      large: string; 
+      normal: string; 
+      small: string
+    }
+  }>;
 }
 
 export default function HomeScreen() {
@@ -55,14 +44,12 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Modal states
+  // Modal state — MUST be inside the component
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const [quantity, setQuantity] = useState(1);
-  const [isBackFace, setIsBackFace] = useState(false);
-  const [showAddToDeckModal, setShowAddToDeckModal] = useState(false); // New state
+  const [isBackFace, setIsBackFace] = useState(false); // Track which face is showing
 
   const { originalPrintingOnly, uniqueCardsOnly } = useSearchStore();
-  const { decks } = useDeckStore(); // Get decks
 
   const performSearch = async (query: string) => {
     const trimmed = query.trim();
@@ -120,8 +107,11 @@ export default function HomeScreen() {
   const getCurrentImageUri = (): string => {
     if (!selectedCard) return 'https://via.placeholder.com/240x335?text=No+Image';
 
+    // DOUBLE-FACED: always use per-face vertical art
     if (selectedCard.card_faces && selectedCard.card_faces.length > 1) {
       const face = isBackFace ? selectedCard.card_faces[1] : selectedCard.card_faces[0];
+
+      // Prefer png (sharpest), then normal, then small — NEVER use large here!
       return (
         face.image_uris?.png ||
         face.image_uris?.normal ||
@@ -130,6 +120,7 @@ export default function HomeScreen() {
       );
     }
 
+    // SINGLE-FACED: safe to use large/normal
     return (
       selectedCard.image_uris?.png ||
       selectedCard.image_uris?.large ||
@@ -142,15 +133,11 @@ export default function HomeScreen() {
   const openCardModal = (card: Card) => {
     setSelectedCard(card);
     setQuantity(1);
-    setIsBackFace(false);
+    setIsBackFace(false); // Always start with front face
   };
 
   const closeModal = () => {
     setSelectedCard(null);
-  };
-
-  const handleAddToDeck = () => {
-    setShowAddToDeckModal(true);
   };
 
   const renderCard = ({ item }: { item: Card }) => (
@@ -202,7 +189,6 @@ export default function HomeScreen() {
         }
       />
 
-      {/* Card Detail Modal */}
       <Modal
         visible={!!selectedCard}
         transparent={true}
@@ -211,12 +197,15 @@ export default function HomeScreen() {
       >
         <Pressable style={styles.modalOverlay} onPress={closeModal}>
           <View style={[styles.modalContent, { backgroundColor: isDark ? '#111' : '#fff' }]}>
+            {/* Stop propagation so tapping inside doesn't close modal */}
             <Pressable onPress={(e) => e.stopPropagation()}>
               
+              {/* Card Name */}
               <Text style={[styles.modalTitle, { color: isDark ? '#fff' : '#000' }]}>
                 {selectedCard?.name ?? 'Loading...'}
               </Text>
 
+              {/* Flippable Card Image – no wrapper = no phantom space */}
               <TouchableOpacity
                 activeOpacity={0.95}
                 onPress={() => selectedCard?.card_faces && setIsBackFace(prev => !prev)}
@@ -229,10 +218,22 @@ export default function HomeScreen() {
                 />
               </TouchableOpacity>
 
+              {/* Optional: re-add flip indicator later as an overlay if you want */}
+
+              {/* Show current face name */}
+              {/* {selectedCard?.card_faces && (
+                <Text style={[styles.faceName, { color: isDark ? '#aaa' : '#666' }]}>
+                  {isBackFace
+                    ? selectedCard.card_faces[1]?.name ?? 'Back Face'
+                    : selectedCard.card_faces[0]?.name ?? 'Front Face'}
+                </Text>
+              )} */}
+
+              {/* Quantity Controls */}
               <View style={styles.quantityContainer}>
                 <TouchableOpacity
                   style={[styles.quantityButton, styles.minusButton]}
-                  onPress={() => setQuantity(Math.max(1, quantity - 1))}
+                  onPress={() => setQuantity(Math.max(0, quantity - 1))}
                 >
                   <Text style={styles.quantityButtonText}>-</Text>
                 </TouchableOpacity>
@@ -249,44 +250,15 @@ export default function HomeScreen() {
                 </TouchableOpacity>
               </View>
 
-              {/* Add to Deck Button - Only show if there are decks */}
-              {decks.length > 0 && (
-                <TouchableOpacity
-                  style={[styles.actionButton, styles.addButton]}
-                  onPress={handleAddToDeck}
-                >
-                  <Text style={styles.actionButtonText}>
-                    Add {quantity}x to Deck
-                  </Text>
-                </TouchableOpacity>
-              )}
-
-              <TouchableOpacity
-                style={[styles.actionButton, styles.closeActionButton]}
-                onPress={closeModal}
-              >
-                <Text style={styles.actionButtonText}>Close</Text>
-              </TouchableOpacity>
-
             </Pressable>
           </View>
         </Pressable>
       </Modal>
-
-      {/* Add to Deck Modal */}
-      <AddToDeckModal
-        visible={showAddToDeckModal}
-        onClose={() => {
-          setShowAddToDeckModal(false);
-          closeModal(); // Also close the card detail modal
-        }}
-        card={selectedCard}
-        quantity={quantity}
-      />
     </View>
   );
 }
 
+// Styles (unchanged — you had them perfect)
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20 },
   headerTitle: {
@@ -358,8 +330,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 10,
   },
   quantityButton: {
     width: 50,
@@ -372,22 +343,9 @@ const styles = StyleSheet.create({
   plusButton: { backgroundColor: '#44aa44' },
   quantityButtonText: { color: '#fff', fontSize: 28, fontWeight: 'bold' },
   quantityText: { fontSize: 32, fontWeight: 'bold', marginHorizontal: 30 },
-  actionButton: {
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginBottom: 12,
-    width: '100%',
-  },
-  addButton: {
-    backgroundColor: '#9333ea',
-  },
-  closeActionButton: {
-    backgroundColor: '#333',
-  },
-  actionButtonText: {
-    color: '#fff',
+  faceName: {
+    marginTop: 8,
     fontSize: 16,
-    fontWeight: '600',
+    fontStyle: 'italic',
   },
 });
