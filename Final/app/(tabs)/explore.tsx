@@ -1,6 +1,6 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { Link } from "expo-router";
-import { useAppTheme } from "../contexts/ThemeContext"; // Import the theme hook
+import { useAppTheme } from "../contexts/ThemeContext";
 
 const destinations = [
   {

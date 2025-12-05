@@ -29,7 +29,7 @@ export const MoodProvider = ({ children }: { children: ReactNode }) => {
           setMoods(JSON.parse(storedMoods));
         }
       } catch (e) {
-        console.error("Failed to load moods.", e);
+        console.error("Failed to load wishlist.", e);
       }
     };
     loadMoods();
@@ -51,7 +51,7 @@ export const MoodProvider = ({ children }: { children: ReactNode }) => {
     try {
       await AsyncStorage.setItem(MOOD_STORAGE_KEY, JSON.stringify(updatedMoods));
     } catch (e) {
-      console.error("Failed to save mood.", e);
+      console.error("Failed to save wishlist.", e);
     }
   };
 

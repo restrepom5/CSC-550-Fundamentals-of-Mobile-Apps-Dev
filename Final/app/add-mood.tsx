@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { useMoods } from './contexts/MoodContext';
 import { useAppTheme } from './contexts/ThemeContext';
 
-const moodOptions = ["Happy", "Sad", "Calm", "Tired", "Excited"];
+const moodOptions = ["Action", "Comedy", "Drama", "Sad", "Fantasy"];
 
 export default function AddMoodScreen() {
   const [selectedMood, setSelectedMood] = useState("");
@@ -30,7 +30,7 @@ export default function AddMoodScreen() {
 
   return (
     <View style={containerStyle}>
-      <Text style={headerStyle}>How are you feeling?</Text>
+      <Text style={headerStyle}>What will be your next movie to watch?</Text>
 
       <View style={styles.moodSelector}>
         {moodOptions.map((mood) => (
@@ -46,7 +46,7 @@ export default function AddMoodScreen() {
 
       <TextInput
         style={textInputStyle}
-        placeholder="Add a note for today (optional)"
+        placeholder="Add a note for today's Watchlist (optional)"
         placeholderTextColor={isDark ? '#999' : '#aaa'}
         value={note}
         onChangeText={setNote}
@@ -54,7 +54,7 @@ export default function AddMoodScreen() {
       />
 
       <TouchableOpacity style={styles.button} onPress={handleSave}>
-        <Text style={styles.buttonText}>Save Mood</Text>
+        <Text style={styles.buttonText}>Save Watchlist</Text>
       </TouchableOpacity>
     </View>
   );

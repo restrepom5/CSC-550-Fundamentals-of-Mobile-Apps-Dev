@@ -4,7 +4,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { ImageBackground, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Audio } from 'expo-av';
 import { Asset } from 'expo-asset';
-import { useAppTheme } from '../contexts/ThemeContext'; // Corrected Path
+import { useAppTheme } from '../contexts/ThemeContext';
 
 const backgroundImage = require("../../assets/images/art.jpg");
 
@@ -97,7 +97,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="mood"
           options={{
-            title: "Moods",
+            title: "List",
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="smile-o" color={color} />,
           }}
         />

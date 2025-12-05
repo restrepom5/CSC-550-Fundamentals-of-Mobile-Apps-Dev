@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 import { Link } from "expo-router";
 import { useMoods } from "../contexts/MoodContext";
-import { useAppTheme } from "../contexts/ThemeContext"; // Import the theme hook
+import { useAppTheme } from "../contexts/ThemeContext";
 
 export default function MoodTrackerScreen() {
   const { moods } = useMoods();
@@ -22,7 +22,7 @@ export default function MoodTrackerScreen() {
   return (
     <View style={containerStyle}>
       <Text style={dateTextStyle}>{today}</Text>
-      <Text style={headerStyle}>Your Recent Moods</Text>
+      <Text style={headerStyle}>Your Recent Movies Wishlist</Text>
 
       <FlatList
         data={moods}
@@ -34,12 +34,12 @@ export default function MoodTrackerScreen() {
             <Text style={styles.entryDate}>{item.date}</Text>
           </View>
         )}
-        ListEmptyComponent={() => <Text style={emptyTextStyle}>No moods saved yet.</Text>}
+        ListEmptyComponent={() => <Text style={emptyTextStyle}>No Movies saved yet.</Text>}
       />
 
       <Link href="/add-mood" asChild>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Add Current Mood</Text>
+          <Text style={styles.buttonText}>Add Current Movies Wishlist</Text>
         </TouchableOpacity>
       </Link>
     </View>

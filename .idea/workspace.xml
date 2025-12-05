@@ -5,20 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2ab10c65-44dd-4c80-8a2e-8a67e6e3b774" name="Changes" comment="preliminary trial">
-      <change afterPath="$PROJECT_DIR$/Final/app/contexts/ThemeContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Final/assets/music/Lapis Philosophorum.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Final/tamagui.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/Final/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/app/(tabs)/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/(tabs)/_layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/app/(tabs)/destination/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/(tabs)/destination/[id].tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/app/(tabs)/explore.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/(tabs)/explore.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/app/(tabs)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/(tabs)/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/app/(tabs)/mood.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/(tabs)/mood.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/app/_layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/_layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/app/add-mood.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/add-mood.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Final/assets/music/ashitaka.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final/app/contexts/MoodContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/Final/app/contexts/MoodContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Final/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Final/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Final/package.json" afterDir="false" />
     </list>
@@ -59,22 +56,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "Mashrakey__Shafqat__final",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/shafq/OneDrive - Southern Connecticut State University/Desktop/SCSU/csc550/CSC-550-Fundamentals-of-Mobile-Apps-Dev/Final/assets/music",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Mashrakey__Shafqat__final&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/shafq/OneDrive - Southern Connecticut State University/Desktop/SCSU/csc550/CSC-550-Fundamentals-of-Mobile-Apps-Dev/Final/assets/music&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\shafq\OneDrive - Southern Connecticut State University\Desktop\SCSU\csc550\CSC-550-Fundamentals-of-Mobile-Apps-Dev\Final\assets\music" />
