@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { Fonts } from '@/constants/theme';
-import { Books } from '@/src/context/provider';
 import { useRouter } from 'expo-router';
+import { Books } from '@/src/context/types';
 
 type Props = {
   book: Books;

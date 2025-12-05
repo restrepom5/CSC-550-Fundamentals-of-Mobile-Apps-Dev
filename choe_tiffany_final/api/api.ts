@@ -1,5 +1,6 @@
 import { bookclubs, books, users } from '@/mock-data/data';
-import { GoogleBook } from '@/src/context/provider';
+import { GoogleBook } from '@/src/context/types';
+import axios from 'axios';
 
 export function loginApi(username: string, password: string) {
   return users.find((u) => u.username === username && u.password === password);
@@ -24,11 +25,9 @@ export function getBookClubList() {
 }
 
 export async function getBookById(id: string) {
-  const response = await fetch(
-    `https://www.googleapis.com/books/v1/volumes/${id}`,
+  const { data } = await axios.get(
+    `https://www.googleapis.com/books/v1/volumes/${id}?key=AIzaSyCI5tYYAbFlUmeBGQtT_Ya5ylgkqKEhQ1A`,
   );
-
-  const data = await response.json();
 
   return {
     id: data.id,
@@ -50,13 +49,11 @@ export async function getBookById(id: string) {
 
 export async function searchGoogleBooks(query: string) {
   try {
-    const response = await fetch(
+    const { data } = await axios.get(
       `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
         query,
-      )}`,
+      )}&key=AIzaSyCI5tYYAbFlUmeBGQtT_Ya5ylgkqKEhQ1A`,
     );
-
-    const data = await response.json();
 
     const ids: string[] = [];
     const books: GoogleBook[] = [];

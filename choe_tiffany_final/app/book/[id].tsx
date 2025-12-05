@@ -3,7 +3,7 @@ import { ThemedText } from '@/components/themed-text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Fonts } from '@/constants/theme';
 import { books } from '@/mock-data/data';
-import { Books, GoogleBook } from '@/src/context/provider';
+import { GoogleBook, Books } from '@/src/context/types';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -13,8 +13,10 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
+  Modal,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
+import DatePicker from '../date-picker';
 
 const { width } = Dimensions.get('window');
 
@@ -27,7 +29,7 @@ export default function Book() {
   const [book, setBook] = useState<GoogleBook | null>(null);
   const readBook = useRef<Books | null>(null);
   const [showMore, setShowMore] = useState(false);
-
+  const [visible, setVisible] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -40,6 +42,16 @@ export default function Book() {
 
     fetchData();
   }, [id]);
+
+  const handleStartReading = () => {
+    if (books.find((b) => b.readingStatus === 'reading')) {
+      alert(
+        'You are already reading a book. Please finish it before starting a new one.',
+      );
+      return;
+    }
+    setVisible(true);
+  };
 
   const plainText = stripHtml(book?.description || 'No description available.');
 
@@ -55,8 +67,9 @@ export default function Book() {
             <ThemedText type="title" style={styles.title}>
               {book.title}
             </ThemedText>
+
             <ThemedText type="subtitle" style={styles.author}>
-              {book.authors?.join(', ')}
+              {book.authors?.join(', ') || 'Unknown author'}
             </ThemedText>
             {readBook.current?.rating && (
               <View style={styles.ratingRow}>
@@ -66,9 +79,11 @@ export default function Book() {
                   </ThemedText>
                 ))}
               </View>
-              // TODO if no rating show start reading button.
-              // open modal to select finish date by.
-              // show error if already reading a book
+            )}
+            {!books.some((b) => b.googleId === id) && (
+              <Pressable onPress={handleStartReading}>
+                <ThemedText style={styles.author}>Start Reading</ThemedText>
+              </Pressable>
             )}
           </View>
         </View>
@@ -93,6 +108,24 @@ export default function Book() {
             </ThemedText>
           </Pressable>
         )}
+        <Modal
+          visible={visible}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setVisible(false)}
+        >
+          <View style={styles.overlay}>
+            <View style={styles.modalBox}>
+              <ThemedText type="subtitle">Select Finish Date</ThemedText>
+              <View style={{ alignItems: 'center', marginVertical: 12 }}>
+                <DatePicker book={book} setVisible={setVisible} />
+              </View>
+              <Pressable onPress={() => setVisible(false)}>
+                <ThemedText style={{ marginTop: 10 }}>Cancel</ThemedText>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   ) : (
@@ -165,5 +198,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#255CBA',
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  modalBox: {
+    width: '80%',
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 5,
   },
 });

@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import { searchGoogleBooks } from '@/api/api';
 import { ThemedText } from '@/components/themed-text';
-import { GoogleBook } from '@/src/context/provider';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { useRouter } from 'expo-router';
 import { Fonts } from '@/constants/theme';
+import { GoogleBook } from '@/src/context/types';
 
 export default function SearchBooks() {
   const [query, setQuery] = useState('');

@@ -1,77 +1,68 @@
-import { createContext, useContext, useMemo, useState } from 'react';
-
-export type User = {
-  id: number;
-  name: string;
-  email: string;
-  username: string;
-  password: string;
-  bookclubId?: number;
-  profileImage?: string;
-};
-
-export type Books = {
-  id: number;
-  title: string;
-  bookclubId: number;
-  googleId: string;
-  readingStatus: 'reading' | 'finished';
-  finishedDate?: Date;
-  rating?: number;
-};
-
-export type Bookclub = {
-  id: number;
-  name: string;
-};
-
-export type GoogleBook = {
-  id: string;
-  title: string;
-  authors: string[];
-  description?: string;
-  thumbnail?: string;
-  smallThumbnail?: string;
-  pageCount?: number;
-  publishedDate?: string;
-};
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { User } from './types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type AppContextType = {
   user: User | null;
-  isLoggedIn: boolean;
-  login: (userData: User) => void;
-  logout: () => void;
-  updateUser: (updates: Partial<User>) => void;
+  login: (userData: User) => Promise<void>;
+  logout: () => Promise<void>;
+  updateUser: (updates: Partial<User>) => Promise<void>;
+  isLoading: boolean;
 };
 
 const AppContext = createContext<AppContextType | null>(null);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const isLoggedIn = !!user;
+  useEffect(() => {
+    const loadStoredUser = async () => {
+      try {
+        const storedUser = await AsyncStorage.getItem('user');
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+      } catch (e) {
+        console.error('Failed to load user session', e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const login = (userData: User) => {
+    loadStoredUser();
+  }, []);
+
+  const login = async (userData: User) => {
     setUser(userData);
+    await AsyncStorage.setItem('user', JSON.stringify(userData));
   };
 
-  const logout = () => {
+  const logout = async () => {
     setUser(null);
+    await AsyncStorage.removeItem('user');
   };
 
-  const updateUser = (updates: Partial<User>) => {
-    setUser((prev) => (prev ? { ...prev, ...updates } : prev));
+  const updateUser = async (updates: Partial<User>) => {
+    setUser((prev) => {
+      if (!prev) return prev;
+      const newUser = { ...prev, ...updates };
+      AsyncStorage.setItem('user', JSON.stringify(newUser)).catch((err) =>
+        console.error('Failed to update user in storage', err),
+      );
+      return newUser;
+    });
   };
 
   const value = useMemo(
     () => ({
-      isLoggedIn,
       user,
       login,
       logout,
       updateUser,
+      isLoading,
     }),
-    [isLoggedIn, user],
+    [user, isLoading],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

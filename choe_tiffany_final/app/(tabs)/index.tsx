@@ -1,9 +1,9 @@
 import { Image } from 'expo-image';
-import { Dimensions, Pressable, StyleSheet, View } from 'react-native';
+import { Dimensions, Modal, Pressable, StyleSheet, View } from 'react-native';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
-import { Bookclub, Books, GoogleBook, useApp } from '@/src/context/provider';
-import { useEffect, useRef, useState } from 'react';
+import { useApp } from '@/src/context/provider';
+import { useCallback, useEffect, useState } from 'react';
 import {
   getBookById,
   getBookClubList,
@@ -12,9 +12,10 @@ import {
 } from '@/api/api';
 import { BookclubContainer } from '@/components/bookclub-container';
 import { BookContainer } from '@/components/book-container';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { Fonts } from '@/constants/theme';
-import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Bookclub, Books, GoogleBook } from '@/src/context/types';
+import { books } from '@/mock-data/data';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,33 +23,46 @@ export default function HomeScreen() {
   const [currentBookDetails, setCurrentBookDetails] = useState<
     GoogleBook | undefined
   >(undefined);
-  const currentBook = useRef<Books | null>(null);
+  const [currentBook, setCurrentBook] = useState<Books | null>(null);
   const [bookclubs, setBookclubs] = useState<Bookclub[]>([]);
-  const [books, setBooks] = useState<Books[]>([]);
+  const [booksList, setBooks] = useState<Books[]>([]);
+  const [visible, setVisible] = useState(false);
   const { user, updateUser } = useApp();
 
   const router = useRouter();
 
-  useEffect(() => {
-    try {
-      if (!user?.bookclubId) {
-        return;
+  useFocusEffect(
+    useCallback(() => {
+      try {
+        if (!user?.bookclubId) {
+          setCurrentBook(null);
+          setCurrentBookDetails(undefined);
+          setBooks([]);
+          return;
+        }
+
+        const book = getCurrentBook(user.bookclubId);
+        if (!book) {
+          setCurrentBook(null);
+          setCurrentBookDetails(undefined);
+          setBooks(getBooks(user.bookclubId));
+          return;
+        }
+
+        setCurrentBook(book);
+
+        const fetchData = async () => {
+          const data = await getBookById(book.googleId || '');
+          setCurrentBookDetails(data);
+        };
+
+        fetchData();
+        setBooks(getBooks(user.bookclubId));
+      } catch (error) {
+        console.error('Error fetching current book:', error);
       }
-      const book = getCurrentBook(user.bookclubId);
-      if (!book) {
-        return;
-      }
-      currentBook.current = book;
-      const fetchData = async () => {
-        const data = await getBookById(book?.googleId || '');
-        setCurrentBookDetails(data);
-      };
-      fetchData();
-      setBooks(getBooks(user.bookclubId));
-    } catch (error) {
-      console.error('Error fetching current book:', error);
-    }
-  }, [user?.bookclubId]);
+    }, [user?.bookclubId]),
+  );
 
   useEffect(() => {
     setBookclubs(getBookClubList());
@@ -57,6 +71,49 @@ export default function HomeScreen() {
   const handleJoinBookclub = (bookclubId: number) => {
     if (!user) return;
     updateUser({ bookclubId });
+  };
+
+  const handleMarkFinished = (rating: number) => {
+    if (!currentBook) return;
+    const finishedBook: Books = {
+      ...currentBook,
+      finishedDate: new Date(),
+      rating,
+    };
+    setCurrentBook(null);
+    setCurrentBookDetails(undefined);
+    setBooks((prev) => {
+      const exists = prev.some((b) => b.id === finishedBook.id);
+      if (exists) {
+        return prev.map((b) => (b.id === finishedBook.id ? finishedBook : b));
+      }
+      return [...prev, finishedBook];
+    });
+    books.map((b) => {
+      if (b.id === finishedBook.id) {
+        b.finishedDate = finishedBook.finishedDate;
+        b.rating = finishedBook.rating;
+        b.readingStatus = 'finished';
+      }
+    });
+  };
+
+  const renderStars = () => {
+    return (
+      <View style={{ flexDirection: 'row' }}>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Pressable
+            key={star}
+            onPress={() => {
+              handleMarkFinished(star);
+              setVisible(false);
+            }}
+          >
+            <ThemedText style={styles.starText}>☆</ThemedText>
+          </Pressable>
+        ))}
+      </View>
+    );
   };
 
   return user?.bookclubId ? (
@@ -81,22 +138,50 @@ export default function HomeScreen() {
                 </ThemedText>
                 <ThemedText type="subtitle" style={styles.bookAuthor}>
                   Read By:{' '}
-                  {currentBook.current?.finishedDate
-                    ? currentBook.current.finishedDate.toDateString()
+                  {currentBook?.finishedDate
+                    ? currentBook.finishedDate.toDateString()
                     : 'N/A'}
                 </ThemedText>
-                {/* Finished button */}
+                <Pressable
+                  style={styles.finishedButton}
+                  onPress={() => setVisible(true)}
+                >
+                  <ThemedText
+                    type="subtitle"
+                    style={[styles.bookAuthor, { color: '#1B1F49' }]}
+                  >
+                    Finished
+                  </ThemedText>
+                </Pressable>
+                <Modal
+                  visible={visible}
+                  transparent
+                  animationType="fade"
+                  onRequestClose={() => setVisible(false)}
+                >
+                  <View style={styles.overlay}>
+                    <View style={styles.modalBox}>
+                      <ThemedText type="subtitle">Rate Book</ThemedText>
+                      <View
+                        style={{ alignItems: 'center', marginVertical: 12 }}
+                      >
+                        {renderStars()}
+                      </View>
+                      <Pressable onPress={() => setVisible(false)}>
+                        <ThemedText style={{ marginTop: 10 }}>
+                          Cancel
+                        </ThemedText>
+                      </Pressable>
+                    </View>
+                  </View>
+                </Modal>
               </View>
             </View>
           ) : (
             <ThemedText type="title" style={styles.bookTitle}>
-              Loading...
+              {currentBook ? 'Loading...' : 'No Current Book Assigned'}
             </ThemedText>
           )}
-          <Pressable style={styles.giftIcon}>
-            <IconSymbol name="gift" size={32} color="#F57A2A" />
-            {/*TODO if have time do bookclub wrapped page with animations*/}
-          </Pressable>
         </View>
       }
     >
@@ -104,7 +189,7 @@ export default function HomeScreen() {
         Previous Books:
       </ThemedText>
       <View style={styles.list}>
-        {books.map((item) => {
+        {booksList.map((item) => {
           return <BookContainer book={item} key={item.id} />;
         })}
       </View>
@@ -200,10 +285,30 @@ const styles = StyleSheet.create({
   headerTextContainer: {
     flexShrink: 1,
   },
-  giftIcon: {
-    position: 'absolute',
-    bottom: 12,
-    right: 12,
-    padding: 6,
+  finishedButton: {
+    alignSelf: 'center',
+    paddingVertical: 6,
+  },
+  overlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  modalBox: {
+    width: '80%',
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
+    elevation: 5,
+  },
+  starText: {
+    fontSize: 32,
+    lineHeight: 36,
+    marginHorizontal: 4,
   },
 });

@@ -2,9 +2,9 @@ import { Redirect } from 'expo-router';
 import { useApp } from '@/src/context/provider';
 
 export default function Index() {
-  const { isLoggedIn } = useApp();
+  const { user } = useApp();
 
-  if (!isLoggedIn) {
+  if (!user) {
     return <Redirect href="/login" />;
   }
 

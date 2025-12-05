@@ -9,6 +9,9 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to take profile pictures."
+      },
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.choe-tiffany-final"
     },
@@ -20,7 +23,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.choetiffanyfinal"
     },
     "web": {
       "output": "static",
