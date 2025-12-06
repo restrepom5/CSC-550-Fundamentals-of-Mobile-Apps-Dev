@@ -1,3 +1,4 @@
+// app/details/pushed.tsx
 import { useLocalSearchParams, Link } from "expo-router";
 import { SafeAreaView, ScrollView, StyleSheet, Text, View, Pressable } from "react-native";
 

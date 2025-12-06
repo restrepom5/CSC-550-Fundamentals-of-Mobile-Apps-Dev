@@ -7,7 +7,6 @@ import {
   Text,
   View,
   Pressable,
-  Platform,
   FlatList,
   Dimensions,
   NativeScrollEvent,
@@ -30,44 +29,44 @@ type BtnProps = { title: string; href: string; variant?: "filled" | "outline" };
 type Slide = { id: string; title: string; subtitle: string; image: any; href?: string };
 
 const { width: SCREEN_W } = Dimensions.get("window");
-const SLIDE_W = Math.min(720, SCREEN_W);   // feels good on phones & tablets
-const SLIDE_H = Math.round(SLIDE_W * 0.48); // 21:10-ish hero
+const SLIDE_W = Math.min(720, SCREEN_W);
+const SLIDE_H = Math.round(SLIDE_W * 0.48);
 
 const SLIDES: Slide[] = [
     {
-    id: "halongbay",
-        title: "Ha Long Bay",
-        subtitle: "Louvre • Seine • Eiffel views",
-        image: require("../../assets/images/halongbay.jpg"),
-        href: "/details/1",
-       },
+    id: "cicciolina",
+    title: "Cicciolina",
+    subtitle: "Tapas, pasta & wine in historic Cusco",
+    image: require("../../assets/images/cicciolina.jpg"),
+    href: "/details/1",
+    },
+    {
+      id: "a-by-tung",
+      title: "A by T.U.N.G",
+      subtitle: "Modern tasting menu in Ho Chi Minh City",
+      image: require("../../assets/images/abytung.jpg"),
+      href: "/details/2", // id 2 = A by T.U.N.G
+    },
   {
-    id: "paris",
-    title: "Paris in spring",
-    subtitle: "Louvre • Seine • Eiffel views",
-    image: require("../../assets/images/paris.jpg"),
-    href: "/details/2",
-  },
+      id: "central",
+      title: "Central",
+      subtitle: "World-class tasting menu in Lima, Peru",
+      image: require("../../assets/images/central.jpg"),
+      href: "/details/3", // id 3 = Central
+    },
   {
-    id: "tokyo",
-    title: "Neon Tokyo nights",
-    subtitle: "Shinjuku • Senso-ji • Tsukiji",
-    image: require("../../assets/images/tokyo.jpg"),
-    href: "/details/3",
-  },
-  {
-    id: "nyc",
-    title: "New York skyline",
-    subtitle: "Broadway • The Met • Bridges",
-    image: require("../../assets/images/download.jpg"),
+    id: "maido",
+    title: "Maido",
+    subtitle: "Nikkei cuisine blending Peruvian & Japanese flavors",
+    image: require("../../assets/images/maido.jpg"),
     href: "/details/4",
   },
   {
-      id: "peru",
-      title: "Peru Cusco",
-      subtitle: "Llamas • Culture • Mountains ",
-      image: require("../../assets/images/peru.jpg"),
-      href: "/details/5",
+      id: "disfrutar",
+      title: "Disfrutar",
+      subtitle: "Playful, modern tasting menu in Barcelona",
+      image: require("../../assets/images/disfrutar.jpg"),
+      href: "/details/5", // 👈 Disfrutar is id 5
   },
 ];
 
@@ -77,7 +76,8 @@ function PrimaryButton({ title, href, variant = "filled" }: BtnProps) {
     styles.btnBase,
     variant === "filled" ? styles.btnFilled : styles.btnOutline,
   ];
-  const textStyle = variant === "filled" ? styles.btnTextFilled : styles.btnTextOutline;
+  const textStyle =
+    variant === "filled" ? styles.btnTextFilled : styles.btnTextOutline;
 
   return (
     <Pressable
@@ -97,45 +97,46 @@ function HomeCarousel() {
   const listRef = useRef<FlatList<Slide>>(null);
   const [index, setIndex] = useState(0);
   const autoRef = useRef<NodeJS.Timeout | null>(null);
-  const isInteracting = useRef(false);
-
-  const goTo = useCallback((i: number) => {
-    const clamped = (i + SLIDES.length) % SLIDES.length;
-    setIndex(clamped);
-    listRef.current?.scrollToIndex({ index: clamped, animated: true });
-  }, []);
 
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const x = e.nativeEvent.contentOffset.x;
     const newIndex = Math.round(x / SLIDE_W);
-    if (newIndex !== index) setIndex(newIndex);
+    if (!Number.isNaN(newIndex) && newIndex !== index) {
+      setIndex(newIndex);
+    }
   };
 
   const start = useCallback(() => {
-    stop();
-    autoRef.current = setInterval(() => goTo(index + 1), 3500);
-  }, [goTo, index]);
-
-  const stop = () => {
+    // clear any existing interval
     if (autoRef.current) {
       clearInterval(autoRef.current);
       autoRef.current = null;
     }
-  };
+
+    autoRef.current = setInterval(() => {
+      setIndex((prev) => {
+        const next = (prev + 1) % SLIDES.length;
+        // keep FlatList in sync
+        listRef.current?.scrollToIndex({
+          index: next,
+          animated: true,
+        });
+        return next;
+      });
+    }, 3500);
+  }, []);
+
+  const stop = useCallback(() => {
+    if (autoRef.current) {
+      clearInterval(autoRef.current);
+      autoRef.current = null;
+    }
+  }, []);
 
   useEffect(() => {
     start();
     return stop;
-  }, [start]);
-
-  const onTouchStart = () => {
-    isInteracting.current = true;
-    stop();
-  };
-  const onTouchEnd = () => {
-    isInteracting.current = false;
-    start();
-  };
+  }, [start, stop]);
 
   return (
     <View style={styles.carouselWrap}>
@@ -150,9 +151,11 @@ function HomeCarousel() {
         decelerationRate="fast"
         onScroll={onScroll}
         scrollEventThrottle={16}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-        getItemLayout={(_, i) => ({ length: SLIDE_W, offset: SLIDE_W * i, index: i })}
+        getItemLayout={(_, i) => ({
+          length: SLIDE_W,
+          offset: SLIDE_W * i,
+          index: i,
+        })}
         renderItem={({ item }) => (
           <TouchableOpacity
             activeOpacity={0.9}
@@ -176,14 +179,11 @@ function HomeCarousel() {
         )}
       />
 
-      {/* Dots */}
       <View style={styles.dotsRow}>
         {SLIDES.map((_, i) => (
           <View
             key={i}
             style={[styles.dot, i === index ? styles.dotActive : null]}
-            accessible
-            accessibilityLabel={i === index ? "Current slide" : `Go to slide ${i + 1}`}
           />
         ))}
       </View>
@@ -196,26 +196,35 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safe}>
       <View style={styles.container}>
         <View style={styles.brandBadge}>
-          <Text style={styles.badgeText}>Travel Explorer</Text>
+          <Text style={styles.badgeText}>BiteReview</Text>
         </View>
 
-
-
-        <Text style={styles.title}>Find places you’ll love</Text>
+        <Text style={styles.title}>Find restaurants you’ll love</Text>
         <Text style={styles.subtitle}>
-          Curated destinations with quick facts, highlights, and travel tips—beautifully simple.
+          Curated spots with ratings, highlights, and quick info — beautifully
+          simple.
         </Text>
 
         <View style={styles.rowChips}>
-          <Text style={styles.chip}>Popular</Text>
-          <Text style={styles.chip}>City Breaks</Text>
-          <Text style={styles.chip}>Food</Text>
-          <Text style={styles.chip}>Museums</Text>
+          <Text style={styles.chip}>Top Rated</Text>
+          <Text style={styles.chip}>Budget Friendly</Text>
+          <Text style={styles.chip}>Date Night</Text>
+          <Text style={styles.chip}>Takeout</Text>
         </View>
+
         <HomeCarousel />
+
         <View style={styles.buttons}>
-          <PrimaryButton title="Browse Destinations" href="/tabs/explore" variant="filled" />
-          <PrimaryButton title="Jump to a Sample (Paris)" href="/details/1" variant="outline" />
+          <PrimaryButton
+            title="Browse Restaurants"
+            href="/tabs/explore"
+            variant="filled"
+          />
+          <PrimaryButton
+            title="Jump to Cicciolina"
+            href="/details/1"
+            variant="outline"
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -224,14 +233,12 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: C.bg },
-
   container: {
     flex: 1,
     padding: 24,
     justifyContent: "center",
     alignItems: "center",
   },
-
   brandBadge: {
     alignSelf: "center",
     backgroundColor: C.chip,
@@ -242,8 +249,12 @@ const styles = StyleSheet.create({
   },
   badgeText: { color: C.brand, fontWeight: "700", letterSpacing: 0.3 },
 
-  // Carousel
-  carouselWrap: { width: "100%", maxWidth: SLIDE_W, alignSelf: "center", marginBottom: 16 },
+  carouselWrap: {
+    width: "100%",
+    maxWidth: SLIDE_W,
+    alignSelf: "center",
+    marginBottom: 16,
+  },
   slide: {
     borderRadius: 18,
     overflow: "hidden",
@@ -262,7 +273,7 @@ const styles = StyleSheet.create({
     right: 14,
     padding: 10,
     borderRadius: 12,
-    backgroundColor: "rgba(245,240,230,0.82)", // beige glass
+    backgroundColor: "rgba(245,240,230,0.82)",
   },
   slideTitle: { color: C.ink, fontSize: 18, fontWeight: "800" },
   slideSubtitle: { color: C.muted, marginTop: 2, fontWeight: "700" },
@@ -295,7 +306,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     maxWidth: 560,
   },
-
   rowChips: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -315,7 +325,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "600",
   },
-
   buttons: {
     width: "100%",
     maxWidth: 360,
@@ -324,7 +333,6 @@ const styles = StyleSheet.create({
   },
   btnBase: {
     width: "100%",
-    alignSelf: "stretch",   // guarantees it fills the wrapper
     minHeight: 48,
     borderRadius: 14,
     alignItems: "center",

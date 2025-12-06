@@ -1,20 +1,17 @@
+// app/details/[id].tsx
+import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { SafeAreaView, ScrollView, StyleSheet, Text, View, Pressable } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Platform,
+} from "react-native";
 import { Image } from "expo-image";
-
-import NY from "../../assets/images/download.jpg";
-import Tokyo from "../../assets/images/tokyo.jpg";
-import Paris from "../../assets/images/paris.jpg";
-import Cusco from "../../assets/images/peru.jpg";
-import HaLongBay from "../../assets/images/halongbay.jpg";
-
-type Destination = {
-  name: string;
-  description: string;
-  image: number | string;
-  highlights?: string[];
-  bestTime?: string;
-};
+import * as Location from "expo-location";
 
 const C = {
   bg: "#F5F5DC",
@@ -23,74 +20,247 @@ const C = {
   muted: "#4b5563",
   brand: "#7C6A46",
   outline: "#CDBDA0",
+  error: "#9A3B3B",
 };
 
-const DESTINATIONS: Record<string, Destination> = {
+type Restaurant = {
+  name: string;
+  description: string;
+  image: any;
+  highlights?: string[];
+  price?: string;
+  rating?: string;
+  cityCountry: string;
+  coords: { latitude: number; longitude: number };
+};
+
+// Haversine distance in km
+function distanceKm(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+const RESTAURANTS: Record<string, Restaurant> = {
   "1": {
-    name: "Vietnam",
+    name: "Cicciolina",
     description:
-      "Lantern-lit towns, karst bays, and sizzling street food—from Hanoi to Ho Chi Minh City.",
-    image: HaLongBay,
-    highlights: ["Hanoi Old Quarter", "Ha Long Bay cruise", "Hoi An Ancient Town"],
-    bestTime: "Nov–Apr (drier months)",
+      "Iconic Cusco restaurant known for its cozy atmosphere, tapas-style plates, handmade pasta, and a great wine selection just off the Plaza de Armas.",
+    image: require("../../assets/images/cicciolina.jpg"),
+    highlights: ["Tapas plates", "Fresh pasta", "Great wine list"],
+    price: "$$–$$$ · ~$25–40/person",
+    rating: "4.8 / 5",
+    cityCountry: "Cusco, Peru",
+    coords: { latitude: -13.5167, longitude: -71.978 },
   },
   "2": {
-    name: "Paris, France",
+    name: "A by T.U.N.G",
     description:
-      "City of Lights and romance — Eiffel Tower, Louvre, cozy cafés along the Seine.",
-    image: Paris,
-    highlights: ["Eiffel Tower at sunset", "Louvre Museum", "Seine river cruise"],
-    bestTime: "Apr–Jun · Sep–Oct",
+      "Contemporary Vietnamese fine dining in Ho Chi Minh City, featuring creative tasting menus, seasonal ingredients, and an intimate atmosphere.",
+    image: require("../../assets/images/abytung.jpg"),
+    highlights: ["Tasting menu", "Wine pairing", "Modern Vietnamese"],
+    price: "$$$$ · Tasting menu pricing",
+    rating: "4.9 / 5",
+    cityCountry: "Ho Chi Minh City, Vietnam",
+    coords: { latitude: 10.78, longitude: 106.7 },
   },
   "3": {
-    name: "Tokyo, Japan",
+    name: "Central",
     description:
-      "A vibrant blend of tradition and technology, food culture, and neon nights.",
-    image: Tokyo,
-    highlights: ["Shinjuku nightlife", "Asakusa Sensō-ji", "Tsukiji outer market"],
-    bestTime: "Mar–May · Oct–Nov",
+      "Globally acclaimed Lima restaurant that explores Peru’s ecosystems through a multi-course tasting menu, from sea level up to the Andes.",
+    image: require("../../assets/images/central.jpg"),
+    highlights: ["Peruvian terroir", "Tasting menu", "Fine dining"],
+    price: "$$$$ · Tasting menu pricing",
+    rating: "5.0 / 5",
+    cityCountry: "Lima, Peru",
+    coords: { latitude: -12.127, longitude: -77.03 },
   },
   "4": {
-    name: "New York, USA",
+    name: "Maido",
     description:
-      "The city that never sleeps — Broadway, museums, and iconic skyline views.",
-    image: NY,
-    highlights: ["Top of the Rock", "The Met Museum", "Brooklyn Bridge walk"],
-    bestTime: "Apr–Jun · Sep–Nov",
+      "Lima’s famous Nikkei restaurant combining Peruvian ingredients with Japanese techniques in a creative, multi-course tasting experience.",
+    image: require("../../assets/images/maido.jpg"),
+    highlights: ["Nikkei cuisine", "Seafood dishes", "Tasting menu"],
+    price: "$$$$ · Tasting menu pricing",
+    rating: "4.9 / 5",
+    cityCountry: "Lima, Peru",
+    coords: { latitude: -12.125, longitude: -77.032 },
   },
   "5": {
-    name: "Cusco, Peru",
+    name: "Disfrutar",
     description:
-      "🏔️ Ancient Inca capital at 3,400 m — cobblestone streets, vibrant markets, and a gateway to the Sacred Valley & Machu Picchu.",
-    image: Cusco,
-    highlights: ["Plaza de Armas", "Sacsayhuamán", "San Pedro Market"],
-    bestTime: "May–Sep (dry season)",
+      "Inventive Barcelona restaurant known for its playful, avant-garde tasting menus and Mediterranean flavors with a modern twist.",
+    image: require("../../assets/images/disfrutar.jpg"),
+    highlights: ["Creative plating", "Tasting menu", "Modern Spanish cuisine"],
+    price: "$$$$ · Tasting menu pricing",
+    rating: "4.9 / 5",
+    cityCountry: "Barcelona, Spain",
+    coords: { latitude: 41.385, longitude: 2.159 },
   },
 };
 
-export default function DestinationDetails() {
+export default function RestaurantDetails() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const id = Array.isArray(params.id) ? params.id[0] : (params.id as string | undefined);
-  const info = id ? DESTINATIONS[id] : undefined;
+  const info = id ? RESTAURANTS[id] : undefined;
+
+  const [coords, setCoords] = useState<Location.LocationObjectCoords | null>(null);
+  const [locError, setLocError] = useState<string | null>(null);
+  const [locLoading, setLocLoading] = useState(false);
+
+  const [weatherText, setWeatherText] = useState<string | null>(null);
+  const [weatherError, setWeatherError] = useState<string | null>(null);
+  const [weatherLoading, setWeatherLoading] = useState(false);
+
+  // 🔹 Get current location (lastKnown + watchPosition fallback)
+  useEffect(() => {
+    if (Platform.OS === "web") {
+      setLocError("Location is only available on a device or emulator.");
+      return;
+    }
+
+    let watchSub: Location.LocationSubscription | null = null;
+
+    const getLocation = async () => {
+      try {
+        setLocLoading(true);
+        setLocError(null);
+
+        const servicesEnabled = await Location.hasServicesEnabledAsync();
+        if (!servicesEnabled) {
+          setLocError("System location services are OFF. Turn on Location in settings.");
+          return;
+        }
+
+        const permBefore = await Location.getForegroundPermissionsAsync();
+        let status = permBefore.status;
+
+        if (status !== "granted" && permBefore.canAskAgain) {
+          const permAfter = await Location.requestForegroundPermissionsAsync();
+          status = permAfter.status;
+        }
+
+        if (status !== "granted") {
+          setLocError("Location permission is not granted for Expo Go.");
+          return;
+        }
+
+        // Fast path: last known
+        const lastKnown = await Location.getLastKnownPositionAsync();
+        if (lastKnown?.coords) {
+          setCoords(lastKnown.coords);
+          return;
+        }
+
+        // Fallback: watch for first update
+        watchSub = await Location.watchPositionAsync(
+          {
+            accuracy: Location.Accuracy.Lowest,
+            timeInterval: 2000,
+            distanceInterval: 0,
+          },
+          (pos) => {
+            setCoords(pos.coords);
+          }
+        );
+      } catch (e: any) {
+        setLocError(
+          e?.message ||
+            "Current location is unavailable. (Common on emulators if GPS is not set.)"
+        );
+      } finally {
+        setLocLoading(false);
+      }
+    };
+
+    getLocation();
+
+    return () => {
+      watchSub?.remove();
+    };
+  }, []);
+
+  // 🔹 Network call – weather for restaurant location
+  useEffect(() => {
+    if (!info) return;
+    let isMounted = true;
+
+    const loadWeather = async () => {
+      try {
+        setWeatherLoading(true);
+        setWeatherError(null);
+
+        const { latitude, longitude } = info.coords;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`;
+
+        const res = await fetch(url);
+        const json = await res.json();
+
+        if (json && json.current_weather && isMounted) {
+          const t = json.current_weather.temperature;
+          const wind = json.current_weather.windspeed;
+          setWeatherText(`${t}°C · Wind ${wind} km/h`);
+        } else if (isMounted) {
+          setWeatherError("Weather data not available.");
+        }
+      } catch (e) {
+        if (isMounted) {
+          setWeatherError("Could not load weather near this restaurant.");
+        }
+      } finally {
+        if (isMounted) setWeatherLoading(false);
+      }
+    };
+
+    loadWeather();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id, info]);
 
   if (!info) {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: C.bg }}>
         <View style={[styles.container, styles.center]}>
-          <Text style={styles.title}>Unknown Destination</Text>
-          <Text style={styles.helper}>Please select a destination from Explore.</Text>
+          <Text style={styles.title}>Unknown Restaurant</Text>
+          <Text style={styles.helper}>Please select a restaurant from Explore.</Text>
           <View style={{ height: 12 }} />
           <Pressable
             style={[styles.btn, styles.btnOutline]}
             onPress={() => router.replace("/tabs/explore")}
           >
-            <Text style={styles.btnTextOutline}>Back to Explore</Text>
+            <Text style={styles.btnTextOutline}>Back to Restaurants</Text>
           </Pressable>
         </View>
       </SafeAreaView>
     );
   }
+
+  // Distance label (if we have user coords)
+  const distanceLabel =
+    coords != null
+      ? `${distanceKm(
+          coords.latitude,
+          coords.longitude,
+          info.coords.latitude,
+          info.coords.longitude
+        ).toFixed(1)} km`
+      : null;
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: C.bg }}>
@@ -110,14 +280,22 @@ export default function DestinationDetails() {
 
         <Text style={styles.description}>{info.description}</Text>
 
-        {(info.bestTime || (info.highlights && info.highlights.length)) ? (
+        {/* CARD 1 – price / rating / highlights */}
+        {(info.highlights && info.highlights.length > 0) || info.price || info.rating ? (
           <View style={styles.card}>
-            {info.bestTime ? (
+            {info.price && (
               <View style={styles.row}>
-                <Text style={styles.cardLabel}>Best time to visit</Text>
-                <Text style={styles.cardValue}>{info.bestTime}</Text>
+                <Text style={styles.cardLabel}>Price range</Text>
+                <Text style={styles.cardValue}>{info.price}</Text>
               </View>
-            ) : null}
+            )}
+
+            {info.rating && (
+              <View style={[styles.row, { marginTop: 6 }]}>
+                <Text style={styles.cardLabel}>Rating</Text>
+                <Text style={styles.cardValue}>{info.rating}</Text>
+              </View>
+            )}
 
             {info.highlights?.length ? (
               <View style={{ marginTop: 10 }}>
@@ -134,18 +312,38 @@ export default function DestinationDetails() {
           </View>
         ) : null}
 
+        {/* CARD 2 – restaurant location + distance from you */}
+        <View style={styles.card}>
+          <Text style={styles.cardLabel}>Location</Text>
+          <Text style={styles.cardValue}>{info.cityCountry}</Text>
+
+          {locLoading && (
+            <Text style={styles.cardMeta}>Detecting your current location…</Text>
+          )}
+          {locError && <Text style={styles.cardError}>{locError}</Text>}
+          {distanceLabel && !locError && !locLoading && (
+            <Text style={styles.cardMeta}>
+              You are about {distanceLabel} away from this restaurant.
+            </Text>
+          )}
+        </View>
+
+        {/* CARD 3 – weather (network call) */}
+        <View style={styles.card}>
+          <Text style={styles.cardLabel}>Weather near this restaurant</Text>
+          {weatherLoading && (
+            <Text style={styles.cardMeta}>Loading weather data…</Text>
+          )}
+          {weatherError && (
+            <Text style={styles.cardError}>{weatherError}</Text>
+          )}
+          {weatherText && !weatherError && (
+            <Text style={styles.cardMeta}>{weatherText}</Text>
+          )}
+        </View>
+
+        {/* ACTION BUTTONS */}
         <View style={styles.actions}>
-          <Pressable
-            style={[styles.btn, styles.btnFilled]}
-            onPress={() =>
-              router.push({
-                pathname: "/details/pushed",
-                params: { id: id ?? "", name: info.name },
-              })
-            }
-          >
-            <Text style={styles.btnTextFilled}>See Extra Info</Text>
-          </Pressable>
 
           <Pressable
             style={[styles.btn, styles.btnOutline]}
@@ -156,14 +354,14 @@ export default function DestinationDetails() {
               })
             }
           >
-            <Text style={styles.btnTextOutline}>Open Travel Info</Text>
+            <Text style={styles.btnTextOutline}>Review Tips</Text>
           </Pressable>
 
           <Pressable
             style={[styles.btn, styles.btnOutline]}
             onPress={() => router.replace("/tabs/explore")}
           >
-            <Text style={styles.btnTextOutline}>Back to Explore</Text>
+            <Text style={styles.btnTextOutline}>Back to Restaurants</Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -174,7 +372,13 @@ export default function DestinationDetails() {
 const styles = StyleSheet.create({
   container: { flexGrow: 1, padding: 20, backgroundColor: C.bg },
   center: { alignItems: "center", justifyContent: "center" },
-  title: { fontSize: 24, fontWeight: "800", color: C.ink, textAlign: "center", marginBottom: 8 },
+  title: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: C.ink,
+    textAlign: "center",
+    marginBottom: 8,
+  },
   image: {
     width: "100%",
     height: 240,
@@ -196,9 +400,15 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
   },
-  row: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+  },
   cardLabel: { fontSize: 14, fontWeight: "700", color: C.ink, marginBottom: 4 },
   cardValue: { fontSize: 14, color: C.muted },
+  cardMeta: { fontSize: 13, color: C.muted, marginTop: 6 },
+  cardError: { fontSize: 13, color: C.error, marginTop: 6 },
   chipsRow: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 6 },
   chip: {
     backgroundColor: "#E8DFD1",
@@ -219,7 +429,6 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   helper: { fontSize: 14, color: C.muted, textAlign: "center" },
-
   btn: {
     width: "100%",
     minHeight: 48,

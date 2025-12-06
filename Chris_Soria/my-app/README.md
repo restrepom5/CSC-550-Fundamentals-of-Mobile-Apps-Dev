@@ -48,3 +48,8 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+One potential performance bottleneck in this app is scrolling through a long list of food reviews on the Reviews screen. As the number of reviews grows, each item (with text, styling, and layout) adds work to the JS and UI threads, which can lead to janky or sluggish scrolling on lower-end devices. I inspected this behavior using the React DevTools Profiler and by watching how the app felt when rapidly scrolling a large list of reviews in the Android emulator.
+
+To help with this, I use `FlatList` for reviews so that rows are virtualized instead of all rendered at once. In the future, I would further optimize by memoizing review row components, debouncing any filter/search input, and lazy-loading heavier content (like images or extra metadata) to avoid unnecessary re-renders while scrolling.
