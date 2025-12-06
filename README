@@ -1,0 +1,34 @@
+Features Implemented
+
+Network Calls
+
+ - Axios used to fetch city data, weather data, and nearby city reverse geocoding.
+
+Device Capability
+
+ - expo-location used to request GPS permission and get current location.
+
+Navigation
+
+ - Tabs navigation for main sections.
+ - tack navigation for city detail pages.
+
+Libraries Used
+
+ - axios 
+ - expo-location 
+ - react-native-maps 
+ - @react-native-async-storage/async-storage 
+
+Screens
+
+ - Home 
+ - Search
+ - Favorites 
+ - Settings
+ - City Details 
+
+User input via TextInput form
+
+Performance Consideration:
+    A part of the app that doesnt work right now but it might be slow is the city search list if many cities show up at once. This could make the app lag on some phones. To help with this, I plan to only show items when needed and delay search updates so it doesn’t refresh too often. In the future, I could also make city cards remember their previous state so the app doesn’t re-render them unnecessarily
