@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { Fonts } from '@/constants/theme';
-import { Bookclub, User } from '@/src/context/provider';
+import { Bookclub, User } from '@/src/context/types';
 
 type Props = {
   bookclub: Bookclub;

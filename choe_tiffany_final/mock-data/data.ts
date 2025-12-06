@@ -1,4 +1,4 @@
-import { Bookclub, Books, User } from '@/src/context/provider';
+import { Bookclub, Books, User } from '@/src/context/types';
 
 export const users: User[] = [
   {
@@ -33,14 +33,14 @@ export const books: Books[] = [
 export const bookclubs: Bookclub[] = [
   {
     id: 1,
-    name: 'Little Readers Club',
+    name: 'Book Club 1',
   },
   {
     id: 2,
-    name: 'Adventure Explorers',
+    name: 'Book Club 2',
   },
   {
     id: 3,
-    name: 'Fantasy Friends',
+    name: 'Book Club 3',
   },
 ];
