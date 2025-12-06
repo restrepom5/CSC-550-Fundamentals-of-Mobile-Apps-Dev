@@ -1,0 +1,59 @@
+{
+  "pets": [
+    {
+      "id": "1",
+      "name": "Fluffy",
+      "age": "2y",
+      "sex": "female",
+      "thumbnail": "https://www.pexels.com/photo/white-and-grey-kitten-on-brown-and-black-leopard-print-textile-45201/",
+      "breedId": "b1",
+      "breedName": "Persian",
+      "species": "Cats",
+      "description": "Very friendly and playful"
+    },
+    {
+      "id": "2",
+      "name": "Max",
+      "age": "3y",
+      "sex": "male",
+      "thumbnail": "https://www.pexels.com/photo/long-coated-white-and-black-dog-220938/",
+      "breedId": "b2",
+      "breedName": "Beagle",
+      "species": "Dogs",
+      "description": "Loves walks and treats"
+    },
+
+    {
+      "id": "3",
+      "name": "Ariel",
+      "age": "3y",
+      "sex": "male",
+      "thumbnail": "https://www.pexels.com/photo/long-coated-white-and-black-dog-220938/",
+      "breedId": "b3",
+      "breedName": "Rex Rabbit",
+      "species": "Rabbits",
+      "description": "Loves fresh lettuces"
+    },
+    {
+      "id": "4",
+      "name": "Dana",
+      "age": "6 months",
+      "sex": "female",
+      "thumbnail": "https://www.pexels.com/photo/long-coated-white-and-black-dog-220938/",
+      "breedId": "b4",
+      "breedName": "Common goldfish",
+      "species": "Fish",
+      "description": "Loves a clean aquarium"
+    }
+  ],
+  "breeds": [
+    { "id": "b1", "name": "Persian", "species": "Cats" },
+    { "id": "b2", "name": "Beagle", "species": "Dogs" },
+    { "id": "b3", "name": "Rex Rabbit", "species": "Rabbits" },
+    { "id": "b4", "name": "Common goldfish", "species": "Fish" }
+  ],
+  "shelters": [
+    { "id": "s1", "name": "Happy Paws", "latitude": 40.7128, "longitude": -74.0060 }
+  ],
+  "adoptions": []
+}
