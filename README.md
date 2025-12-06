@@ -1,50 +1,82 @@
-# Welcome to your Expo app 👋
+# 📱 ParkDay Orlando — Final Project
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 🎡 App Overview
 
-## Get started
+**ParkDay Orlando** is a mobile planner for Disney & Universal trips.
+Users can configure their vacation dates, add travel days, assign parks, add notes, and save multiple trips to their device.
 
-1. Install dependencies
+## Key Features
 
-   ```bash
-   npm install
-   ```
+ - 🎉 Custom splash screen
+ - 🏠 Trip setup form (start date, park days, travel days)
+ - 📅 Auto-generated trip calendar
+ - ✏️ Editable park-day details with notes
+ - 💾 Trip saving via AsyncStorage
+ - 🧭 Stack + tab navigation
+ - 🌙 Dark mode support
+ - 📲 Device haptics
+ - 🌐 Network call support (e.g., wait times)
+ - 📸 Park & attraction image cards
 
-2. Start the app
+## 📦 Libraries Used
+- react-native-paper — UI components
+- @react-native-async-storage/async-storage — persistent storage
+- expo-haptics — device haptics
+- @react-navigation/native, stack & tabs — app navigation
+- @react-native-community/datetimepicker — date selection
+- expo-font — custom fonts
+- react-native-safe-area-context — safe area spacing
 
-   ```bash
-   npx expo start
-   ```
+## How to Use the App
+1. Trip Setup
+- Choose your resort (Disney, Universal, or Both)
+- Select your start date
+- Enter total park days
+- Select travel days (arrival, departure, both, or none)
+- Tap Generate My Trip
 
-In the output, you'll find options to open the app in a
+2. Your Trip
+- View all generated days
+- Tap a day to (In Edit existing trip or in Initial trip setup):
+- Pick a park
+- Add/edit notes
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+3. My Trips
+- See previously saved trips
+- Edit dates or plans
+- Open/Print/Save week itinerary snapshot
+- Delete trips
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+4. Parks
+- Browse parks and read attraction details; see wait times
+- Tap to see park descriptions and images
 
-## Get a fresh project
+5. Tips
+- Browse helpful travel tips and advice
 
-When you're ready, run:
+6. Settings
+- Switch themes and adjust preferences
 
+## 📈 Performance Considerations
+One potential performance bottleneck in my app occurs in the **WeekViewScreen**, where a large list of DayCards is rendered and updated based on user interactions. Each DayCard contains an image, text, and props that can trigger extra re-renders when the parent component updates. This can impact UI smoothness and cause minor jank on lower-end devices. I inspected render frequency using the **React DevTools Profiler**, which showed which components were re-rendering more often than expected. To improve performance, I wrapped the DayCard component in `React.memo()` to prevent unnecessary updates when props do not change. In the future, I would also consider using list virtualization (FlashList or FlatList) and lazy-loading attraction images to further optimize rendering.
+
+---
+
+# 🛠️ Installation & Setup
+
+## Install dependencies 
 ```bash
-npm run reset-project
+npm install
 ```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+or
+```bash
+yarn install
+```
+## 🚀✨ Running a Custom Dev Build (iOS)
+```bash
+npx expo run:ios
+```
+## ⭐ After first build
+```bash
+npx expo run:ios
+```
