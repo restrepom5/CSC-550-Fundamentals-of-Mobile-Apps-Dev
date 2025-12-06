@@ -22,7 +22,7 @@ export const attractions = [
       "A multi-dimensional coaster where you dodge dragons, trolls, and Death Eaters in the depths of the wizarding bank.",
     image: require("../../assets/rides/gringotts.png"),
     waitTimeUrl: null,
-    waitTimeFallback: 'https://www.thrill-data.com/waits/chain/uor/',
+    waitTimeFallback: 'https://queue-times.com/parks/65',
     supportsLiveWaitTime: false,
   },
   {
@@ -43,7 +43,7 @@ export const attractions = [
       "Race through dark tombs, fire, and scarab swarms in this intense indoor coaster with surprises in every scene.",
     image: require("../../assets/rides/mummy.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waits/chain/uor/",
+    waitTimeFallback: "https://queue-times.com/parks/65",
     supportsLiveWaitTime: false,
   },
   {
@@ -64,7 +64,7 @@ export const attractions = [
       "Compete with friends in an interactive blaster experience where you try to become the next supervillain.",
     image: require("../../assets/rides/minionblast.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waits/chain/uor/",
+    waitTimeFallback: "https://queue-times.com/parks/65",
     supportsLiveWaitTime: false,
   },
   // SHOW
@@ -86,7 +86,7 @@ export const attractions = [
       "High-energy chase scenes and fight choreography combine with huge LED screens for a seamless movie-like experience.",
     image: require("../../assets/rides/bourne.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waits/chain/uor/",
+    waitTimeFallback: "https://queue-times.com/parks/65",
     supportsLiveWaitTime: false,
   },
 
@@ -111,7 +111,7 @@ export const attractions = [
       "Two launches, a top-hat, barrel rolls over the lagoon, and near misses with raptors make this IOA’s wildest coaster.",
     image: require("../../assets/rides/velocicoaster.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waittimes/ioa/",
+    waitTimeFallback: "https://queue-times.com/parks/64",
     supportsLiveWaitTime: false,
   },
   {
@@ -132,7 +132,7 @@ export const attractions = [
       "Ride a motorbike or sidecar through launches, drops, and magical creatures in the Hogwarts grounds.",
     image: require("../../assets/rides/hagrid.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waittimes/ioa/",
+    waitTimeFallback: "https://queue-times.com/parks/64",
     supportsLiveWaitTime: false,
   },
   {
@@ -153,7 +153,7 @@ export const attractions = [
       "Classic screen + set hybrid dark ride where Spider-Man saves the day in a comic-book city come to life.",
     image: require("../../assets/rides/spiderman.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waittimes/ioa/",
+    waitTimeFallback: "https://queue-times.com/parks/64",
     supportsLiveWaitTime: false,
   },
 
@@ -178,7 +178,7 @@ export const attractions = [
       "Soar past rockwork, water features, and dragon set pieces in this multi-launch family-thrill coaster.",
     image: require("../../assets/rides/dragonracing.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waittimes/universal-epic-universe/",
+    waitTimeFallback: "https://queue-times.com/parks/334",
     supportsLiveWaitTime: false,
   },
   {
@@ -199,7 +199,7 @@ export const attractions = [
       "Wear AR visors and toss digital shells in a ride that mixes physical sets with interactive gameplay.",
     image: require("../../assets/rides/mariokart.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waittimes/universal-epic-universe/",
+    waitTimeFallback: "https://queue-times.com/parks/334",
     supportsLiveWaitTime: false,
   },
   {
@@ -220,7 +220,7 @@ export const attractions = [
       "Next-gen dark ride with spells, portals, and cinematic encounters with dark wizards.",
     image: require("../../assets/rides/ministry.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waittimes/universal-epic-universe/",
+    waitTimeFallback: "https://queue-times.com/parks/334",
     supportsLiveWaitTime: false,
   },
   // SHOW
@@ -242,7 +242,7 @@ export const attractions = [
       "A gentle center-of-park ride perfect for photos and a break between thrill rides.",
     image: require("../../assets/rides/celestialcarousel.png"),
     waitTimeUrl: null,
-    waitTimeFallback: "https://www.thrill-data.com/waittimes/universal-epic-universe/",
+    waitTimeFallback: "https://queue-times.com/parks/334",
     supportsLiveWaitTime: false,
   },
 
@@ -268,7 +268,7 @@ export const attractions = [
     image: require("../../assets/rides/koOkiri.png"),
     waitTimeUrl: null,
     waitTimeFallback:
-      "https://www.thrill-data.com/waits/chain/uor/",
+      "https://queue-times.com/parks/67",
     supportsLiveWaitTime: false,
   },
   {
@@ -290,7 +290,7 @@ export const attractions = [
     image: require("../../assets/rides/krakatau.png"),
     waitTimeUrl: null,
     waitTimeFallback:
-      "https://www.thrill-data.com/waits/chain/uor/",
+      "https://queue-times.com/parks/67",
     supportsLiveWaitTime: false,
   },
   {
@@ -312,7 +312,7 @@ export const attractions = [
     image: require("../../assets/rides/teawa.png"),
     waitTimeUrl: null,
     waitTimeFallback:
-      "https://www.thrill-data.com/waits/chain/uor/",
+      "https://queue-times.com/parks/67",
     supportsLiveWaitTime: false,
   },
   // SHOW
@@ -335,7 +335,7 @@ export const attractions = [
     image: require("../../assets/rides/volcanonight.png"),
     waitTimeUrl: null,
     waitTimeFallback:
-      "https://www.thrill-data.com/waits/chain/uor/",
+      "https://queue-times.com/parks/67",
     supportsLiveWaitTime: false,
   },
 
