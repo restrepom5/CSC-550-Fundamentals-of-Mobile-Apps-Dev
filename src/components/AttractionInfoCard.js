@@ -1,0 +1,124 @@
+// src/components/AttractionInfoCard.js
+import { Image, Linking, StyleSheet, View } from 'react-native';
+import { Button, Chip, Text } from 'react-native-paper';
+import WaitTimeBadge from './WaitTimeBadge';
+
+export default function AttractionInfoCard({ attraction, waitTime }) {
+  if (!attraction) return null;
+
+  const {
+    name,
+    icon,
+    type,
+    category,
+    kidFriendly,
+    childSwap,
+    singleRider,
+    heightRequirement,
+    shortDescription,
+    longDescription,
+    image,
+    waitTimeUrl,
+    waitTimeFallback,
+  } = attraction;
+
+  const urlForWait = waitTimeUrl || waitTimeFallback;
+
+  const openWaitSite = () => {
+    if (urlForWait) {
+      Linking.openURL(urlForWait);
+    }
+  };
+
+  return (
+    <View style={styles.card}>
+      {image && <Image source={image} style={styles.image} />}
+
+      <View style={styles.headerRow}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.title}>
+            {icon} {name}
+          </Text>
+          <Text style={styles.subtitle}>
+            {type.toUpperCase()} • {category}
+          </Text>
+        </View>
+
+        <WaitTimeBadge
+          minutes={waitTime}
+          onPress={urlForWait ? openWaitSite : undefined}
+        />
+      </View>
+
+      <View style={styles.chipsRow}>
+        {kidFriendly && <Chip compact style={styles.chip}>Kid-friendly</Chip>}
+        {childSwap && <Chip compact style={styles.chip}>Child swap</Chip>}
+        {singleRider && <Chip compact style={styles.chip}>Single rider</Chip>}
+        {heightRequirement > 0 && (
+          <Chip compact style={styles.chip}>
+            {heightRequirement}" min height
+          </Chip>
+        )}
+      </View>
+
+      <Text style={styles.body}>{shortDescription}</Text>
+      <Text style={styles.body}>{longDescription}</Text>
+
+      {urlForWait && (
+        <View style={styles.buttonRow}>
+          <Button mode="outlined" onPress={openWaitSite}>
+            Open Wait Times
+          </Button>
+        </View>
+      )}
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  card: {
+    borderRadius: 16,
+    backgroundColor: '#ffffff',
+    marginBottom: 12,
+    padding: 12,
+    elevation: 2,
+  },
+  image: {
+    width: '100%',
+    height: 160,
+    borderRadius: 12,
+    marginBottom: 8,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  title: {
+    fontSize: 18,
+    fontFamily: 'PoppinsSemiBold',
+  },
+  subtitle: {
+    fontSize: 13,
+    color: '#666',
+    fontFamily: 'PoppinsRegular',
+  },
+  chipsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginVertical: 6,
+  },
+  chip: {
+    marginRight: 4,
+    marginBottom: 4,
+  },
+  body: {
+    fontSize: 13,
+    color: '#444',
+    fontFamily: 'PoppinsRegular',
+    marginBottom: 4,
+  },
+  buttonRow: {
+    marginTop: 8,
+  },
+});
