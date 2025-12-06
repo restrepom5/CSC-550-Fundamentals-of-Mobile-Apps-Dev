@@ -1,3 +1,4 @@
+// src/screens//Parks/ParkListScreen.js
 import { useMemo, useState } from 'react';
 import { FlatList, Image, StyleSheet, View } from 'react-native';
 import { List, SegmentedButtons, Text, useTheme } from 'react-native-paper';
@@ -47,15 +48,21 @@ export default function ParkListScreen({ navigation }) {
             }
             titleStyle={{ color: theme.colors.text }}
             descriptionStyle={{ color: theme.colors.text, opacity: 0.8 }}
-            style={{ backgroundColor: theme.colors.surface, borderRadius: 10, marginBottom: 6 }}
-            left={() =>
+            style={{
+              backgroundColor: theme.colors.elevation?.level2 ?? theme.colors.surface,
+              borderRadius: 10,
+              marginBottom: 6,
+            }}
+            left={(props) =>
               item.image ? (
                 <Image
                   source={item.image}
                   style={styles.image}
                   resizeMode="cover"
                 />
-              ) : null
+              ) : (
+                <List.Icon {...props} icon="map" />
+              )
             }
             onPress={() => navigation.navigate('ParkDetail', { park: item })}
           />
