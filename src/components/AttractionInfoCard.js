@@ -1,9 +1,10 @@
 // src/components/AttractionInfoCard.js
 import { Image, Linking, StyleSheet, View } from 'react-native';
-import { Button, Chip, Text } from 'react-native-paper';
+import { Button, Chip, Text, useTheme } from 'react-native-paper';
 import WaitTimeBadge from './WaitTimeBadge';
 
 export default function AttractionInfoCard({ attraction, waitTime }) {
+  const theme = useTheme();
   if (!attraction) return null;
 
   const {
@@ -31,15 +32,30 @@ export default function AttractionInfoCard({ attraction, waitTime }) {
   };
 
   return (
-    <View style={styles.card}>
+    <View
+      style={[
+        styles.card,
+        { backgroundColor: theme.colors.surface },
+      ]}
+    >
       {image && <Image source={image} style={styles.image} />}
 
       <View style={styles.headerRow}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.title}>
+          <Text
+            style={[
+              styles.title,
+              { color: theme.colors.text },
+            ]}
+          >
             {icon} {name}
           </Text>
-          <Text style={styles.subtitle}>
+          <Text
+            style={[
+              styles.subtitle,
+              { color: theme.colors.text, opacity: 0.8 },
+            ]}
+          >
             {type.toUpperCase()} • {category}
           </Text>
         </View>
@@ -61,8 +77,22 @@ export default function AttractionInfoCard({ attraction, waitTime }) {
         )}
       </View>
 
-      <Text style={styles.body}>{shortDescription}</Text>
-      <Text style={styles.body}>{longDescription}</Text>
+      <Text
+        style={[
+          styles.body,
+          { color: theme.colors.text, opacity: 0.9 },
+        ]}
+      >
+        {shortDescription}
+      </Text>
+      <Text
+        style={[
+          styles.body,
+          { color: theme.colors.text, opacity: 0.9 },
+        ]}
+      >
+        {longDescription}
+      </Text>
 
       {urlForWait && (
         <View style={styles.buttonRow}>
@@ -78,7 +108,6 @@ export default function AttractionInfoCard({ attraction, waitTime }) {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 16,
-    backgroundColor: '#ffffff',
     marginBottom: 12,
     padding: 12,
     elevation: 2,
@@ -100,7 +129,6 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 13,
-    color: '#666',
     fontFamily: 'PoppinsRegular',
   },
   chipsRow: {
@@ -114,7 +142,6 @@ const styles = StyleSheet.create({
   },
   body: {
     fontSize: 13,
-    color: '#444',
     fontFamily: 'PoppinsRegular',
     marginBottom: 4,
   },
