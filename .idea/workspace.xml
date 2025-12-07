@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6f4bea05-a145-4f63-bf5b-a4d3f6ea3122" name="Changes" comment="redid the splash screen and other design because I hated how it looked">
+      <change afterPath="$PROJECT_DIR$/final-app/app/(tabs)/_layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/app/(tabs)/camera.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/app/(tabs)/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/app/(tabs)/wheel.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/app/_layout.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/app/details/[value].tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/android-icon-background.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/android-icon-foreground.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/android-icon-monochrome.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/background.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/favicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/partial-react-logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/react-logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/react-logo@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/react-logo@3x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/splash-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/splash-pic.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/final-app/assets/images/splash-pic2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" show_ignored="true" />
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;deb5&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/restrepom5/CSC-550-Fundamentals-of-Mobile-Apps-Dev.git&quot;,
+    &quot;accountId&quot;: &quot;decd8688-2e07-4265-994b-2e4d3255277e&quot;
+  }
+}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="367rjhBq3hnW2mcmXQnnAGF0nkD" />
+  <component name="ProjectViewState">
+    <option name="autoscrollToSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;olivares__debs__final&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/dev/CSC-550&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.33804476&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\dev\CSC-550\final-app\assets\images" />
+      <recent name="C:\dev\CSC-550\final-app\android\app\src\main\res\drawable" />
+      <recent name="C:\dev\CSC-550-Fundamentals-of-Mobile-Apps-Dev\final-app\assets\images" />
+      <recent name="C:\Users\Debs\AndroidStudioProjects\CSC-550-Fundamentals-of-Mobile-Apps-Dev\final-app\app\(tabs)" />
+    </key>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6f4bea05-a145-4f63-bf5b-a4d3f6ea3122" name="Changes" comment="" />
+      <created>1764368588350</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1764368588350</updated>
+    </task>
+    <task id="LOCAL-00001" summary="olivares_debs_final">
+      <option name="closed" value="true" />
+      <created>1764979279274</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1764979279274</updated>
+    </task>
+    <task id="LOCAL-00002" summary="redid the splash screen and other design because I hated how it looked">
+      <option name="closed" value="true" />
+      <created>1765088437614</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1765088437614</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TerminalProjectNonSharedOptionsProvider">
+    <option name="startingDirectory" value="C:\dev" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="olivares_debs_final" />
+    <MESSAGE value="redid the splash screen and other design because I hated how it looked" />
+    <option name="LAST_COMMIT_MESSAGE" value="redid the splash screen and other design because I hated how it looked" />
+  </component>
+</project>
