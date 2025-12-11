@@ -24,14 +24,16 @@ export default function DatePicker({ book, setVisible }: Props) {
   };
 
   const handleSetDate = (date: Date) => {
-    books.push({
-      id: books.length + 1,
-      title: book.title,
-      date: date.toDateString(),
-      googleId: book.id,
-      readingStatus: 'reading',
-      bookclubId: user?.bookclubId || null,
-    });
+    if (user?.bookclubId) {
+      books.push({
+        id: books.length + 1,
+        title: book.title,
+        finishedDate: date,
+        googleId: book.id,
+        readingStatus: 'reading',
+        bookclubId: user.bookclubId,
+      });
+    }
     setVisible(false);
     router.back();
   };
