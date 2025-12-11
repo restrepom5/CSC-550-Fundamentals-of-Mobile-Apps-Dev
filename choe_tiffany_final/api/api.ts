@@ -26,7 +26,7 @@ export function getBookClubList() {
 
 export async function getBookById(id: string) {
   const { data } = await axios.get(
-    `https://www.googleapis.com/books/v1/volumes/${id}?key=AIzaSyCI5tYYAbFlUmeBGQtT_Ya5ylgkqKEhQ1A`,
+    `https://www.googleapis.com/books/v1/volumes/${id}?key=`,
   );
 
   return {
@@ -52,7 +52,7 @@ export async function searchGoogleBooks(query: string) {
     const { data } = await axios.get(
       `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(
         query,
-      )}&key=AIzaSyCI5tYYAbFlUmeBGQtT_Ya5ylgkqKEhQ1A`,
+      )}&key=`,
     );
 
     const ids: string[] = [];
