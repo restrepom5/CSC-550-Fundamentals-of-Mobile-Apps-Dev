@@ -11,9 +11,9 @@ export interface Mood {
 
 const initialState = {
   moods: [
-    // Update existing placeholders
-    { id: '1', date: 'Oct 29, 2025', mood: 'Happy', note: 'Had a great day coding!', location: 'New Haven, CT' },
-    { id: '2', date: 'Oct 28, 2025', mood: 'Stressed', note: 'Project deadlines looming.', location: 'New York, NY' },
+    // ✅ FIX: Use ISO 8601 strings (e.g., '2025-10-29T00:00:00.000Z') for reliable parsing.
+    { id: '1', date: new Date('2025-10-29').toISOString(), mood: 'Happy', note: 'Had a great day coding!', location: 'New Haven, CT' },
+    { id: '2', date: new Date('2025-10-28').toISOString(), mood: 'Stressed', note: 'Project deadlines looming.', location: 'New York, NY' },
   ] as Mood[], 
 };
 

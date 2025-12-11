@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FontAwesome5 } from '@expo/vector-icons'; // Import icons for a modern look
+import { useMemo } from 'react';
 
 // 1. ActivityLog Interface (Option B from earlier plan)
 interface ActivityLog {
@@ -39,6 +40,9 @@ const getActivityIcon = (type: string) => {
 };
 
 export default function Home() {
+    const today = useMemo(() => new Date().toLocaleDateString('en-US', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    }), []);
   const renderItem = ({ item }: { item: ActivityLog }) => (
     <TouchableOpacity style={styles.card} activeOpacity={0.8}>
       <View style={styles.cardHeader}>
@@ -70,6 +74,7 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>Today is: **{today}**</Text>
       <Text style={styles.title}>Your Activity Log</Text>
       <Text style={styles.subtitle}>Recent workouts and movement.</Text>
 
@@ -87,6 +92,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1c1c1e', // Dark background
+  },
+    header: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#D4D4D4', 
+    marginBottom: 15,
   },
   title: {
     fontSize: 30,
