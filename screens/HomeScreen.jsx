@@ -1,27 +1,34 @@
-// screens/HomeScreen.js
+// screens/HomeScreen.jsx
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Button, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import axios from 'axios';
-import * as Location from 'expo-location';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function HomeScreen({ navigation }) {
   const [tip, setTip] = useState(null);
   const [loadingTip, setLoadingTip] = useState(false);
 
-  const [location, setLocation] = useState(null);
-  const [locationError, setLocationError] = useState(null);
-
-  // Network call with Axios
+  // Network call with Axios (custom JSON on GitHub)
   useEffect(() => {
     const fetchTravelTip = async () => {
       try {
         setLoadingTip(true);
+
         const response = await axios.get(
-            'https://api.adviceslip.com/advice'
+          'https://raw.githubusercontent.com/restrepom5/CSC-550-Fundamentals-of-Mobile-Apps-Dev/refs/heads/kobra_khadijatul_final/travelTip.json'
         );
-        setTip(response.data.slip.advice);
+
+        setTip(response.data.tip);
       } catch (error) {
-        setTip('Could not load tip. Please try again later.');
+        console.log('Error fetching custom travel tip:', error);
+        setTip('Could not load travel tip.');
       } finally {
         setLoadingTip(false);
       }
@@ -30,91 +37,113 @@ export default function HomeScreen({ navigation }) {
     fetchTravelTip();
   }, []);
 
-  // Device capability: Location
-  useEffect(() => {
-    (async () => {
-      try {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setLocationError('Permission to access location was denied.');
-          return;
-        }
-
-        let currentLocation = await Location.getCurrentPositionAsync({});
-        setLocation(currentLocation);
-      } catch (error) {
-        setLocationError('Could not get your location.');
-      }
-    })();
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Travel Planner</Text>
-      <Text style={styles.subtitle}>Plan trips and keep simple notes.</Text>
-
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Travel Tip (network call)</Text>
-        {loadingTip ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={styles.cardText}>{tip}</Text>
-        )}
-      </View>
-
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Your Location (device API)</Text>
-        {locationError && <Text style={styles.cardText}>{locationError}</Text>}
-        {location && (
-          <Text style={styles.cardText}>
-            Latitude: {location.coords.latitude.toFixed(4)}{'\n'}
-            Longitude: {location.coords.longitude.toFixed(4)}
+    <LinearGradient
+      colors={['#0b7fab', '#4cd4b0']}
+      style={styles.container}
+    >
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.headerBox}>
+          <Text style={styles.title}>Welcome to Travel Planner</Text>
+          <Text style={styles.subtitle}>
+            Plan trips, save ideas, and track your adventures.
           </Text>
-        )}
-      </View>
+        </View>
 
-      <Button
-        title="Add a New Trip"
-        onPress={() => navigation.navigate('AddTrip')}
-      />
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>🌍 Travel Tip</Text>
+          {loadingTip ? (
+            <ActivityIndicator color="#0b7fab" />
+          ) : (
+            <Text style={styles.cardText}>{tip}</Text>
+          )}
+        </View>
 
-      <View style={{ height: 12 }} />
+        <TouchableOpacity
+          style={styles.primaryButton}
+          onPress={() => navigation.navigate('AddTrip')}
+        >
+          <Text style={styles.primaryButtonText}>ADD A NEW TRIP</Text>
+        </TouchableOpacity>
 
-      <Button
-        title="View All Trips"
-        onPress={() => navigation.navigate('Trips')}
-      />
-    </View>
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={() => navigation.navigate('Trips')}
+        >
+          <Text style={styles.secondaryButtonText}>VIEW ALL TRIPS</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  content: {
     padding: 16,
-    backgroundColor: '#f3f9ff',
+    paddingBottom: 32,
+  },
+  headerBox: {
+    marginTop: 24,
+    marginBottom: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
+    color: '#ffffff',
     marginBottom: 4,
   },
   subtitle: {
-    fontSize: 14,
-    marginBottom: 16,
+    fontSize: 15,
+    color: '#e6f7ff',
   },
   card: {
-    backgroundColor: 'white',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 12,
-    elevation: 2,
+    backgroundColor: '#ffffff',
+    padding: 16,
+    borderRadius: 14,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOpacity: 0.18,
+    shadowRadius: 6,
+    elevation: 4,
   },
   cardTitle: {
     fontWeight: 'bold',
-    marginBottom: 4,
+    fontSize: 16,
+    color: '#033649',
+    marginBottom: 8,
   },
   cardText: {
     fontSize: 14,
+    color: '#033649',
+  },
+  primaryButton: {
+    backgroundColor: '#0b7fab',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 4,
+    marginBottom: 10,
+  },
+  primaryButtonText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
+  },
+  secondaryButton: {
+    backgroundColor: '#ffffff',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ffffff',
+    opacity: 0.95,
+  },
+  secondaryButtonText: {
+    color: '#0b7fab',
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
   },
 });

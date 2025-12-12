@@ -14,7 +14,7 @@ export default function SplashScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Travel Planner</Text>
-      <Text style={styles.subtitle}>Plan your next adventure ✈️</Text>
+      <Text style={styles.subtitle}>Plan your next adventure </Text>
       <ActivityIndicator size="large" color="#ffffff" />
     </View>
   );

@@ -1,8 +1,17 @@
-// screens/AddTripScreen.js
+// screens/AddTripScreen.jsx
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Haptics from 'expo-haptics';
+import * as Notifications from 'expo-notifications';
 
 export default function AddTripScreen({ navigation }) {
   const [destination, setDestination] = useState('');
@@ -10,9 +19,9 @@ export default function AddTripScreen({ navigation }) {
   const [endDate, setEndDate] = useState('');
   const [notes, setNotes] = useState('');
 
-  const saveTrip = async () => {
+  const handleSave = async () => {
     if (!destination || !startDate || !endDate) {
-      Alert.alert('Missing fields', 'Please fill in destination and dates.');
+      Alert.alert('Missing info', 'Please fill in destination and dates.');
       return;
     }
 
@@ -27,23 +36,38 @@ export default function AddTripScreen({ navigation }) {
     try {
       const stored = await AsyncStorage.getItem('TRIPS');
       const trips = stored ? JSON.parse(stored) : [];
-      trips.push(newTrip);
-      await AsyncStorage.setItem('TRIPS', JSON.stringify(trips));
+      const updatedTrips = [...trips, newTrip];
 
-      await Haptics.notificationAsync(
-        Haptics.NotificationFeedbackType.Success
-      );
+      await AsyncStorage.setItem('TRIPS', JSON.stringify(updatedTrips));
 
-      Alert.alert('Trip saved!', 'Your trip was added successfully.');
+      // Haptics 
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+      // Notification 
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: 'Trip Saved! 🌍',
+          body: `Your trip to ${destination} was added successfully.`,
+        },
+        trigger: null, // send immediately
+      });
+
+      Alert.alert('Trip saved', `Your trip to ${destination} was added.`);
+
+      // Reset form and go back
+      setDestination('');
+      setStartDate('');
+      setEndDate('');
+      setNotes('');
       navigation.goBack();
     } catch (error) {
-      Alert.alert('Error', 'Could not save trip.');
-      console.log(error);
+      console.log('Error saving trip:', error);
+      Alert.alert('Error', 'Could not save the trip. Please try again.');
     }
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Add a New Trip</Text>
 
       <Text style={styles.label}>Destination</Text>
@@ -54,57 +78,78 @@ export default function AddTripScreen({ navigation }) {
         onChangeText={setDestination}
       />
 
-      <Text style={styles.label}>Start Date</Text>
+      <Text style={styles.label}>Start Date (MM/DD/YYYY)</Text>
       <TextInput
         style={styles.input}
-        placeholder="e.g. 2025-06-10"
+        placeholder="MM/DD/YYYY"
         value={startDate}
         onChangeText={setStartDate}
       />
 
-      <Text style={styles.label}>End Date</Text>
+      <Text style={styles.label}>End Date (MM/DD/YYYY)</Text>
       <TextInput
         style={styles.input}
-        placeholder="e.g. 2025-06-20"
+        placeholder="MM/DD/YYYY"
         value={endDate}
         onChangeText={setEndDate}
       />
 
-      <Text style={styles.label}>Notes</Text>
+      <Text style={styles.label}>Notes (optional)</Text>
       <TextInput
-        style={[styles.input, { height: 80 }]}
-        placeholder="Packing list, places to visit..."
+        style={[styles.input, styles.multilineInput]}
+        placeholder="Add any notes or plans for this trip."
         value={notes}
         onChangeText={setNotes}
         multiline
       />
 
-      <Button title="Save Trip" onPress={saveTrip} />
-    </View>
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+        <Text style={styles.saveButtonText}>SAVE TRIP</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
+    paddingBottom: 32,
     backgroundColor: '#f3f9ff',
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 12,
+    marginBottom: 16,
+    color: '#033649',
   },
   label: {
     fontSize: 14,
-    marginTop: 8,
+    marginBottom: 4,
+    color: '#033649',
   },
   input: {
+    backgroundColor: '#ffffff',
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 6,
-    padding: 8,
-    marginTop: 4,
-    backgroundColor: 'white',
+    borderColor: '#d0e6ff',
+  },
+  multilineInput: {
+    height: 80,
+    textAlignVertical: 'top',
+  },
+  saveButton: {
+    backgroundColor: '#0b7fab',
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  saveButtonText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
   },
 });
