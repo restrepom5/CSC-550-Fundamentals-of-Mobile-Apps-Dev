@@ -4,7 +4,7 @@ import { AppThemeProvider } from "./contexts/ThemeContext";
 
 export default function RootLayout() {
   return (
-    // By wrapping the app in the theme provider, we make the theme state available everywhere.
+
     <AppThemeProvider>
       <MoodProvider>
         <Stack>

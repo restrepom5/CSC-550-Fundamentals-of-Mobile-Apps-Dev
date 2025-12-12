@@ -43,7 +43,7 @@ export const MoodProvider = ({ children }: { children: ReactNode }) => {
       date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
     };
     
-    // Add the new mood and keep only the 5 most recent entries
+
     const updatedMoods = [newMoodEntry, ...moods].slice(0, 5);
     setMoods(updatedMoods);
     

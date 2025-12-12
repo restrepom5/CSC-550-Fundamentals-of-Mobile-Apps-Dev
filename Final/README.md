@@ -10,9 +10,7 @@ Welcome to my personal collection of favorite anime and animations. This mobile 
 - **Dynamic Theme Switching:** A button on the Explore page header allows the user to instantly toggle the entire app's color scheme between a light and dark mode.
 - **Dynamic Backgrounds:** An animated slideshow background on the Home and Profile pages.
 - **Atmospheric Music:** Features background music ("Lapis Philosophorum.mp3") with a mute/unmute control on the Home screen.
-- **Interactive Maps:** The destination detail pages display an interactive, embedded map on mobile, gracefully falling back to a web link on other platforms.
-- **Persistent Mood Tracker:** Users can log their mood and an optional note, with the last 5 entries saved permanently to the device's local storage.
-- **State Management:** Uses React's Context API to globally manage both theme and mood data.
+- **Interactive Maps:** The destination detail pages display an interactive, embedded map on mobile, gracefully falling back to a web link on other platforms
 - **Performance Optimized:** The animated background was profiled and optimized by extracting it into a self-contained component.
 
 ## Getting Started
