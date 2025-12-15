@@ -12,15 +12,19 @@ interface ActivityLog {
   distanceKm: number;
   caloriesBurned: number;
   status: 'Completed' | 'Upcoming';
+  date: string;
 }
 
 // 2. Mock Fitness Data
 const recentActivities: ActivityLog[] = [
-  { id: 201, type: 'Run', durationMinutes: 45, distanceKm: 6.2, caloriesBurned: 550, status: 'Completed' },
-  { id: 202, type: 'Walk', durationMinutes: 30, distanceKm: 2.5, caloriesBurned: 180, status: 'Completed' },
-  { id: 203, type: 'Workout', durationMinutes: 60, distanceKm: 0, caloriesBurned: 400, status: 'Completed' },
-  { id: 204, type: 'Bike', durationMinutes: 90, distanceKm: 35.0, caloriesBurned: 900, status: 'Upcoming' },
-  { id: 205, type: 'Walk', durationMinutes: 60, distanceKm: 5.0, caloriesBurned: 300, status: 'Upcoming' },
+  // Completed entries: add the date they were completed
+  { id: 201, type: 'Run', durationMinutes: 45, distanceKm: 6.2, caloriesBurned: 550, status: 'Completed', date: '2025-12-10T08:00:00Z' },
+  { id: 202, type: 'Walk', durationMinutes: 30, distanceKm: 2.5, caloriesBurned: 180, status: 'Completed', date: '2025-12-09T17:30:00Z' },
+  { id: 203, type: 'Workout', durationMinutes: 60, distanceKm: 0, caloriesBurned: 400, status: 'Completed', date: '2025-12-08T19:00:00Z' },
+  
+  // Upcoming entries: add the date they are scheduled for
+  { id: 204, type: 'Bike', durationMinutes: 90, distanceKm: 35.0, caloriesBurned: 900, status: 'Upcoming', date: '2025-12-16T09:00:00Z' },
+  { id: 205, type: 'Walk', durationMinutes: 60, distanceKm: 5.0, caloriesBurned: 300, status: 'Upcoming', date: '2025-12-17T12:00:00Z' },
 ];
 
 // Helper function to get an icon based on activity type
@@ -40,41 +44,57 @@ const getActivityIcon = (type: string) => {
 };
 
 export default function Home() {
-    const today = useMemo(() => new Date().toLocaleDateString('en-US', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    }), []);
-  const renderItem = ({ item }: { item: ActivityLog }) => (
-    <TouchableOpacity style={styles.card} activeOpacity={0.8}>
-      <View style={styles.cardHeader}>
-        <FontAwesome5 name={getActivityIcon(item.type)} size={24} color="#4CAF50" style={styles.icon} />
-        <Text style={styles.cardTitle}>{item.type}</Text>
-        <Text style={[
-          styles.statusText, 
-          item.status === 'Completed' ? styles.statusCompleted : styles.statusUpcoming
-        ]}>
-          {item.status}
-        </Text>
-      </View>
-      
-      <View style={styles.cardBody}>
-        {item.distanceKm > 0 && (
-          <Text style={styles.metricText}>
-            Distance: <Text style={styles.metricValue}>{item.distanceKm.toFixed(1)} km</Text>
-          </Text>
-        )}
-        <Text style={styles.metricText}>
-          Duration: <Text style={styles.metricValue}>{item.durationMinutes} min</Text>
-        </Text>
-        <Text style={styles.metricText}>
-          Calories: <Text style={styles.metricValue}>{item.caloriesBurned} kcal</Text>
-        </Text>
-      </View>
-    </TouchableOpacity>
-  );
+const renderItem = ({ item }: { item: ActivityLog }) => { // ⬅️ Change ( to {
+    // 💡 STEP A: The JavaScript logic goes here!
+    const activityDate = new Date(item.date);
+    const formattedDate = activityDate.toLocaleDateString('en-US', {
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric'
+    });
+    const formattedTime = activityDate.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+    });
+
+    return ( // ⬅️ Add the explicit return keyword
+        <TouchableOpacity style={styles.card} activeOpacity={0.8}>
+            <View style={styles.cardHeader}>
+                <FontAwesome5 name={getActivityIcon(item.type)} size={24} color="#4CAF50" style={styles.icon} />
+                <Text style={styles.cardTitle}>{item.type}</Text>
+                <Text style={[
+                styles.statusText, 
+                item.status === 'Completed' ? styles.statusCompleted : styles.statusUpcoming
+                ]}>
+                {item.status}
+                </Text>
+            </View>
+
+            {/* 💡 STEP B: Insert the new Text component here (after cardHeader, before cardBody) */}
+            <Text style={styles.dateText}>
+                {item.status === 'Completed' ? 'Completed on: ' : 'Scheduled for: '}
+                <Text style={styles.dateValue}>{formattedDate}</Text> at <Text style={styles.dateValue}>{formattedTime}</Text>
+            </Text>
+
+            <View style={styles.cardBody}>
+                {item.distanceKm > 0 && (
+                <Text style={styles.metricText}>
+                    Distance: <Text style={styles.metricValue}>{item.distanceKm.toFixed(1)} km</Text>
+                </Text>
+                )}
+                <Text style={styles.metricText}>
+                Duration: <Text style={styles.metricValue}>{item.durationMinutes} min</Text>
+                </Text>
+                <Text style={styles.metricText}>
+                Calories: <Text style={styles.metricValue}>{item.caloriesBurned} kcal</Text>
+                </Text>
+            </View>
+        </TouchableOpacity>
+    ); // ⬅️ Close the function body with }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Today is: **{today}**</Text>
       <Text style={styles.title}>Your Activity Log</Text>
       <Text style={styles.subtitle}>Recent workouts and movement.</Text>
 
@@ -92,12 +112,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1c1c1e', // Dark background
-  },
-    header: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#D4D4D4', 
-    marginBottom: 15,
   },
   title: {
     fontSize: 30,
@@ -162,6 +176,19 @@ const styles = StyleSheet.create({
   },
   cardBody: {
     marginTop: 10,
+  },
+  // 💡 NEW STYLES TO ADD
+  dateText: {
+    fontSize: 14,
+    color: '#B0B0B0', // Light gray color
+    marginBottom: 8, // Space between date and metrics
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#3a3a3c',
+  },
+  dateValue: {
+    fontWeight: '600',
+    color: '#E0E0E0', // Slightly lighter color for emphasis
   },
   metricText: {
     fontSize: 16,
